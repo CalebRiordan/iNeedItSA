@@ -1,0 +1,19 @@
+{
+    "name": "user/i-need-it-sa",
+    "autoload": {
+        "psr-4": {
+          "Core\\": "app/Core/",
+          "Http\\": "app/Http/"
+        },
+        "files": [
+          "app/core/helpers.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "CalebAR",
+            "email": "caleb2003riordan@gmail.com"
+        }
+    ],
+    "require": {}
+}

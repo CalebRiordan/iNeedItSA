@@ -1,0 +1,176 @@
+.search-bar {
+    width: 1000px;
+    height: 45px;
+    border: 2px solid black;
+    display: grid;
+    grid-template-columns: 20% 1fr 50px 18%;
+}
+
+.search-bar > div {
+    height: 100%;
+    font-size: 1.3em;
+}
+
+.search-bar .dropdown{
+    display: flex;
+    position: relative;
+    background-color: var(--primary-colour);
+    align-items: center;
+}
+
+.search-bar .dropdown button{
+    appearance: none;
+    -moz-appearance: none;
+    width: 80%;
+    height: 100%;
+    padding: 0 0 0 12px;
+    border: none;
+    font-size: inherit;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: var(--primary-colour);
+    color: white;
+}
+
+.search-bar .dropdown .dropdown-options{
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    box-shadow: 2px 2px 5px darkgray;
+    display: none;
+}
+
+.search-bar .dropdown-options .option:hover{
+    filter: brightness(90%);
+    font-weight: 600;
+}
+
+.search-bar .dropdown .dropdown-options.show{
+    display: block;
+}
+
+.search-bar .dropdown-options .option{
+    display: block;
+    color: black;
+    background-color: var(--dark-bg-colour);
+    padding: 10px 15px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.search-bar .arrow {
+    max-width: 18px;
+    max-height: 15px;
+    min-width: 15px;
+    min-height: 13px;
+}
+
+.search-bar .category .arrow {
+    color: var(--highlight-colour);
+}
+
+.search-bar .search-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.search-bar .search-field input {
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark-bg-colour);
+    box-sizing: border-box;
+    border: none;
+    font-size: 20px;
+    padding: 0 12px;
+    outline: none;
+}
+
+.search-bar .search-field input:focus {
+    filter: brightness(92%);
+}
+
+.search-bar .search-button {
+    background-color: var(--primary-colour);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar .search-button svg {
+    width: 60%;
+    fill: var(--highlight-colour);
+    cursor: pointer;
+}
+
+.search-bar .search-button.disabled svg{
+    fill: var(--dark-bg-colour);
+}
+
+.search-bar .search-button.disabled{
+    cursor: default;
+}
+
+.search-bar .price {
+    background-color: var(--dark-bg-colour);
+}
+
+.search-bar .price button {
+    background-color: var(--dark-bg-colour);
+    padding: 0 12px;
+    color: black;
+}
+
+.search-bar .price .range-selector{
+    display: flex;
+    justify-content: space-around;
+    padding: 5px 10px;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--dark-bg-colour);
+}
+
+.search-bar .price .label{
+    width: 25%;
+}
+
+.search-bar .price input{
+    flex: 1;
+    min-width: 0;
+    height: 25px;
+    padding: 0 5px;
+    font-size: 0.8em;
+    border-radius: 5px;
+    border: none;
+}
+
+.search-bar .price .rand-symbol{
+    margin-right: -4px;
+}
+
+
+/* Media Queries */
+
+@media (max-width: 900px) {
+    .search-bar {
+        width: 600px;
+    }
+
+    .search-bar > div {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 600px) {
+    .search-bar {
+        width: 400px;
+    }
+
+    .search-bar > div {
+        font-size: 0.8em;
+    }
+}

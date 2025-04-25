@@ -1,0 +1,32 @@
+:root {
+    --primary-colour: #27671C;
+    --highlight-colour: #EBB435;
+    --text-colour: white;
+    --salient-colour: #1F990A;
+    --dark-bg-colour: #D9D9D9;
+    --error-colour: #cc0000;
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    font-family: 'Poppins', 'Segoe UI', 'Verdana', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.salient{
+    background-color: var(--salient-colour);
+}
+
+.centre{
+    display: flex;
+    justify-content: center;
+}
+
+main{
+    flex: 1;
+}

@@ -1,0 +1,5 @@
+.search-bar-area{
+    width: 100%;
+    margin: 32px 0;
+    transform: translateX(-20px);
+}

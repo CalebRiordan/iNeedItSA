@@ -1,0 +1,19 @@
+.category-bar{
+    display: flex;
+    border-bottom: 0px solid black;
+}
+
+.category-bar ul{
+    list-style: none;
+    width: 100%;
+    justify-content: center;
+    gap: 5%;
+}
+
+.category-link{
+    text-decoration: none;
+    color: black;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 1.2em;
+}
