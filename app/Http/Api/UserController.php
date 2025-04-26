@@ -2,8 +2,15 @@
 
 namespace Http\Api;
 
-class ProductController extends BaseController
+use Core\IRepository;
+use Core\UserRepository;
+
+class UserController extends BaseController
 {
+    public function repo(): IRepository{
+        return new UserRepository();
+    }
+
     public function handle(string $path, string $httpMethod, array $params)
     {
         $relativePath = $this->relativePath($path, 'products');

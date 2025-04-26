@@ -1,26 +1,30 @@
 <?php
 
-namespace Core\Repositories;
+namespace Core;
 
-class ProductRepository implements IRepository{
-    
-    public function find(string $id): ?array{
+class ProductRepository extends BaseRepository implements IRepository
+{
 
+    public function find(string $id, $preview=True): ?ProductDTO
+    {
+        $result = $this->db->query("SELECT * FROM Product WHERE product_id = ?", [$id])->find();
+
+        return ProductDTO::fromArray($result);
     }
 
-    public function findAll(): array{
-
+    public function findAll($criteria): array
+    {
+        return $this->db->query("SELECT * FROM Product")->find();
     }
 
-    public function create(array $data): array{
-
+    public function findAllPreviews($criteria): array
+    {
+        return $this->db->query("SELECT product_id, name, price, <img>, discount, rating, category FROM Product WHERE <criteria>")->find();
     }
 
-    public function update(string $id, array $data): bool{
+    public function create(array $data): array {}
 
-    }
+    public function update(string $id, array $data): bool {}
 
-    public function delete(string $id): bool{
-
-    }
+    public function delete(string $id): bool {}
 }

@@ -5,6 +5,16 @@ function base_path($path)
     return __DIR__ . '/../../' . $path;
 }
 
+function env($key, $default = null) {
+    // initialize $env only once
+    static $env;
+    if (!$env) {
+        $env = require base_path('config/env.php');
+    }
+
+    return $env[$key] ?? $default;
+}
+
 function redirect($path)
 {
     header("location: {$path}");
@@ -24,5 +34,12 @@ function dd($value)
     var_dump($value);
     echo "</pre>";
 
+    die();
+}
+
+function abort($code = 404)
+{
+    http_response_code($code);
+    require base_path("views/{$code}.php");
     die();
 }
