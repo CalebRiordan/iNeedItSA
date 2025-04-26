@@ -2,7 +2,7 @@
 
 namespace Http\Api;
 
-use Core\Repositories\IRepository;
+use Core\IRepository;
 
 abstract class BaseController{
 

@@ -2,20 +2,23 @@
 
 use Core\Router;
 
+// Autoloader
 require __DIR__.'/../vendor/autoload.php';
 
-$env = require base_path('config/env.php');
+// Services
+require base_path('app/core/services.php');
 
+// Router
 $router = new Router();
 require base_path("routes.php");
-
 $uri = parse_url($_SERVER["REQUEST_URI"])['path'];
 $method = $_SERVER['REQUEST_METHOD'];
-
 $router->route($uri, $method);
 ?>
+
+<!-- Global environment variables -->
 <script>
   window.APP_CONFIG = {
-    baseUrl: "<?= $env["BASE_URL"] ?>"
+    baseUrl: "<?= env("BASE_URL") ?>"
   };
 </script>

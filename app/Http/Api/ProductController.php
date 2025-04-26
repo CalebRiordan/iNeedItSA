@@ -2,12 +2,13 @@
 
 namespace Http\Api;
 
-use Core\Repositories;
+use Core\IRepository;
+use Core\ProductRepository;
 
 class ProductController extends BaseController
 {
-    public function repo(){
-        return ProductRepository();
+    public function repo(): IRepository{
+        return new ProductRepository();
     }
 
     public function handle(string $path, string $httpMethod, array $params)

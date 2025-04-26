@@ -2,23 +2,17 @@
 
 namespace Http\Api;
 
-class ProductController extends BaseController
+use Core\IRepository;
+use Core\OrderRepository;
+
+class OrderController extends BaseController
 {
+    public function repo(): IRepository{
+        return new OrderRepository();
+    }
+
     public function handle(string $path, string $httpMethod, array $params)
     {
-        $relativePath = $this->relativePath($path, 'products');
-        $id = str_replace('/', '', $relativePath);
-
-        switch ($httpMethod) {
-            case 'GET':
-                return $id ? $this->get($id) : $this->getAll($params);
-            case 'POST':
-                return $this->create();
-            case 'PUT':
-                return $this->update($id);
-            case 'DELETE':
-                return $this->delete($id);
-        }
     }
 
     public function get($id) {}

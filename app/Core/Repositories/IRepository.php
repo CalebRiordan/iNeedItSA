@@ -1,12 +1,14 @@
 <?php
 
-namespace Core\Repositories;
+namespace Core;
+
+use BaseDTO;
 
 interface IRepository
 {
-    public function find(string $id): ?array;
-    public function findAll(): array;
-    public function create(array $data): array;
-    public function update(string $id, array $data): bool;
+    public function find(string $id): ?BaseDTO;
+    public function findAll(): BaseDTO;
+    public function create(BaseDto $data): BaseDTO;
+    public function update(string $id, BaseDTO $data): bool;
     public function delete(string $id): bool;
 }
