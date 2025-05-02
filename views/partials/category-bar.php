@@ -1,28 +1,28 @@
 <div class="category-bar">
     <ul>
         <li class="category-item">
-            <a class="category-link" href="/products?category=clothing">Clothing</a>
+            <a class="category-link" href="/products?category=0">Clothing</a>
         </li>
         <li class="category-item">
-            <a class="category-link" href="/products?category=electronics">Electronics</a>
+            <a class="category-link" href="/products?category=1">Electronics</a>
         </li>
         <li class="category-item">
-            <a class="category-link" href="/products?category=home+garden">Home & Garden</a>
+            <a class="category-link" href="/products?category=2">Home & Garden</a>
         </li>
         <li class="category-item">
-            <a class="category-link" href="/products?category=books+stationery">Books & Stationery</a>
+            <a class="category-link" href="/products?category=3">Books & Stationery</a>
         </li>
         <li class="category-item">
-            <a class="category-link" href="/products?category=toys">Toys</a>
+            <a class="category-link" href="/products?category=4">Toys</a>
         </li>
         <li class="category-item">
-            <a class="category-link" href="/products?category=beauty">Beauty</a>
+            <a class="category-link" href="/products?category=5">Beauty</a>
         </li>
         <li class="category-item">
-            <a class="category-link" href="/products?category=sports">Sports</a>
+            <a class="category-link" href="/products?category=6">Sports</a>
         </li>
         <li class="category-item">
-            <a class="category-link" href="/products?category=pets">Pets</a>
+            <a class="category-link" href="/products?category=7">Pets</a>
         </li>
     </ul>
 </div>

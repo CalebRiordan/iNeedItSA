@@ -41,31 +41,30 @@ class Database
         return $this;
     }
 
-    public function fetchAll()
-    {
-        $result = $this->statement->get_result(); 
-        $this->close();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function find()
+    public function find(): ?array
     {
         $result = $this->statement->get_result(); 
         $this->close();
         return $result->fetch_assoc();
     }
 
-    public function findOrFail()
+    public function findAll(): array
     {
-        $result = $this->find();
-
-        if (!$result) {
-            $this->close();
-            abort();
-        }
-
+        $result = $this->statement->get_result(); 
         $this->close();
-        return $result;
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function newId(): ?int
+    {
+        $result = $this->statement->insert_id;
+        $this->close();
+        return $result === 0 ? null : $result;
+    }
+
+    public function wasSuccessful(): bool
+    {
+        return $this->statement->affected_rows > 0;
     }
 
     public function close(){

@@ -2,21 +2,21 @@
 
 namespace Http\Api;
 
-use Core\IRepository;
+use Core\BaseRepository;
 
 abstract class BaseController{
 
-    protected object $repository;
+    protected $repository;
 
-    public function __construct() {
-        $this->repository = $this->repo();
-    }
+    // public function __construct() {
+    //     $this->repository = $this->repo();
+    // }
+
+    // abstract protected function repo(): BaseRepository;
 
     public function relativePath($path, $resource){
         return str_replace('/'.$resource, '', $path);
     }
-
-    abstract protected function repo(): IRepository;
 
     protected function pathToRegex($path)
     {
