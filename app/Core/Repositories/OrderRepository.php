@@ -1,8 +1,8 @@
 <?php
 
-namespace Core;
+namespace Core\Repositories;
 
-class OrderRepository extends BaseRepository implements IRepository
+class OrderRepository extends BaseRepository
 {
 
     public function find(string $id): ?array

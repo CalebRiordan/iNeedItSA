@@ -1,6 +1,9 @@
 <?php
 
-namespace Core;
+namespace Core\Repositories;
+
+use Core\Container;
+use Core\Database;
 
 class BaseRepository{
 	

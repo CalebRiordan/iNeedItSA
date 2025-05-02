@@ -43,3 +43,9 @@ function abort($code = 404)
     require base_path("views/{$code}.php");
     die();
 }
+
+function returnJson($data){
+    header('Content-Type: application/json');
+    echo json_encode($data);
+    exit;
+}
