@@ -1,13 +1,18 @@
 <?php
 
+namespace Core\Filters;
+
 abstract class BaseFilter
 {
     protected array $criteria = [];
     protected array $numBindings = [];
     protected ?int $limit = null;
     protected ?int $offset = null;
+    protected ?string $orderBy = null;
     
     abstract public function getWhereClause(): string;
+    
+    abstract public function build(array $params);
     
     /**
      * Get an array of values to be passed as parameters that satisfy the 
@@ -29,14 +34,46 @@ abstract class BaseFilter
         return "{$fieldName} LIKE CONCAT('%', ?, '%') OR SOUNDEX({$fieldName}) = SOUNDEX(?)";
     }
 
-    public function clear()
+    public function setLimit(int $number){
+        $this->limit = $number;
+    }
+
+    public function setOffset(int $number){
+        $this->offset = $number;
+    }
+
+    public function orderBy($field, $sortOrder = 'ASC'){
+        $sortOrder = strtoupper($sortOrder);
+        if (!in_array($sortOrder, ['ASC', 'DESC'])){
+            throw new \InvalidArgumentException("Sort order must be 'ASC' or 'DESC'; '{$sortOrder} provided.'");
+        }
+
+        $this->orderBy = "{$field} {$sortOrder}";
+    }
+
+    public function reset()
     {
         $this->criteria = [];
         $this->numBindings = [];
+        $this->limit = null;
+        $this->offset = null;
+        $this->orderBy = null;
     }
 
-    public function getLimitClause(): string {
-        if ($this->limit === null) return '';
-        return "LIMIT {$this->limit} OFFSET {$this->offset}";
+    public function getLimitClause(?int $default = null): string {
+        $this->limit = $this->limit ?? $default;
+
+        return $this->limit === null ? '' : "LIMIT {$this->limit}";
+    }
+
+    public function getOffsetClause(?int $default = null): string {
+        $this->offset = $this->offset ?? $default;
+
+        return $this->offset === null ? '' : "OFFSET {$this->offset}";
+    }
+
+    public function getOrderByClause(?string $defaultField = null): string{
+        $this->orderBy = $this->orderBy ?? $defaultField;
+        return $this->orderBy === null ? '' : "ORDER BY {$this->orderBy}";
     }
 }

@@ -9,14 +9,14 @@ use Core\DTOs\UpdateProductDTO;
 use Core\DTOs\UserDTO;
 use Core\Repositories\UserRepository;
 use InvalidArgumentException;
-use ProductFilter;
+use Core\Filters\ProductFilter;
 
 class ProductRepository extends BaseRepository
 {
 
     public function findById(string $id): ?ProductDTO
     {
-        $row = $this->db->query("SELECT * FROM Product WHERE product_id = ?", [$id])->find();
+        $row = $this->db->query("SELECT * FROM product WHERE product_id = ?", [$id])->find();
 
         if ($row) {
             $users = new UserRepository();
@@ -27,34 +27,39 @@ class ProductRepository extends BaseRepository
             $imageUrls = [];
 
             foreach ($images as $image) {
-                $imageUrls[] = $image["url"];
+                $url = $image["img_url"] ?? "";
+                $imageUrls[] = $url;
                 if ($image["is_display_img"]) {
-                    $displayImageUrl = $image["url"];
+                    $displayImageUrl = $url;
                 }
             }
 
             $product = ProductDTO::fromRow($row);
             $product->seller = $seller;
-            $product = $displayImageUrl;
-            $product = $imageUrls;
+            $product->displayImageUrl = $displayImageUrl;
+            $product->imageUrls = $imageUrls;
+
+            return $product;
         }
 
         return null;
     }
 
-    public function findAll(ProductFilter $filter): array
+    public function findAll(?ProductFilter $filter = null): array
     {
+        $filter ??= new ProductFilter();
         $sql = <<<SQL
-            SELECT * FROM Product p
-            LEFT JOIN Seller s
+            SELECT * FROM product p
+            LEFT JOIN seller s
             ON p.seller_id = s.user_id 
-            LEFT JOIN User u 
+            LEFT JOIN user u 
             ON u.user_id = s.user_id
-            LEFT JOIN ProductImage pi 
+            LEFT JOIN product_image_url pi 
             ON p.product_id = pi.product_id
             {$filter->getWhereClause()}
             {$filter->getLimitClause()}
-            ORDER BY p.id;
+            {$filter->getOffsetClause()}
+            ORDER BY p.product_id;
         SQL;
         $rows = $this->db->query($sql, $filter->getValues())->findAll();
 
@@ -86,23 +91,25 @@ class ProductRepository extends BaseRepository
     public function findPreview(string $id): ?ProductPreviewDTO
     {
         $fields = ProductPreviewDTO::toFields();
-        $row = $this->db->query("SELECT {$fields} FROM Product WHERE product_id = ?", [$id])->find();
+        $row = $this->db->query("SELECT {$fields} FROM product WHERE product_id = ?", [$id])->find();
 
         return $this->previewFromRow($row);
     }
 
-    public function findAllPreviews(ProductFilter $filter): ?array
+    public function findAllPreviews(?ProductFilter $filter = null): ?array
     {
+        $filter ??= new ProductFilter();
         $fields = ProductPreviewDTO::toFields("p");
         $sql = <<<SQL
-            SELECT {$fields}, pi.img_url FROM Product p
-            LEFT JOIN ProductImage pi 
-            ON p.product_id = pi.product_id
+            SELECT {$fields}, COALESCE(pi.img_url, "") as img_url FROM product p
+            LEFT JOIN product_image_url pi 
+            ON p.product_id = pi.product_id AND pi.is_display_img = True
             {$filter->getWhereClause()}
+            {$filter->getOrderByClause('p.product_id')}
             {$filter->getLimitClause()}
-            ORDER BY p.id
-            WHERE pi.is_display_img = True;
+            {$filter->getOffsetClause()}
         SQL;
+        
         $rows = $this->db->query($sql, $filter->getValues())->findAll();
 
         $products = [];
@@ -115,14 +122,36 @@ class ProductRepository extends BaseRepository
         return $products;
     }
 
+    public function getFeaturedProducts(): array
+    {
+        $fields = ProductPreviewDTO::toFields("p");
+        $sql = <<<SQL
+            SELECT {$fields}, pi.img_url FROM product p
+            LEFT JOIN product_image_url pi 
+            ON p.product_id = pi.product_id
+            ORDER BY views DESC, avg_rating DESC 
+            LIMIT 16;
+        SQL;
+
+        $rows = $this->db->query($sql)->findAll();
+        $products = [];
+        foreach ($rows as $row) {
+            $product = ProductPreviewDTO::fromRow($row);
+            $product->displayImageUrl = $row['img_url'] ?? "";
+            $products[] = $product;
+        }
+
+        return $products;
+    }
+
     public function getImagesFor(string $id): ?array
     {
-        return $this->db->query("SELECT * FROM ProductImage WHERE product_id = ?", [$id])->findAll();
+        return $this->db->query("SELECT * FROM product_image WHERE product_id = ?", [$id])->findAll();
     }
 
     public function create(CreateProductDTO $product): ?ProductPreviewDTO
     {
-        $alreadyExists = $this->db->query("SELECT product_id FROM Product WHERE name = ?", [$product->name])->find();
+        $alreadyExists = $this->db->query("SELECT product_id FROM product WHERE name = ?", [$product->name])->find();
         if ($alreadyExists) {
             return null;
         }
@@ -172,12 +201,12 @@ class ProductRepository extends BaseRepository
             return false;
         }
 
-        return $this->db->query("DELETE * FROM Product WHERE product_id = ?", [$id])->wasSuccessful();
+        return $this->db->query("DELETE * FROM product WHERE product_id = ?", [$id])->wasSuccessful();
     }
 
     public function exists(string $id)
     {
-        $result = $this->db->query("SELECT 1 FROM Product WHERE product_id = ? LIMIT 1")->find();
+        $result = $this->db->query("SELECT 1 FROM product WHERE product_id = ? LIMIT 1")->find();
 
         return !empty($result);
     }
@@ -185,7 +214,7 @@ class ProductRepository extends BaseRepository
     public function findByName(string $productName): ?ProductPreviewDTO
     {
         $fields = ProductPreviewDTO::toFields();
-        $row = $this->db->query("SELECT {$fields} FROM Product WHERE name = ?", [$productName])->find();
+        $row = $this->db->query("SELECT {$fields} FROM product WHERE name = ?", [$productName])->find();
 
         return $this->previewFromRow($row);
     }
@@ -201,28 +230,28 @@ class ProductRepository extends BaseRepository
 
     public function updateStock(string $id, int $stock)
     {
-        $this->executeIfExists($id, "UPDATE Product SET quant_in_stock = quant_in_stock + ? WHERE product_id = ?", [$id, $stock]);
+        $this->executeIfExists($id, "UPDATE product SET quant_in_stock = quant_in_stock + ? WHERE product_id = ?", [$id, $stock]);
     }
 
     public function increaseViews(string $id) 
     {
-        $this->executeIfExists($id, "UPDATE Product SET views = views + 1 WHERE product_id = ?", [$id]);
+        $this->executeIfExists($id, "UPDATE product SET views = views + 1 WHERE product_id = ?", [$id]);
     }
 
     public function applyDiscount(string $id, int $discountPct) {
-        $this->executeIfExists($id, "UPDATE Product SET pct_discount = ? WHERE product_id = ?", [$discountPct, $id]);
+        $this->executeIfExists($id, "UPDATE product SET pct_discount = ? WHERE product_id = ?", [$discountPct, $id]);
     }
 
     public function removeDiscount(string $id) {
-        $this->executeIfExists($id, "UPDATE Product SET pct_discount = 0 WHERE product_id = ?", [$id]);
+        $this->executeIfExists($id, "UPDATE product SET pct_discount = 0 WHERE product_id = ?", [$id]);
     }
 
     public function updateAvgRating(string $id) {
         $sql = <<<SQL
-            UPDATE Product
+            UPDATE product
             SET target_column = (
                 SELECT AVG(rating)
-                FROM Review
+                FROM review
                 WHERE product_id = ?
             )
             WHERE product_id = ?;
@@ -234,7 +263,7 @@ class ProductRepository extends BaseRepository
     public function updateImages($id, array $imageUrls, string $displayImageUrl)
     {
         // Get images
-        $rows = $this->db->query("SELECT * FROM ProductImage WHERE product_id = ?", [$id])->findAll();
+        $rows = $this->db->query("SELECT * FROM product_image WHERE product_id = ?", [$id])->findAll();
 
         $delete = [];
         $imageUrls[] = $displayImageUrl;
@@ -251,7 +280,7 @@ class ProductRepository extends BaseRepository
 
         // Delete images
         $this->db->query(
-            "DELETE FROM ProductImage WHERE img_id IN ({implode(', ', array_fill(0, count($delete), '?'))})",
+            "DELETE FROM product_image WHERE img_id IN ({implode(', ', array_fill(0, count($delete), '?'))})",
             $delete
         );
 
@@ -259,8 +288,8 @@ class ProductRepository extends BaseRepository
         $this->insertImages($id, $imageUrls);
 
         // Update display image
-        $this->db->query("UPDATE ProductImage SET is_display_image = false WHERE product_id = ?", [$id]);
-        $this->db->query("UPDATE ProductImage SET is_display_image = True WHERE img_url = ?", [$displayImageUrl]);
+        $this->db->query("UPDATE product_image SET is_display_image = False WHERE product_id = ?", [$id]);
+        $this->db->query("UPDATE product_image SET is_display_image = True WHERE img_url = ?", [$displayImageUrl]);
     }
 
     public function insertImages(string $id, array $imageUrls, ?string $displayImageUrl = null)
@@ -278,7 +307,7 @@ class ProductRepository extends BaseRepository
         }
 
         $sql = <<<SQL
-            INSERT INTO ProductImage
+            INSERT INTO product_image
             (product_id, img_url, is_display_img)
             VALUES {$insertSetString},
             $displayImageSet;
@@ -294,13 +323,13 @@ class ProductRepository extends BaseRepository
 
             $sql = <<<SQL
                 SELECT img_url 
-                FROM ProductImage 
+                FROM product_image 
                 WHERE product_id = ? 
                 AND is_display_img = True
             SQL;
-            $url = $this->db->query($sql, [$row["product_id"]])->find();
+            $url = $this->db->query($sql, [$row["product_id"]])->find()['img_url'];
 
-            $productPreview->displayImageUrl = $url;
+            $productPreview->displayImageUrl = $url ?? "";
 
             return $productPreview;
         }

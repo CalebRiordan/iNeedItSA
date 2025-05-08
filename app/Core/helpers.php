@@ -40,11 +40,12 @@ function dd($value)
 function abort($code = 404)
 {
     http_response_code($code);
-    require base_path("views/{$code}.php");
+    require base_path("views/StatusCodes/{$code}.php");
     die();
 }
 
-function returnJson($data){
+function returnJson($data = [], int $code = 200){
+    http_response_code($code);
     header('Content-Type: application/json');
     echo json_encode($data);
     exit;

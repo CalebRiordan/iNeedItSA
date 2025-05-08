@@ -80,6 +80,9 @@ class Database
                 $types .= 'd';
             } elseif (is_string($param)) {
                 $types .= 's';
+            } elseif (is_bool($param)) {
+                $types .= 'i';
+                $param = (int) $param;
             } else {
                 // fallback to binary?
                 abort(500);
