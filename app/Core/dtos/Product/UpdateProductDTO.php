@@ -7,10 +7,9 @@ class UpdateProductDTO extends BaseDTO
     protected static array $sqlMapping = [
         "product_id" => "id",
         "name" => "name",
-        "desc" => "desc",
+        "description" => "description",
         "price" => "price",
-        "colour" => "colour",
-        "condition" => "condition",
+        "product_condition" => "condition",
         "condition_details" => "conditionDetails",
         "category" => "category",
     ];
@@ -18,11 +17,10 @@ class UpdateProductDTO extends BaseDTO
     public function __construct(
         public string $id,
         public string $name,
-        public string $desc,
+        public string $description,
         public float $price,
-        public string $colour,
         public string $condition,
-        public string $conditionDetails,
+        public ?string $conditionDetails,
         public string $category,
         public string $displayImageUrl,
         /** @var string[] */

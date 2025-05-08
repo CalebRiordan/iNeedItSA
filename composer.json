@@ -1,19 +1,31 @@
 {
-    "name": "user/i-need-it-sa",
-    "autoload": {
-        "psr-4": {
-          "Core\\": "app/Core/",
-          "Http\\": "app/Http/"
-        },
-        "files": [
-          "app/core/helpers.php"
-        ]
+  "name": "user/i-need-it-sa",
+  "autoload": {
+    "psr-4": {
+      "Core\\": "app/Core/",
+      "Core\\DTOs\\": [
+        "app/Core/DTOs/Community/",
+        "app/Core/DTOs/Employee/",
+        "app/Core/DTOs/Order/",
+        "app/Core/DTOs/Product/",
+        "app/Core/DTOs/Review/",
+        "app/Core/DTOs/User/",
+        "app/Core/DTOs/"
+      ],
+      "Core\\Repositories\\": "app/Core/Repositories/",
+      "Core\\Filters\\": "app/Core/Filters/",
+      "Http\\": "app/Http/",
+      "Http\\Api\\": "app/Http/Api/"
     },
-    "authors": [
-        {
-            "name": "CalebAR",
-            "email": "caleb2003riordan@gmail.com"
-        }
-    ],
-    "require": {}
+    "files": [
+      "app/core/helpers.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "CalebAR",
+      "email": "caleb2003riordan@gmail.com"
+    }
+  ],
+  "require": {}
 }

@@ -3,6 +3,7 @@
 namespace Http\Api;
 
 use Core\Repositories\ProductRepository;
+use Core\Filters\ProductFilter;
 
 class ProductController extends BaseController
 {
@@ -12,7 +13,8 @@ class ProductController extends BaseController
      */
     protected $repository;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->repository = new ProductRepository();
     }
 
@@ -30,19 +32,28 @@ class ProductController extends BaseController
                 return $this->update($id);
             case 'DELETE':
                 return $this->delete($id);
+            default:
+                abort(400);
         }
     }
 
-    public function get($id) {
-        $product = $this->repository->findById($id);
-        if ($product){
-            returnJson($product);
-        }
-
-        abort(404);
+    public function get($id)
+    {
+        $this->safeJsonResponse(function () use ($id) {
+            return $this->repository->findById($id);
+        });
     }
 
-    public function getAll($params) {}
+    public function getAll($params)
+    {
+        $this->safeJsonResponse(function () use ($params) {
+
+            $filter = new ProductFilter();
+            $filter->build($params);
+
+            return $this->repository->findAllPreviews($filter);
+        });
+    }
 
     public function create() {}
 

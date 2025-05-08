@@ -31,7 +31,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     background-color: var(--primary-colour);
-    color: white;
+    color: var(--text-colour-light);
 }
 
 .search-bar .dropdown .dropdown-options{

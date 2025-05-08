@@ -1,10 +1,24 @@
 :root {
     --primary-colour: #27671C;
     --highlight-colour: #EBB435;
+    --background-colour: white;
     --text-colour: white;
+    --text-colour-light: white;
+    --text-colour-dark: black;
     --salient-colour: #1F990A;
+    --off-bg-colour: #f4f4f4;
     --dark-bg-colour: #D9D9D9;
     --error-colour: #cc0000;
+
+    --navbar-height: 80px;
+
+    /* --primary-colour: #4CC152;
+    --highlight-colour: #FFD463;
+    --background-colour: #1A1A1A;
+    --off-bg-colour: #2A2A2A;
+    --text-colour: #F0F0F0;
+    --dark-bg-colour: #2C2C2C; */
+
 }
 
 html{
@@ -15,7 +29,9 @@ body{
     font-family: 'Poppins', 'Segoe UI', 'Verdana', sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--background-colour);
 }
 
 .salient{
@@ -29,4 +45,31 @@ body{
 
 main{
     flex: 1;
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    text-align: center;
+    height: 60px;
+    justify-content: space-between;
+    padding: 0 15%;
+}
+
+.footer .icons{
+    display: flex;
+    gap: 2%;
+}
+
+.footer .icons svg{
+    width: 3.3%;
+    fill: var(--text-colour-light);
+    fill-opacity: 0.7;
+}
+
+.footer .text{
+    text-wrap: nowrap;
+    opacity: 0.7;
 }

@@ -1,0 +1,49 @@
+main.status-code{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.status-code h1{
+    font-size: 200px;
+    margin: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+    color: var(--primary-colour);
+    text-shadow: 5px 5px var(--highlight-colour);
+}
+
+.status-code h2{
+    font-size: 42px;
+    margin: 0;
+}
+
+.status-code a{
+    text-decoration: none;
+}
+
+.status-code button{
+    width: 16em;
+    height: 5em;
+    margin: 20px;
+    background-color: var(--primary-colour);
+    color: var(--text-colour);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    border: 2px solid var(--highlight-colour);
+    border-radius: 15px;
+}
+
+.status-code button svg{
+    width: 14%;
+    fill: var(--text-colour);
+}
+
+.status-code button span{
+    font-size: 18px;
+}

@@ -11,7 +11,7 @@ use Core\DTOs\SellerProfileDTO;
 use Core\DTOs\UpdateUserDTO;
 use Core\DTOs\UserDTO;
 use Core\DTOs\UserPreviewDTO;
-use UserFilter;
+use Core\Filters\UserFilter;
 
 class UserRepository extends BaseRepository
 {
@@ -20,28 +20,27 @@ class UserRepository extends BaseRepository
     {
         $sql = <<<SQL
             SELECT u.*, b.*, s.*,
-            (SELECT COUNT(*) FROM products p WHERE p.seller_id = u.user_id) AS total_ads,
-            (SELECT SUM(views) FROM products p WHERE p.seller_id = u.user_id) AS total_views
-            FROM User u
-            LEFT JOIN Buyer b ON u.user_id = b.user_id
-            LEFT JOIN Seller s ON u.user_id = s.user_id
+            (SELECT COUNT(*) FROM product p WHERE p.seller_id = u.user_id) AS total_ads,
+            (SELECT SUM(views) FROM product p WHERE p.seller_id = u.user_id) AS total_views
+            FROM user u
+            LEFT JOIN buyer b ON u.user_id = b.user_id
+            LEFT JOIN seller s ON u.user_id = s.user_id
             WHERE u.user_id = ?
             SQL;
 
         $row = $this->db->query($sql, [$id])->find();
-
         if (!$row) {
             return null;
         }
-
+        
         $user = UserDTO::fromRow($row);
-
+        
         return $user;
     }
 
     public function findPreviewById(string $id): ?UserPreviewDTO
     {
-        $sql = "SELECT {ProductPreviewDTO::toFields()} FROM User WHERE u.user_id = ?";
+        $sql = "SELECT {ProductPreviewDTO::toFields()} FROM user WHERE u.user_id = ?";
 
         $row = $this->db->query($sql, [$id])->find();
 
@@ -50,16 +49,17 @@ class UserRepository extends BaseRepository
 
     public function findByEmail($email): ?LoginDTO
     {
-        $sql = "SELECT {LoginDTO::toFields()} FROM User WHERE email = ?";
+        $sql = "SELECT {LoginDTO::toFields()} FROM user WHERE email = ?";
 
         return LoginDTO::fromRow(
             $this->db->query($sql, [$email])->find()
         );
     }
 
-    public function findAllPreviews(?UserFilter $filter): array
+    public function findAllPreviews(?UserFilter $filter = null): array
     {
-        $sql = "SELECT {UserPreviewDTO::toFields()} FROM User {$filter->getWhereClause()}";
+        $filter ??= new UserFilter();
+        $sql = "SELECT {UserPreviewDTO::toFields()} FROM user {$filter->getWhereClause()}";
         $rows = $this->db->query($sql, $filter->getValues())->find();
         $users = UserDTO::fromRows($rows);
         return $users;
@@ -74,7 +74,7 @@ class UserRepository extends BaseRepository
 
         // Insert new User record
         $sql = <<<SQL
-            INSERT INTO User 
+            INSERT INTO user 
             ({CreateUserDTO::toFields()}, date_joined )
             VALUES ({CreateUserDTO::placeholders()}, ?)
         SQL;
@@ -112,7 +112,7 @@ class UserRepository extends BaseRepository
         $isSeller = $user->sellerProfile ? true : false;
 
         $sql = <<<SQL
-            UPDATE User 
+            UPDATE user 
             SET {$user->getMappedUpdateSet()}, is_buyer = {$isBuyer}, is_seller = {$isSeller}
             WHERE user_id = ?
         SQL;
@@ -133,12 +133,12 @@ class UserRepository extends BaseRepository
 
     public function updateBuyerRole(string $id, ?BuyerProfileDTO $new, ?BuyerProfileDTO $existing = null)
     {
-        $this->handleRoleAdjustment($id, "Buyer", $new, $existing);
+        $this->handleRoleAdjustment($id, "buyer", $new, $existing);
     }
 
     public function updateSellerRole(string $id, ?SellerProfileDTO $new, ?SellerProfileDTO $existing = null)
     {
-        $this->handleRoleAdjustment($id, "Seller", $new, $existing);
+        $this->handleRoleAdjustment($id, "seller", $new, $existing);
     }
 
     private function handleRoleAdjustment(string $id, string $role, ?SellerProfileDTO $new, ?SellerProfileDTO $existing = null){
@@ -180,12 +180,12 @@ class UserRepository extends BaseRepository
             return false;
         }
 
-        return $this->db->query("DELETE * FROM User WHERE user_id = ?", [$id])->wasSuccessful();
+        return $this->db->query("DELETE * FROM user WHERE user_id = ?", [$id])->wasSuccessful();
     }
 
     public function exists(string $id): bool
     {
-        $result = $this->db->query("SELECT 1 FROM User WHERE user_id = ? LIMIT 1")->find();
+        $result = $this->db->query("SELECT 1 FROM user WHERE user_id = ? LIMIT 1")->find();
 
         return !empty($result);
     }

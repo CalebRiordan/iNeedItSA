@@ -1,5 +1,7 @@
 <?php
 
+namespace Core\Filters;
+
 class UserFilter extends BaseFilter
 {
     public function setProduct(string $productId): void
@@ -33,7 +35,7 @@ class UserFilter extends BaseFilter
                     $conditions[] = <<<SQL
                         user_id = (
                             SELECT user_id
-                            FROM Seller
+                            FROM seller
                             WHERE user_id = (
                                 SELECT seller_id
                                 FROM Product
@@ -56,7 +58,7 @@ class UserFilter extends BaseFilter
                     $conditions[] = $value ? $condition : "{$condition} AND is_buyer = False";              
 
                 case 'community':
-                    $conditions[] = "user_id IN (SELECT user_id FROM UserParticipation WHERE comm_id = ?)";             
+                    $conditions[] = "user_id IN (SELECT user_id FROM user_participation WHERE comm_id = ?)";             
 
                 default:
                     throw new \Exception("Invalid filter criteria '{$key}'");

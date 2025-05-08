@@ -134,8 +134,8 @@ searchField.addEventListener("input", () => {
   updateSearchButtonState();
 });
 
-// Event listener for search button
-searchButton.addEventListener("click", () => {
+// Search function
+function processSearch() {
   if (searchButton.classList.contains("disabled")) return;
 
   let searchString = encodeURIComponent(searchField.value);
@@ -151,14 +151,14 @@ searchButton.addEventListener("click", () => {
 
   let queryString = buildQueryString(queryParams);
 
-  console.log(`${
-      window.APP_CONFIG.baseUrl
-    }products${buildQueryString(queryParams)}`);
-  
-
   if (queryString) {
-    window.location.href = `${
-      window.APP_CONFIG.baseUrl
-    }products${buildQueryString(queryParams)}`;
+    window.location.href = `${window.APP_CONFIG.baseUrl}products${queryString}`;
   }
+}
+
+// Event listener for search button
+searchButton.addEventListener("click", processSearch);
+
+searchField.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") processSearch();
 });

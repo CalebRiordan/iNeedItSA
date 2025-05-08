@@ -7,9 +7,9 @@ class OrderDTO extends BaseDTO
     protected static array $sqlMapping = [
         "order_id" => "id",
         "user_id" => "userId",
-        "quant_in_stock" => "dateCreated",
-        "discount" => "totalCost",
-        "rating" => "shippingAddress",
+        "date" => "date",
+        "total" => "totalCost",
+        "ship_address" => "shipAddress",
     ];
 
     public function __construct(
@@ -17,8 +17,8 @@ class OrderDTO extends BaseDTO
         /** @var OrderItemDTO[] */
         public array $orderItems = [],
         public string $userId,
-        public string $dateCreated,
+        public string $date,
         public string $totalCost,
-        public string $shippingAddress,
+        public string $shipAddress,
     ) {}
 }

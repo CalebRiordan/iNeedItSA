@@ -1,0 +1,134 @@
+main {
+    padding-top: 40px;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+}
+
+.filter-panel {
+    padding: 1em;
+    background-color: rgb(200, 191, 144);
+    background-color: var(--background-colour);
+    overflow-y: scroll;
+    max-height: 100vh;
+    scrollbar-color: var(--primary-colour) transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter-panel > div, a {
+    margin: 10px 0;
+}
+
+.filter-panel .search-bar {
+    width: 92%;
+    height: 35px;
+    border: 2px solid black;
+    display: grid;
+    grid-template-columns: 1fr 40px;
+}
+
+.search-bar .search-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.search-bar .search-field input {
+    width: 100%;
+    height: 100%;
+    background-color: var(--dark-bg-colour);
+    box-sizing: border-box;
+    border: none;
+    font-size: 18px;
+    padding: 0 8px;
+    outline: none;
+}
+
+.search-bar .search-field input:focus {
+    filter: brightness(92%);
+}
+
+.search-bar .search-button {
+    background-color: var(--primary-colour);
+    width: 40px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-bar .search-button svg {
+    width: 60%;
+    fill: var(--highlight-colour);
+    cursor: pointer;
+}
+
+.filter-panel .apply-filter-btn {
+    display: inline-block;
+    background-color: var(--background-colour);
+    text-decoration: none;
+    color: var(--primary-colour);
+    padding: 6px 16px 8px 16px;
+    border: 2px solid var(--primary-colour);
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;    
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.filter-panel .price-section {
+    width: 92%;
+}
+
+.filter-panel .price-section h1 {
+    text-align: left;
+}
+
+.filter-panel .price-options {
+    margin: 0 4%;
+    font-size: 1.4em;
+}
+
+.price-options .range-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+.price-options .range-selector label {
+    width: 25%;
+    font-size: inherit;
+}
+
+.price-options .range-selector > div {
+    display: inline-block;
+}
+
+.price-options .range-selector > div span {
+    margin: 0 5px;
+    font-size: inherit;
+}
+
+.price-options .range-selector input {
+    display: inline-block;
+    width: 100px;
+    padding: 0 5px;
+    font-family: inherit;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.filter-panel .category-section {
+    height: 200px;
+}
+
+.filter-panel .rating-section {
+    height: 200px;
+}
+
+.products-catalog {}

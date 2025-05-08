@@ -4,8 +4,8 @@ namespace Core\DTOs;
 
 enum Role: string
 {
-    case Buyer = 'Buyer';
-    case Seller = 'Seller';
+    case Buyer = 'buyer';
+    case Seller = 'seller';
 }
 
 class UserDTO extends BaseDTO
@@ -29,6 +29,8 @@ class UserDTO extends BaseDTO
         "is_buyer" => "",
         "is_seller" => "",
     ];
+
+    protected static array $excludeFromReflection = ['roleClasses'];
 
     public function __construct(
         public string $id,
@@ -56,9 +58,9 @@ class UserDTO extends BaseDTO
         return $this->sellerProfile !== null ? True : False;
     }
 
-    public static function fromRow(array $row): ?UserDTO
+    public static function fromRow(array $row): ?static
     {
-        $user = UserDTO::fromRow($row);
+        $user = parent::fromRow($row);
         if (!$user){
             return null;
         }
@@ -68,26 +70,21 @@ class UserDTO extends BaseDTO
 
     public function allocateProfiles($row)
     {
-        try {
-            if ($row['is_buyer']) {
-                $this->buyerProfile = new BuyerProfileDTO(
-                    $row['num_orders'],
-                    $row['ship_address']
-                );
-            }
+        if ($row['is_buyer']) {
+            $this->buyerProfile = new BuyerProfileDTO(
+                $row['ship_address'],
+                $row['num_orders']
+            );
+        }
 
-            if ($row['is_seller']) {
-                $this->sellerProfile = new SellerProfileDTO(
-                    $row['num_sales'],
-                    $row['total_ads'],
-                    $row['total_views'],
-                    $row['verified'],
-                    $row['date_verified'],
-                    $row['date_registered'],
-                );
-            }
-        } catch (\Throwable $th) {
-            throw new \Exception("Provided row field names do not map to either Buyer or Seller profiles");
+        if ($row['is_seller']) {
+            $this->sellerProfile = new SellerProfileDTO(
+                $row['verified'],
+                $row['products_sold'],
+                $row['total_views'],
+                $row['date_registered'],
+                $row['date_verified'],
+            );
         }
     }
 }

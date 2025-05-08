@@ -16,6 +16,8 @@ class Router
             'isApi' => $this->apiNext,
         ];
 
+        $this->apiNext = false;
+
         return $this;
     }
 
@@ -74,8 +76,7 @@ class Router
                     require_once base_path('app/http/api/' . $route['controller']);
 
                     $controllerName = str_replace('.php', '', $route['controller']);
-                    $namespace = 'Http\\Api\\';
-                    $class = $namespace . $controllerName;
+                    $class = 'Http\\Api\\' . $controllerName;
                     $controller = new $class();
 
                     $controller->handle($uri, $route['method'], $_GET);
@@ -89,28 +90,15 @@ class Router
     public function routePage($uri, $method)
     {
         foreach ($this->routes as $route) {
-            if ($route['isApi']) {
+            if (!$route['isApi']) {
                 if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                     // Middleware::resolve($route['middleware']);
 
-                    $params = $_GET;
                     return require base_path('app/http/controllers/' . $route['controller']);
                 }
             }
         }
         $this->abort();
-    }
-
-    private function pathToRegex($path)
-    {
-        /*  Converts a path string into a regex that can be used to match dynamic paths with route parameters
-            e.g. /products/{id}  ->  #^/products/(?P<id>[^/]+)$# */
-
-        $findRouteParam = '#\{(\w+)\}#';
-        $routeParamRegex = '(?P<$1>[^/]+)';
-
-        $regex = preg_replace($findRouteParam, $routeParamRegex, $path);
-        return "#^" . $regex . "$#";
     }
 
     protected function parseApiUrl(string $url): array
