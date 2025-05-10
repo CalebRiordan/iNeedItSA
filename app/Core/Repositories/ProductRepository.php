@@ -336,4 +336,25 @@ class ProductRepository extends BaseRepository
 
         return null;
     }
+
+    public function getCount(?ProductFilter $filter): int{
+        $filter ??= new ProductFilter();
+        $sql = <<<SQL
+            SELECT COUNT(*) FROM product
+            {$filter->getWhereClause()}
+        SQL;
+        
+        $result = $this->db->query($sql, $filter->getValues())->find();
+        return reset($result);
+    }
+
+    public function getCountOnId(string $id): int{
+        $sql = <<<SQL
+            SELECT COUNT(*) FROM product
+            WHERE product_id = ?
+        SQL;
+        
+        $result = $this->db->query($sql, $id)->find();
+        return reset($result);
+    }
 }

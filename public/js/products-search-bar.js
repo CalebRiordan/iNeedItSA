@@ -1,12 +1,14 @@
+import { highlightBorderError } from "./utils/priceValidator.js";
 import { buildQueryString } from "./utils/queryBuilder.js";
+import { validatePrice } from "/js/utils/priceValidator.js";
 
 // Event listeners for category dropdown
-var category = "";
+export var category = "";
 
 const categoryDropdown = document.querySelector(".category.dropdown");
 const dropdownButton = categoryDropdown.querySelector("button");
 const options = categoryDropdown.querySelector(".dropdown-options");
-const searchField = document.querySelector(".search-field input");
+export const searchField = document.querySelector(".search-field input");
 
 categoryDropdown.addEventListener("mouseover", () => {
   options.classList.add("show");
@@ -30,6 +32,40 @@ const priceDropdown = document.querySelector(".price.dropdown");
 const priceOptions = priceDropdown.querySelector(".dropdown-options");
 let lastOpened = 0;
 
+priceDropdown.addEventListener("click", () => {
+  showPriceRange();
+});
+
+// Ensure valid price range
+export const minInput = document.getElementById("input-min");
+export const maxInput = document.getElementById("input-max");
+export const searchButton = document.querySelector(".search-button");
+
+function updateSearchButtonState() {
+  let minValue = getValue(minInput);
+  let maxValue = getValue(maxInput);
+  let search = searchField.value;
+
+  if ((maxValue > 0 && minValue > maxValue) || !search) {
+    searchButton.classList.add("disabled");
+  } else {
+    searchButton.classList.remove("disabled");
+  }
+}
+
+export const getValue = (input) => parseInt(input.value) || 0;
+var minValue = 0;
+var maxValue = 0;
+
+updateSearchButtonState();
+
+[minInput, maxInput].forEach((input) => {
+  input.addEventListener("beforeinput", (e) => {
+    validatePrice(input, minInput, maxInput, e);
+    setTimeout(updateSearchButtonState, 0);
+  });
+});
+
 function hidePriceRange(e = null) {
   if (
     (!e || !priceOptions.contains(e.target)) &&
@@ -48,84 +84,14 @@ function showPriceRange() {
   }
 }
 
-priceDropdown.addEventListener("click", () => {
-  showPriceRange();
-});
-
-// Ensure valid price range
-const minInput = document.getElementById("input-min");
-const maxInput = document.getElementById("input-max");
-const searchButton = document.querySelector(".search-button");
-
-function updateSearchButtonState() {
-  let minValue = getValue(minInput);
-  let maxValue = getValue(maxInput);
-  let search = searchField.value;
-
-  if ((maxValue > 0 && minValue > maxValue) || !search) {
-    searchButton.classList.add("disabled");
-  } else {
-    searchButton.classList.remove("disabled");
-  }
-}
-
-const getValue = (input) => parseInt(input.value) || 0;
-var minValue = 0;
-var maxValue = 0;
-
-updateSearchButtonState();
-
-[minInput, maxInput].forEach((input) => {
-  input.addEventListener("beforeinput", (e) => {
-    minValue = getValue(minInput);
-    maxValue = getValue(maxInput);
-    let start = input.selectionStart;
-    let end = input.selectionEnd;
-    let nextValue;
-    let val = input.value;
-
-    if (e.inputType === "deleteContentBackward") {
-      nextValue = val.slice(0, start - 1) + val.slice(end);
-    } else if (e.inputType === "deleteContentForward") {
-      nextValue = val.slice(0, start) + val.slice(end + 1);
-    } else {
-      nextValue = val.slice(0, start) + (e.data ?? "") + val.slice(end);
-
-      // Ensure only digits
-      if (!/^\d*$/.test(nextValue) || nextValue.length > 7) {
-        e.preventDefault();
-        return;
-      }
-
-      // Remove leading zeroes
-      if (val && val.charAt(0) === "0") {
-        val = val.slice(1);
-      }
-    }
-
-    if (input === minInput) {
-      maxInput.value = Math.max(maxValue, nextValue);
-    }
-    resetBorder();
-    setTimeout(updateSearchButtonState, 0);
-  });
-});
-
-// Validate price range maximum input
-function resetBorder() {
-  maxInput.style.border = "";
-  maxInput.removeEventListener("input", resetBorder);
-}
-
 maxInput?.addEventListener("blur", function () {
   minValue = getValue(minInput) || 0;
   maxValue = getValue(maxInput) || 0;
 
-  if (maxValue < minValue) {
+  if (maxValue < minValue && maxValue !== 0) {
     hidePriceRange();
     showPriceRange();
-    this.style.border = "2px solid var(--error-colour)";
-    this.addEventListener("input", resetBorder);
+    highlightBorderError(maxInput);
   }
 });
 
