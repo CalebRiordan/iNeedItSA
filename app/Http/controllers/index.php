@@ -1,5 +1,7 @@
 <?php
 
+namespace Http\Controllers;
+
 use Core\Filters\ProductFilter;
 use Core\Repositories\ProductRepository;
 

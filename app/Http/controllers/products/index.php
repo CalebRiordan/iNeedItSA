@@ -1,12 +1,26 @@
 <?php
 
-use Core\Filters\ProductFilter;
-use Core\Repositories\ProductRepository;
+// Sanitize query params
 
-$filter = new ProductFilter();
-$filter->build($_GET);
+use Http\Controllers\PartialController;
 
-$repository = new ProductRepository();
-$products = $repository->findAllPreviews($filter);
+$params = [];
 
-view('products/index', ['products' => $products]);
+if (isset($_GET['search']) && $_GET['search'] !== "") {
+    $params['search'] = htmlspecialchars($_GET['search']);
+} else {
+    header("location: /");
+    exit();
+}
+$params = filterProductsParams($_GET);
+
+$sections = PartialController::renderProductGrid($params);
+
+$productsDisplay = $sections['products-display'];
+$pageSelector = $sections['page-selector'];
+
+view('products/index', [
+    'productsDisplay' => $productsDisplay,
+    'pageSelector' => $pageSelector,
+    'params' => $params
+]);

@@ -5,7 +5,7 @@ namespace Core;
 class Router
 {
     protected $routes = [];
-    protected $apiNext = false;
+    protected $nextType = 'page';
 
     public function add($method, $uri, $controller)
     {
@@ -13,18 +13,18 @@ class Router
             'uri' => $uri,
             'controller' => $controller,
             'method' => $method,
-            'isApi' => $this->apiNext,
+            'type' => $this->nextType,
         ];
 
-        $this->apiNext = false;
+        $this->nextType = 'page';
 
         return $this;
     }
 
-    public function api()
+    public function partial($uri)
     {
-        $this->apiNext = true;
-        return $this;
+        $this->nextType = 'partial';
+        return $this->add('GET', $uri, 'PartialController.php');
     }
 
     public function get($uri, $controller)
@@ -61,25 +61,28 @@ class Router
 
     public function route($uri, $method)
     {
-        $isApi = str_starts_with($uri, '/api');
-        $uri = $isApi ? substr($uri, 4) : $uri;
+        $isPartial = str_starts_with($uri, '/partial');
+        $uri = $isPartial ? substr($uri, 8) : $uri;
 
-        $isApi ? $this->routeApi($uri, $method) : $this->routePage($uri, $method);
+        $isPartial ? $this->routePartial($uri, $method) : $this->routePage($uri, $method);
     }
 
-    public function routeApi($uri, $method)
+    public function routePartial($uri, $method)
     {
         foreach ($this->routes as $route) {
-            if ($route['isApi']) {
+            if ($route['type'] === 'partial') {
+                dd($route);
                 if (str_starts_with($uri, $route['uri']) && $route['method'] === strtoupper($method)) {
 
-                    require_once base_path('app/http/api/' . $route['controller']);
+                    require_once base_path('app/http/controllers/' . $route['controller']);
 
                     $controllerName = str_replace('.php', '', $route['controller']);
-                    $class = 'Http\\Api\\' . $controllerName;
+                    $class = 'Http\\Controllers\\' . $controllerName;
                     $controller = new $class();
 
-                    $controller->handle($uri, $route['method'], $_GET);
+                    $partial = ltrim(strstr($uri, '?', true) ?: $uri, '/');
+
+                    $controller->handle($partial, $_GET);
                     return;
                 }
             }
@@ -90,11 +93,11 @@ class Router
     public function routePage($uri, $method)
     {
         foreach ($this->routes as $route) {
-            if (!$route['isApi']) {
+            if ($route['type'] === 'page') {
                 if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
                     // Middleware::resolve($route['middleware']);
 
-                    return require base_path('app/http/controllers/' . $route['controller']);
+                    return require base_path('app/Http/Controllers/' . $route['controller']);
                 }
             }
         }

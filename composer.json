@@ -15,7 +15,7 @@
       "Core\\Repositories\\": "app/Core/Repositories/",
       "Core\\Filters\\": "app/Core/Filters/",
       "Http\\": "app/Http/",
-      "Http\\Api\\": "app/Http/Api/"
+      "Http\\Controllers\\": "app/Http/Controllers/"
     },
     "files": [
       "app/core/helpers.php"

@@ -108,7 +108,7 @@
 }
 
 .search-bar .search-button.disabled svg{
-    fill: var(--dark-bg-colour);
+    fill: var(--disabled-colour);
 }
 
 .search-bar .search-button.disabled{
