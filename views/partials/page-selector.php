@@ -1,5 +1,5 @@
 <?php for ($i = 1; $i <= intdiv($productCount, 16) + 1; $i++): ?>
-    <button class="page-btn <?= $i === ($currentPage ?? 1) ? 'active' : '' ?>" data-page="<?= $i ?>">
+    <button class="page-btn <?= $i == ($currentPage ?? 1) ? 'active' : '' ?>" data-page="<?= $i ?>">
         <?= $i ?>
     </button>
 <?php endfor; ?>

@@ -7,25 +7,29 @@ use Core\Repositories\ProductRepository;
 
 class PartialController
 {
-    public function handle($partial, $params)
+    public static function handle($partial, $params)
     {
-        $partial = $_GET['partial'] ?? '';
         switch ($partial) {
             case 'products-display':
-                $this->renderProductGrid($params);
+                header('Content-Type: application/json');
+                echo json_encode(static::renderProductDisplay($params));
+                break;
+            case 'page-selector':
+                echo static::renderProductDisplay($params);
                 break;
             default:
                 abort(404);
         }
+        exit();
     }
 
-    public static function renderProductGrid($params): array
+    public static function renderProductDisplay($params): ?array
     {
         $validParams = filterProductsParams($params);
         if (!$validParams) return [];
 
         $filter = new ProductFilter();
-        $filter->build($params);
+        $filter->build($validParams);
 
         $repository = new ProductRepository();
 

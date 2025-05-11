@@ -14,7 +14,7 @@ if (isset($_GET['search']) && $_GET['search'] !== "") {
 }
 $params = filterProductsParams($_GET);
 
-$sections = PartialController::renderProductGrid($params);
+$sections = PartialController::renderProductDisplay($params);
 
 $productsDisplay = $sections['products-display'];
 $pageSelector = $sections['page-selector'];

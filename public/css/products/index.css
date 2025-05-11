@@ -97,6 +97,13 @@ button {
     border-color: var(--disabled-colour);
 }
 
+.apply-filter-btn:active{
+    background-color: var(--primary-colour);
+    opacity: 0.3;
+    color: black;
+    border: 2px solid black;
+}
+
 /* ==================== SELECT PRICE OPTIONS ====================  */
 
 .price-options {
@@ -136,7 +143,7 @@ button {
 
 /* ==================== SELECT CATEGORY ====================  */
 
-.dropdown-options .option {
+.category-list .option {
     display: block;
     color: black;
     background-color: var(--background-colour);
@@ -147,17 +154,17 @@ button {
     user-select: none;
 }
 
-.dropdown-options .option:hover {
+.category-list .option:hover {
     filter: brightness(90%);
     font-weight: 600;
 }
 
-.dropdown-options .option.active {
+.category-list .option.active {
     background-color: var(--dark-bg-colour);
     font-weight: 600;
 }
 
-.dropdown-options .option.active:hover {
+.category-list .option.active:hover {
     filter: none;
 }
 
@@ -209,7 +216,7 @@ button {
 
 /* ==================== PRODUCTS CATALOGUE ====================  */
 
-.products-catalogue{
+.products-catalogue {
     padding: 16px 24px;
     background-color: var(--background-colour);
 }
@@ -224,7 +231,7 @@ button {
     font-weight: bold;
 }
 
-.product-grid{
+.products-grid {
     margin: 45px 0;
     display: grid;
     gap: 16px;
@@ -232,48 +239,38 @@ button {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-.page-selector{
+.page-selector {
     width: 300px;
     background-color: var(--background-colour);
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 }
 
-.page-selector .page-btn{
+.page-selector .page-btn {
     font-size: 1.2em;
     padding: 5px 8px;
     background-color: var(--background-colour);
     border: 2px solid var(--disabled-colour);
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .page-selector .page-btn.active {
     border-color: var(--highlight-colour);
 }
 
-.page-arrow-btn {
-    border: none;
-    background-color: var(--background-colour);
-    filter: brightness(90%);
-    padding: 2px 8px;
-    border-radius: 5px;
-}
-
-.page-arrow-btn:hover {
-    filter: brightness(80%);
-}
-
 /* Media Queries */
 
 @media (max-width: 900px) {
-    .product-grid {
+    .products-grid {
         grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     }
 }
 
 @media (max-width: 600px) {
-    .product-grid {
+    .products-grid {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     }
 }

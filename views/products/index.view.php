@@ -11,7 +11,7 @@ require base_path('views/partials/category-bar.php');
 ?>
 
 <main>
-    <div class="products-content-wrapper" data-params='<?= htmlspecialchars(json_encode($params), ENT_QUOTES, 'UTF-8'); ?>'>>
+    <div class="products-content-wrapper" data-params='<?= htmlspecialchars(json_encode($params), ENT_QUOTES, 'UTF-8'); ?>'>
         <div class="filter-panel">
 
 
@@ -28,7 +28,6 @@ require base_path('views/partials/category-bar.php');
                 </div>
 
             </div>
-
 
             <button class="apply-filter-btn" submit="">
                 Apply Filter
@@ -95,27 +94,23 @@ require base_path('views/partials/category-bar.php');
                         </div>
                     <?php endfor; ?>
                 </div>
-                <label id="rating-label" for="rated"></label>
-
-                <input type="hidden" id="rating" name="rated" value="<?= $params['rating'] ?? 1 ?>">
+                <label id="rating-label"></label>
             </div>
 
         </div>
 
         <div class="products-catalogue">
             <h1>Results for <span>"<?= $params['search'] ?>"</span></h1>
-            <div class="product-grid">
+            <div class="products-grid">
                 <?= $productsDisplay ?>
             </div>
         </div>
     </div>
 
     <div class="centre">
-        <button class="page-arrow-btn left"><span>&#x25C0;</span></button>
         <div class="page-selector">
             <?= $pageSelector ?>
         </div>
-        <button class="page-arrow-btn right"><span>&#x25B6;</span></button>
     </div>
 
 </main>
