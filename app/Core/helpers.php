@@ -52,31 +52,33 @@ function returnJson($data = [], int $code = 200){
 }
 
 function filterProductsParams($params): ?array{
+    $validParams = [];
+
     if (isset($params['search']) && $params['search'] !== "") {
-        $params['search'] = htmlspecialchars($params['search']);
+        $validParams['search'] = htmlspecialchars($params['search']);
     } else {
         return null;
     }
 
     $val = $params['category'] ?? null;
     if ($val && ctype_digit($val) && (int)$val >= 0 && (int)$val <= 7){
-        $params['category'] = (int)$val;
+        $validParams['category'] = (int)$val;
     }
 
     $val = $params['minPrice'] ?? null;
     if ($val && is_numeric($val) && (float)$val >= 0){
-        $params['minPrice'] = (float)$val;
+        $validParams['minPrice'] = (float)$val;
     }
 
     $val = $params['maxPrice'] ?? null;
     if ($val && is_numeric($val) && (float)$val >= 0){
-        $params['maxPrice'] = (float)$val;
+        $validParams['maxPrice'] = (float)$val;
     }
 
     $val = $params['rating'] ?? null;
     if ($val && ctype_digit($val) && (int)$val >= 1 && (int)$val <= 5){
-        $params['rating'] = (int)$val;
+        $validParams['rating'] = (int)$val;
     }
 
-    return $params;
+    return $validParams;
 }

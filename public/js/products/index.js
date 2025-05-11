@@ -4,7 +4,7 @@ import {
   highlightBorderError,
 } from "/js/utils/priceValidator.js";
 
-const content = document.querySelector(".products-content-wrapper")
+const content = document.querySelector(".products-content-wrapper");
 const params = JSON.parse(content.getAttribute("data-params"));
 
 const searchField = document.querySelector(".filter-panel .search-field input");
@@ -13,14 +13,15 @@ const filterButton = document.querySelector(".filter-panel .apply-filter-btn");
 const stars = document.querySelectorAll(".star-rating .star");
 const minInput = document.getElementById("input-min");
 const maxInput = document.getElementById("input-max");
-const leftArrow = document.querySelector(".page-arrow-btn.left");
-const rightArrow = document.querySelector(".page-arrow-btn.right");
-const currentPage = document.getElementById("current-page");
+const resultLabel = document.querySelector(".products-catalogue h1 span");
+
+let search = params["search"] ?? null;
+let minPrice = params["maxPrice"] ?? null;
+let maxPrice = params["maxPrice"] ?? null;
+let category = params["category"] ?? null;
+let rating = params["rating"] ?? null;
 
 const getValue = (input) => parseInt(input.value) || 0;
-var minValue = 0;
-var maxValue = 0;
-let category = params['cateogry'] ?? null;
 
 // EVENT LISTENERS
 
@@ -31,13 +32,17 @@ document.querySelectorAll(".category-list .option").forEach((option) => {
       opt.classList.remove("active");
     });
     this.classList.add("active");
-    category =  this.dataset.value;
+    category = this.dataset.value;
+    updateFilterBtnState();
   });
 });
 
 // Rating Stars
 stars.forEach((star) => {
-  star.addEventListener("click", () => setRating(star.dataset.value));
+  star.addEventListener("click", () => {
+    setRating(star.dataset.value);
+    updateFilterBtnState();
+  });
 });
 
 // Min- and max price inputs
@@ -49,100 +54,137 @@ stars.forEach((star) => {
 });
 
 maxInput?.addEventListener("blur", function () {
-  minValue = getValue(minInput);
-  maxValue = getValue(maxInput);
+  minPrice = getValue(minInput);
+  maxPrice = getValue(maxInput);
 
-  if (maxValue < minValue && maxValue !== 0) {
+  if (maxPrice < minPrice && maxPrice !== 0) {
     highlightBorderError(maxInput);
   }
 });
 
-// Page Selector
-document.querySelectorAll(".page-btn").forEach((button) => {
-  button.addEventListener("click", function () {
-    const page = this.getAttribute("data-page");
-    if (page !== currentPage.value){
-      document.getElementById("current-page").value = page;
-  
-      fetchProducts(page);
-    }
-  });
-});
-
 // Process Search
-filterButton.addEventListener("click", processSearch);
+filterButton.addEventListener("click", applyParams);
 searchButton.addEventListener("click", processSearch);
 searchField.addEventListener("keydown", function (event) {
   if (event.key === "Enter") processSearch();
 });
 
-function setRating(rating) {
+function setRating(number) {
+  rating = number;
+  number ??= 1;
   stars.forEach((star, index) => {
     const starWrapper = star.parentElement;
-    starWrapper.classList.toggle("excluded", index < rating - 1);
+    starWrapper.classList.toggle("excluded", index < number - 1);
   });
-  document.getElementById("rating").value = rating;
 
   let label = "";
 
-  switch (Number(rating)) {
+  switch (Number(number)) {
     case 1:
       break;
     case 5:
-      label = `${rating} stars only`;
+      label = `5 stars only`;
       break;
     default:
-      label = `${rating} stars and up`;
+      label = `${number} stars and up`;
       break;
   }
 
   document.getElementById("rating-label").textContent = label;
 }
 
-function updateFilterBtnState() {
-  let minValue = getValue(minInput);
-  let maxValue = getValue(maxInput);
+function updateFilterBtnState(enable = true) {
+  let minPrice = getValue(minInput);
+  let maxPrice = getValue(maxInput);
   let search = searchField.value;
 
-  if ((maxValue > 0 && minValue > maxValue) || !search) {
+  if ((maxPrice > 0 && minPrice > maxPrice) || !search || !enable) {
     filterButton.classList.add("disabled");
   } else {
     filterButton.classList.remove("disabled");
   }
 }
 
+function applyParams() {
+  minPrice = getValue(minInput);
+  maxPrice = getValue(maxInput);
+
+  Object.assign(params, {
+    minPrice,
+    maxPrice,
+    category,
+    rating,
+  });
+
+  let queryString = getQueryString();
+  refreshPartials(queryString);
+  history.replaceState(null, "", `/products${queryString}`);
+  updateFilterBtnState(false);
+}
+
 function processSearch() {
-  let searchString = encodeURIComponent(searchField.value);
-  let minValue = getValue(minInput);
-  let maxValue = getValue(maxInput);
-  let rating = document.getElementById("rating").value;
-
-  let queryParams = {
-    search: searchString,
-    category: category,
-    minPrice: minValue,
-    maxPrice: maxValue,
-    rating: rating
-  };
-
-  let queryString = buildQueryString(queryParams);
+  let queryString = getQueryString();
 
   if (queryString) {
-    window.location.href = `${window.APP_CONFIG.baseUrl}products${queryString}`;
-    // AJAX
+    refreshPartials(queryString);
+    resultLabel.textContent = `\"${encodeURIComponent(searchField.value)}\"`;
+    history.replaceState(null, "", `/products${queryString}`)
   }
 }
 
-function updateArrows() {
-  leftArrow.style.display = currentPage.value > 1 ? "block" : "none";
+function setPageEventListeners() {
+  document.querySelectorAll(".page-btn").forEach((button) => {
+    button.addEventListener("click", function () {
+      const page = this.getAttribute("data-page");
+      console.log(page);
 
-  rightArrow.style.display =
-    inner.scrollLeft + inner.offsetWidth < inner.scrollWidth - 5
-      ? "block"
-      : "none";
+      if (page !== params["page"]) {
+        setPage(page);
+        refreshPartials(getQueryString());
+      }
+    });
+  });
 }
 
-// Initial states
+function setPage(page = 1) {
+  params["page"] = page;
+}
+
+function getQueryString() {
+  // use params
+  let queryParams = {
+    search: encodeURIComponent(searchField.value),
+    category: params["category"] ?? null,
+    minPrice: params["minPrice"] ?? null,
+    maxPrice: params["maxPrice"] ?? null,
+    rating: params["rating"] ?? null,
+    page: params["page"] ?? null,
+  };
+
+  return buildQueryString(queryParams);
+}
+
+function refreshPartials(queryString) {
+  fetch(`/partial/products-display${queryString}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(`/partial/products-display${queryString}`);
+      
+      // Replace existing HTML
+      document.querySelector(".products-grid").innerHTML =
+        data["products-display"];
+      document.querySelector(".page-selector").innerHTML =
+        data["page-selector"];
+
+      window.scrollTo(0, 0);
+
+      // Update page-selector
+      setPageEventListeners();
+    });
+}
+
+// Initial setup
+setPageEventListeners();
+setRating(rating);
+setPage();
 updateFilterBtnState();
-setRating(document.getElementById("rating").value);
-updateArrows();

@@ -71,18 +71,15 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($route['type'] === 'partial') {
-                dd($route);
                 if (str_starts_with($uri, $route['uri']) && $route['method'] === strtoupper($method)) {
-
                     require_once base_path('app/http/controllers/' . $route['controller']);
-
+                    
                     $controllerName = str_replace('.php', '', $route['controller']);
-                    $class = 'Http\\Controllers\\' . $controllerName;
-                    $controller = new $class();
-
+                    $partialController = 'Http\\Controllers\\' . $controllerName;
+                    
                     $partial = ltrim(strstr($uri, '?', true) ?: $uri, '/');
 
-                    $controller->handle($partial, $_GET);
+                    $partialController::handle($partial, $_GET);
                     return;
                 }
             }

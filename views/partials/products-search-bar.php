@@ -3,14 +3,14 @@
     <div class="category dropdown">
         <button>All Categories</button>
         <div class="dropdown-options">
-            <div class="option" href="#" data-value="clothing">Clothing</div>
-            <div class="option" href="#" data-value="electronics">Electronics</div>
-            <div class="option" href="#" data-value="home_garden">Home & Garden</div>
-            <div class="option" href="#" data-value="books_stationery">Books & Stationery</div>
-            <div class="option" href="#" data-value="toys">Toys</div>
-            <div class="option" href="#" data-value="beauty">Beauty</div>
-            <div class="option" href="#" data-value="sports">Sports</div>
-            <div class="option" href="#" data-value="pets">Pets</div>
+            <div class="option" href="#" data-value="0">Clothing</div>
+            <div class="option" href="#" data-value="1">Electronics</div>
+            <div class="option" href="#" data-value="2">Home & Garden</div>
+            <div class="option" href="#" data-value="3">Books & Stationery</div>
+            <div class="option" href="#" data-value="4">Toys</div>
+            <div class="option" href="#" data-value="5">Beauty</div>
+            <div class="option" href="#" data-value="6">Sports</div>
+            <div class="option" href="#" data-value="7">Pets</div>
         </div>
         <svg class="arrow" viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M1 1L6 5L11 1" stroke="currentColor" stroke-width="1.8" fill="none" />
