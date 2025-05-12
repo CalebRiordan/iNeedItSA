@@ -166,15 +166,23 @@ function getQueryString() {
 
 function refreshPartials(queryString) {
   fetch(`/partial/products-display${queryString}`)
-    .then((response) => response.json())
+    .then((response) => console.log(response.json())
+    )
     .then((data) => {
       console.log(`/partial/products-display${queryString}`);
       
-      // Replace existing HTML
-      document.querySelector(".products-grid").innerHTML =
-        data["products-display"];
-      document.querySelector(".page-selector").innerHTML =
-        data["page-selector"];
+      const productsCatalogue = document.querySelector(".products-catalogue");
+      if (data['products-display']){
+        // Replace existing HTML
+        document.querySelector(".products-grid").innerHTML =
+          data["products-display"];
+        document.querySelector(".page-selector").innerHTML =
+          data["page-selector"];
+          productsCatalogue.classList.remove('empty');
+      } else {
+        productsCatalogue.classList.add('empty');
+        document.querySelector(".page-selector").innerHTML = ""
+      }
 
       window.scrollTo(0, 0);
 
