@@ -104,6 +104,10 @@ require base_path('views/partials/category-bar.php');
             <div class="products-grid">
                 <?= $productsDisplay ?>
             </div>
+
+            <div class="no-results centre">
+                <img src="/assets/images/no-results-found.png" alt="Sorry, no results found.">
+            </div>
         </div>
     </div>
 
