@@ -61,7 +61,7 @@ function filterProductsParams($params): ?array{
     }
 
     $val = $params['category'] ?? null;
-    if ($val && ctype_digit($val) && (int)$val >= 0 && (int)$val <= 7){
+    if ($val && ctype_digit((string)$val) && (int)$val >= 0 && (int)$val <= 7){
         $validParams['category'] = (int)$val;
     }
 
@@ -76,8 +76,13 @@ function filterProductsParams($params): ?array{
     }
 
     $val = $params['rating'] ?? null;
-    if ($val && ctype_digit($val) && (int)$val >= 1 && (int)$val <= 5){
+    if ($val && ctype_digit((string)$val) && (int)$val >= 1 && (int)$val <= 5){
         $validParams['rating'] = (int)$val;
+    }
+
+    $val = $params['page'] ?? null;
+    if ($val && ctype_digit((string)$val) && (int)$val >= 1){
+        $validParams['page'] = (int)$val;
     }
 
     return $validParams;

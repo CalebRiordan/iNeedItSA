@@ -11,7 +11,7 @@ require base_path('views/partials/category-bar.php');
 ?>
 
 <main>
-    <div class="products-content-wrapper" data-params='<?= htmlspecialchars(json_encode($params), ENT_QUOTES, 'UTF-8'); ?>'>
+    <div class="products-content-wrapper" data-params='<?= htmlspecialchars(json_encode(array_merge($params, ['products-display' => $productsDisplay])), ENT_QUOTES, 'UTF-8'); ?>'>
         <div class="filter-panel">
 
 
@@ -28,10 +28,6 @@ require base_path('views/partials/category-bar.php');
                 </div>
 
             </div>
-
-            <button class="apply-filter-btn" submit="">
-                Apply Filter
-            </button>
 
             <div class="price-section">
                 <h1>Price</h1>
@@ -104,7 +100,7 @@ require base_path('views/partials/category-bar.php');
             <div class="products-grid">
                 <?= $productsDisplay ?>
             </div>
-
+            
             <div class="no-results centre">
                 <img src="/assets/images/no-results-found.png" alt="Sorry, no results found.">
             </div>

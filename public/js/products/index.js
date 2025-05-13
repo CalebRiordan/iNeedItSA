@@ -9,13 +9,12 @@ const params = JSON.parse(content.getAttribute("data-params"));
 
 const searchField = document.querySelector(".filter-panel .search-field input");
 const searchButton = document.querySelector(".filter-panel .search-button");
-const filterButton = document.querySelector(".filter-panel .apply-filter-btn");
 const stars = document.querySelectorAll(".star-rating .star");
 const minInput = document.getElementById("input-min");
 const maxInput = document.getElementById("input-max");
 const resultLabel = document.querySelector(".products-catalogue h1 span");
+const productsCatalogue = document.querySelector(".products-catalogue");
 
-let search = params["search"] ?? null;
 let minPrice = params["maxPrice"] ?? null;
 let maxPrice = params["maxPrice"] ?? null;
 let category = params["category"] ?? null;
@@ -33,7 +32,6 @@ document.querySelectorAll(".category-list .option").forEach((option) => {
     });
     this.classList.add("active");
     category = this.dataset.value;
-    updateFilterBtnState();
   });
 });
 
@@ -41,7 +39,6 @@ document.querySelectorAll(".category-list .option").forEach((option) => {
 stars.forEach((star) => {
   star.addEventListener("click", () => {
     setRating(star.dataset.value);
-    updateFilterBtnState();
   });
 });
 
@@ -49,7 +46,6 @@ stars.forEach((star) => {
 [minInput, maxInput].forEach((input) => {
   input.addEventListener("beforeinput", (e) => {
     validatePrice(input, minInput, maxInput, e);
-    setTimeout(updateFilterBtnState, 0);
   });
 });
 
@@ -63,7 +59,6 @@ maxInput?.addEventListener("blur", function () {
 });
 
 // Process Search
-filterButton.addEventListener("click", applyParams);
 searchButton.addEventListener("click", processSearch);
 searchField.addEventListener("keydown", function (event) {
   if (event.key === "Enter") processSearch();
@@ -93,18 +88,6 @@ function setRating(number) {
   document.getElementById("rating-label").textContent = label;
 }
 
-function updateFilterBtnState(enable = true) {
-  let minPrice = getValue(minInput);
-  let maxPrice = getValue(maxInput);
-  let search = searchField.value;
-
-  if ((maxPrice > 0 && minPrice > maxPrice) || !search || !enable) {
-    filterButton.classList.add("disabled");
-  } else {
-    filterButton.classList.remove("disabled");
-  }
-}
-
 function applyParams() {
   minPrice = getValue(minInput);
   maxPrice = getValue(maxInput);
@@ -119,10 +102,10 @@ function applyParams() {
   let queryString = getQueryString();
   refreshPartials(queryString);
   history.replaceState(null, "", `/products${queryString}`);
-  updateFilterBtnState(false);
 }
 
 function processSearch() {
+  applyParams()
   let queryString = getQueryString();
 
   if (queryString) {
@@ -136,8 +119,6 @@ function setPageEventListeners() {
   document.querySelectorAll(".page-btn").forEach((button) => {
     button.addEventListener("click", function () {
       const page = this.getAttribute("data-page");
-      console.log(page);
-
       if (page !== params["page"]) {
         setPage(page);
         refreshPartials(getQueryString());
@@ -160,19 +141,16 @@ function getQueryString() {
     rating: params["rating"] ?? null,
     page: params["page"] ?? null,
   };
-
+  
   return buildQueryString(queryParams);
 }
 
-function refreshPartials(queryString) {
+function refreshPartials(queryString) {  
   fetch(`/partial/products-display${queryString}`)
-    .then((response) => console.log(response.json())
-    )
+    .then((response) => response.json())
     .then((data) => {
-      console.log(`/partial/products-display${queryString}`);
       
-      const productsCatalogue = document.querySelector(".products-catalogue");
-      if (data['products-display']){
+      if (data['products-display'] !== ""){
         // Replace existing HTML
         document.querySelector(".products-grid").innerHTML =
           data["products-display"];
@@ -195,4 +173,8 @@ function refreshPartials(queryString) {
 setPageEventListeners();
 setRating(rating);
 setPage();
-updateFilterBtnState();
+
+if (params['products-display'] === ""){
+  productsCatalogue.classList.add('empty');
+  document.querySelector(".page-selector").innerHTML = ""
+}

@@ -15,7 +15,7 @@
 
 .product-card .image-container{
     width: auto;
-    aspect-ratio: 1/1;
+    aspect-ratio: 4/3;
     background-color: var(--dark-bg-colour);
     border-radius: 10px;
     overflow: hidden;
