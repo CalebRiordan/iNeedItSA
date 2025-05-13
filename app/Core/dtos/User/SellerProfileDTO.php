@@ -16,7 +16,7 @@ class SellerProfileDTO extends BaseDTO
         public bool $isVerified = false,
         public int $productsSold = 0,
         public int $views = 0,
-        public string $dateRegistered = "",
-        public string $dateVerified = "",
+        public ?string $dateRegistered = null,
+        public ?string $dateVerified = null,
     ) {}
 }
