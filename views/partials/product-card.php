@@ -1,4 +1,4 @@
-<div class="product-card" style="width: <?= isset($cardWidth) ? $cardWidth : '15%' ?>;">
+<a class="product-card" style="width: <?= isset($cardWidth) ? $cardWidth : '15%' ?>;" href="/products/<?= $product->id ?>">
   <div class="image-container">
     <?php if ($product->discount > 0): ?>
       <span class="discount-badge"><b>-</b><?= $product->discount ?>%</span>
@@ -20,4 +20,4 @@
     <?php endif; ?>
 
   </div>
-</div>
+</a>

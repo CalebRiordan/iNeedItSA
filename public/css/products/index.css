@@ -75,6 +75,10 @@ button {
     cursor: pointer;
 }
 
+.search-bar .search-button:active{
+    opacity: 60%;
+}
+
 /* ==================== APPLY FILTER BUTTON ====================  */
 
 .apply-filter-btn {
@@ -239,27 +243,34 @@ button {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-.product-grid.empty h1{
+.products-catalogue.empty h1{
     display: none;
 }
 
-.product-grid.empty .products-grid{
+.products-catalogue.empty .products-grid{
     display: none;
 }
 
-.product-grid .no-results {
+.products-catalogue .no-results {
     display: none;
 }
 
-.product-grid.empty .no-results{
-    display: inline-block;
-    width: 50%;
-    aspect-ratio: 1 / 1;
+.products-catalogue.empty .no-results{
+    display: flex;
+    width: 100%;
 }
-.products-grid.empty .no-results img{
+
+.products-catalogue.empty .no-results img{
+    width: 40%;
+    aspect-ratio: 1 / 1;;
     object-fit: cover;
 }
 
+.products-catalogue.empty .no-results img{
+    object-fit: cover;
+}
+
+/* ==================== PAGE SELECTOR ====================  */
 
 .page-selector {
     width: 300px;

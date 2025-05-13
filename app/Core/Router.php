@@ -91,35 +91,16 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($route['type'] === 'page') {
-                if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
+                $pattern = '#^' . preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route["uri"]) . '$#';
+                if (preg_match($pattern, $uri, $matches) && $route['method'] === strtoupper($method)) {
                     // Middleware::resolve($route['middleware']);
 
+                    $params = $matches;
                     return require base_path('app/Http/Controllers/' . $route['controller']);
                 }
             }
         }
         $this->abort();
-    }
-
-    protected function parseApiUrl(string $url): array
-    {
-        $parts = parse_url($url);
-        dd($parts);
-        $path = $parts['path'] ?? '';
-
-        $resourcePath = preg_replace('#^/api/#', '', $path);
-        $segments = explode('/', $resourcePath);
-
-        $queryParams = [];
-        parse_str($parts['query'] ?? '', $queryParams);
-
-        return [
-            'resource' => $segments[0] ?? null,
-            'relativePath' => count($segments) > 2
-                ? '/' . implode('/', array_slice($segments, 2))
-                : null,
-            'queryParams' => $queryParams,
-        ];
     }
 
     public function redirectToPrevious()

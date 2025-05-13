@@ -24,7 +24,7 @@ export function validatePrice(input, minInput, maxInput, e) {
     }
   }
 
-  if (input === minInput) {
+  if (input === minInput && maxValue > 0) {
     maxInput.value = Math.max(maxValue, nextValue);
   }
   resetBorder(maxInput);

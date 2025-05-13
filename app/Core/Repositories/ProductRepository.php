@@ -96,7 +96,7 @@ class ProductRepository extends BaseRepository
         return $this->previewFromRow($row);
     }
 
-    public function findAllPreviews(?ProductFilter $filter = null): ?array
+    public function findAllPreviews(?ProductFilter $filter = null): array
     {
         $filter ??= new ProductFilter();
         $fields = ProductPreviewDTO::toFields("p");
@@ -111,7 +111,6 @@ class ProductRepository extends BaseRepository
         SQL;
         
         $rows = $this->db->query($sql, $filter->getValues())->findAll();
-
         $products = [];
         foreach ($rows as $row) {
             $product = ProductPreviewDTO::fromRow($row);

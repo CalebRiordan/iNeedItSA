@@ -1,0 +1,21 @@
+main{
+    background-color: var(--background-colour);
+}
+
+.search-bar-area{
+    width: 100%;
+    margin: 32px 0;
+    transform: translateX(-20px);
+    position: relative;
+    z-index: 2;
+}
+
+.product-display{
+    margin: 20px 10%;
+}
+
+.heading .pricing{
+    margin-top: 26px;
+    font-size: 1.6em;
+    color: var(--primary-colour);
+}
