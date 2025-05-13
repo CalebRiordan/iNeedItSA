@@ -1,8 +1,10 @@
-main{
+main {
     background-color: var(--background-colour);
 }
 
-.search-bar-area{
+/* Search bar */
+
+.search-bar-area {
     width: 100%;
     margin: 32px 0;
     transform: translateX(-20px);
@@ -10,12 +12,177 @@ main{
     z-index: 2;
 }
 
-.product-display{
-    margin: 20px 10%;
+.product-display {
+    margin: 20px 12%;
 }
 
-.heading .pricing{
-    margin-top: 26px;
-    font-size: 1.6em;
+/* Heading */
+
+.pricing .original-price {
+    text-decoration: underline .1em;
+    text-underline-offset: -.4em;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: 0.12em;
+    font-size: 0.9em;
+    color: rgb(70, 70, 70);
+    position: absolute;
+    top: -0.6em;
+    margin-bottom: 5px;
+}
+
+.heading .pricing {
+    position: relative;
+    width: auto;
+    height: 2em;
+    margin: 26px 0;
+    font-size: 1.2em;
     color: var(--primary-colour);
+    display: flex;
+    justify-items: left;
+    align-items: center;
+    gap: 1em;
+}
+
+.discount-badge {
+    padding: 2px 8px;
+    font-size: 1em;
+    font-weight: bold;
+    height: fit-content;
+    background-color: var(--highlight-colour);
+    color: var(--text-colour-light);
+    border: none;
+    border-radius: 5px;
+    font-style: italic;
+    transform: translateY(5px);
+}
+
+.discount-badge span {
+    position: relative;
+    top: -2px;
+}
+
+/* Images and Seller Card */
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-template-rows: auto auto;
+    column-gap: 3%;
+}
+
+.main-grid img {
+    width: 100%;
+    object-fit: cover;
+    border: 2px solid black;
+    aspect-ratio: 4 / 3;
+}
+
+.main-grid .col-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.main-grid .add-cart-btn {
+    width: 100%;
+    font-size: 1.4em;
+    color: var(--text-colour-light);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 24px;
+}
+
+.main-grid .add-cart-btn svg {
+    width: 30px;
+    fill: var(--text-colour-light);
+}
+
+/* Seller Card */
+
+.seller-card {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    font-family: inherit;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.seller-card .header {
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    padding: 15px;
+    text-align: center;
+}
+
+.seller-card .header h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.seller-card .header .verified {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--disabled-colour);
+}
+
+.seller-card .verified .tag {
+    color: var(--highlight-colour);
+}
+
+.seller-card .details {
+    padding: 16px;
+}
+
+.seller-card .details p {
+    margin: 0 0 15px 0;
+    font-size: 1.2em;
+}
+
+.seller-card .details .stat {
+    width: 75%;
+    color: var(--text-colour-dark);
+    font-size: 1.2em;
+    display: grid;
+    grid-template-columns: 1fr 140px;
+    margin: 5px 0;
+}
+
+.seller-card .details .stat-value {
+    color: var(--primary-colour);
+    font-weight: bold;
+}
+
+.seller-card .location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1.2em;
+    margin: 30px 0 20px 0;
+}
+
+.seller-card .location svg {
+    width: 25px;
+    height: 16px;
+    fill: black;
+}
+
+.seller-card .seller-products-link {
+    width: 100%;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.seller-card .seller-products-link a {
+    font-size: 1.4em;
+    color: var(--primary-colour);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.seller-card .cta a:hover {
+    text-decoration: underline;
 }
