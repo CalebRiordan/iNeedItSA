@@ -91,16 +91,34 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($route['type'] === 'page') {
-                $pattern = '#^' . preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route["uri"]) . '$#';
-                if (preg_match($pattern, $uri, $matches) && $route['method'] === strtoupper($method)) {
+                $params = Router::routeMatch($route, $uri, $method);
+                if ($params) {
                     // Middleware::resolve($route['middleware']);
 
-                    $params = $matches;
-                    return require base_path('app/Http/Controllers/' . $route['controller']);
+                    $this->controller($route['controller']);
                 }
             }
         }
         $this->abort();
+    }
+
+    private static function routeMatch(array $route, string $uri, string $method){
+        $pattern = '#^' . preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route["uri"]) . '$#';
+        if (preg_match($pattern, $uri, $matches) && $route['method'] === strtoupper($method)){
+            return $matches;
+        }
+        return [];
+    }
+
+    private function controller($controller){
+        try {
+            return require base_path('app/Http/Controllers/' . $controller);
+        } catch (\Core\ValidationException $ex) {
+            Session::flash('errors', $ex->errors);
+            Session::flash('old', $ex->old);
+            
+            $this->redirectToPrevious();
+        }
     }
 
     public function redirectToPrevious()
