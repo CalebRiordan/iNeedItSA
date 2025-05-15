@@ -29,7 +29,7 @@ main.status-code{
     height: 5em;
     margin: 20px;
     background-color: var(--primary-colour);
-    color: var(--text-colour);
+    color: var(--text-colour-light);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -41,7 +41,7 @@ main.status-code{
 
 .status-code button svg{
     width: 14%;
-    fill: var(--text-colour);
+    fill: var(--text-colour-light);
 }
 
 .status-code button span{

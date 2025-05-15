@@ -18,7 +18,7 @@ require base_path('views/partials/category-bar.php');
             <div class="search-bar">
 
                 <div class="search-field">
-                    <input type="text" maxlength="80" placeholder="What are you looking for?" value=<?= $params['search'] ?>>
+                    <input type="text" maxlength="80" placeholder="What are you looking for?" value=<?= $params['search'] ?? "" ?>>
                 </div>
 
                 <div class="search-button">
@@ -96,7 +96,7 @@ require base_path('views/partials/category-bar.php');
         </div>
 
         <div class="products-catalogue">
-            <h1>Results for <span>"<?= $params['search'] ?>"</span></h1>
+            <h1><?= isset($params['search']) ? "Results for <span> {$params['search']}" : "" ?></span></h1>
             <div class="products-grid">
                 <?= $productsDisplay ?>
             </div>

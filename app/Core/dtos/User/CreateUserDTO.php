@@ -11,6 +11,7 @@ class CreateUserDTO extends BaseDTO
         "password" => "password",
         "phone_no" => "phoneNo",
         "location" => "location",
+        "province" => "province",
         "address" => "address",
         "profile_pic_url" => "profilePicUrl",
     ];
@@ -22,6 +23,7 @@ class CreateUserDTO extends BaseDTO
         public string $password,
         public string $phoneNo,
         public string $location,
+        public string $province,
         public string $address,
         public ?string $profilePicUrl = null,
         public ?string $shipAddress = null,

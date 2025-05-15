@@ -1,4 +1,5 @@
 <a class="product-card" style="width: <?= isset($cardWidth) ? $cardWidth : '15%' ?>;" href="/products/<?= $product->id ?>">
+
   <div class="image-container">
     <?php if ($product->discount > 0): ?>
       <span class="discount-badge"><b>-</b><?= $product->discount ?>%</span>
@@ -7,9 +8,16 @@
       src="<?= $product->displayImageUrl ? htmlspecialchars($product->displayImageUrl) : '/assets/images/product-placeholder.png' ?>"
       alt="<?= htmlspecialchars($product->name) ?>" />
   </div>
-  <p class="name"> <?= htmlspecialchars($product->name) ?></p>
-  <div class="bottom-row">
 
+  <div class="name">
+    <p> <?= htmlspecialchars($product->name) ?></p>
+  </div>
+
+  <div class="desc">
+    <p><?= isset($showDesc) && $showDesc ? htmlspecialchars($product->description) : "" ?></p=>
+  </div>
+
+  <div class="bottom-row">
     <?php if ($product->discount > 0): ?>
       <span class="original-price">R<?= number_format($product->price, 0) ?></span>
       <h4 class="price">
@@ -18,6 +26,6 @@
     <?php else: ?>
       <h4 class="price">R<?= number_format($product->price, 0) ?></h4>
     <?php endif; ?>
-
   </div>
+
 </a>
