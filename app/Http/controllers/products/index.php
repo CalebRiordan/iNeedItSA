@@ -4,17 +4,12 @@
 
 use Http\Controllers\PartialController;
 
-$params = [];
+$params = filterProductsParams($_GET);
 
-if (isset($_GET['search']) && $_GET['search'] !== "") {
-    $params['search'] = htmlspecialchars($_GET['search']);
-} else {
+if (!$params){
     header("location: /");
     exit();
 }
-$params = filterProductsParams($_GET);
-
-// dd($params);
 
 $sections = PartialController::renderProductDisplay($params);
 

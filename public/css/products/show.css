@@ -2,7 +2,7 @@ main {
     background-color: var(--background-colour);
 }
 
-/* Search bar */
+/* ============= Search bar ============= */
 
 .search-bar-area {
     width: 100%;
@@ -12,21 +12,21 @@ main {
     z-index: 2;
 }
 
-.product-display {
-    margin: 20px 12%;
+.content-column {
+    margin: 20px 17%;
 }
 
-/* Heading */
+/* =============== Heading =============== */
 
 .pricing .original-price {
     text-decoration: underline .1em;
     text-underline-offset: -.4em;
     text-decoration-skip-ink: none;
     text-decoration-thickness: 0.12em;
-    font-size: 0.9em;
+    font-size: 1em;
     color: rgb(70, 70, 70);
     position: absolute;
-    top: -0.6em;
+    top: -1em;
     margin-bottom: 5px;
 }
 
@@ -61,7 +61,7 @@ main {
     top: -2px;
 }
 
-/* Images and Seller Card */
+/* ============ Images and Seller Card ============ */
 
 .main-grid {
     display: grid;
@@ -80,8 +80,9 @@ main {
 .main-grid .col-right {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
+    gap: 2em;
 }
 
 .main-grid .add-cart-btn {
@@ -100,15 +101,16 @@ main {
     fill: var(--text-colour-light);
 }
 
-/* Seller Card */
+/* =============== Seller Card =============== */
 
 .seller-card {
     width: 100%;
-    border: 1px solid #ccc;
+    border: 1px solid var(--background-colour);
     border-radius: 15px;
     overflow: hidden;
     font-family: inherit;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 2px solid black;
 }
 
 .seller-card .header {
@@ -126,7 +128,7 @@ main {
 .seller-card .header .verified {
     font-size: 1em;
     font-weight: bold;
-    color: var(--disabled-colour);
+    color: var(--dark-bg-colour);
 }
 
 .seller-card .verified .tag {
@@ -142,13 +144,18 @@ main {
     font-size: 1.2em;
 }
 
-.seller-card .details .stat {
+.seller-card .aligned-grid{
     width: 75%;
-    color: var(--text-colour-dark);
-    font-size: 1.2em;
     display: grid;
-    grid-template-columns: 1fr 140px;
+    grid-template-columns: max-content auto;
+    font-size: 1.2em;
+    column-gap: 10px;
+    row-gap: 5px;
     margin: 5px 0;
+}
+
+.seller-card .details .stat-name {
+    color: var(--text-colour-dark);
 }
 
 .seller-card .details .stat-value {
@@ -185,4 +192,69 @@ main {
 
 .seller-card .cta a:hover {
     text-decoration: underline;
+}
+
+/* ============= Product Info Table ============= */
+
+.product-info-table {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    border-radius: 8px;
+}
+
+.product-description {
+    border: 1px solid var(--disabled-colour);
+    font-size: 1.2em;
+}
+
+.product-description .top-row {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    font-size: inherit;
+    display: flex;
+    font-size: inherit;
+    font-family: inherit;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--disabled-colour);
+}
+
+.product-description .top-row svg {
+    width: 1.4em;
+    fill: var(--primary-colour);
+}
+
+.product-description h3 {
+    padding: 16px;
+    margin: 0;
+}
+
+.product-description p {
+    width: 100%;
+    margin: 0 0 10px 0;
+    line-height: 1.6;
+    padding: 16px;
+}
+
+.product-details {
+    font-size: inherit;
+    border-collapse: collapse;
+    height: fit-content;
+    border: 1px solid var(--disabled-colour);
+    border-left: none;
+}
+
+.product-details tr {
+    font-size: 1.2em;
+    border-bottom: 1px solid var(--disabled-colour);
+}
+
+.product-details .name {
+    border-right: 1px solid var(--disabled-colour);
+    font-weight: bold;
+    vertical-align: top;
+}
+
+.product-details td{
+    padding: 8px;
 }

@@ -15,7 +15,7 @@ require base_path('views/partials/category-bar.php');
     </div>
 
     <!-- Product Information Section -->
-    <div class="product-display">
+    <div class="content-column">
 
         <!-- Heading -->
         <div class="heading">
@@ -66,14 +66,25 @@ require base_path('views/partials/category-bar.php');
 
                     <div class="details">
                         <p>Seller Since <strong><?= date('Y', strtotime($product->seller->sellerProfile->dateRegistered)) ?></strong></p>
-                        <span class="stat"><span class="stat-value"><?= $product->seller->sellerProfile->productsSold ?></span> Products Sold</span>
-                        <span class="stat"><span class="stat-value"><?= $product->seller->sellerProfile->views ?></span> Views</span>
+
+                        <div class="aligned-grid">
+
+                            <span class="stat-value"><?= $product->seller->sellerProfile->productsSold ?></span>
+                            <span class="stat-name">Products Sold</span>
+                            <span class="stat-value">
+                                <?php
+                                $views = $product->seller->sellerProfile->views;
+                                echo $views < 1000 ? $views : number_format($views / 1000, 1) . 'k' ?>
+                            </span>
+                            <span class="stat-name">Views</span>
+
+                        </div>
 
                         <div class="location">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                                 <path d="M192 0C86 0 0 86 0 192c0 77.4 106.1 215.6 167.4 284.5 9.6 10.9 26.7 10.9 36.3 0C277.9 407.6 384 269.4 384 192 384 86 298 0 192 0zm0 272c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z" />
                             </svg>
-                            <?= $product->seller->location ?>
+                            <?= $product->seller->location ?>, <?= $product->seller->province ?>
                         </div>
 
                         <div class="seller-products-link">
@@ -86,10 +97,55 @@ require base_path('views/partials/category-bar.php');
             <div class="image-list">
                 Image List
             </div>
+        </div>
 
-            <div class="placeholder"></div>
+        <!-- Product Info -->
+        <div class="product-info-table">
+            <div class="product-description">
+                <div class="top-row">
+                    <strong><?= $product->views ?> Views</strong>
+                    &nbsp;
+                    <?= elapsedTimeString(new DateTime($product->dateCreated)); ?>
+                    &nbsp;
+                    <a href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M352 224c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96c0 4 .2 8 .7 11.9l-94.1 47C145.4 170.2 121.9 160 96 160c-53 0-96 43-96 96s43 96 96 96c25.9 0 49.4-10.2 66.6-26.9l94.1 47c-.5 3.9-.7 7.8-.7 11.9c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-25.9 0-49.4 10.2-66.6 26.9l-94.1-47c.5-3.9 .7-7.8 .7-11.9s-.2-8-.7-11.9l94.1-47C302.6 213.8 326.1 224 352 224z" />
+                        </svg>
+                    </a>
+                </div>
 
-            <div class=""></div>
+                <h3>Description</h3>
+                <p><?= $product->description ?></p>
+            </div>
+
+            <table class="product-details">
+                <tr>
+                    <td class="name">Condition</td>
+                    <td><?= $product->condition ?></td>
+                </tr>
+                <tr>
+                    <td class="name">Condition Details</td>
+                    <td><?= $product->conditionDetails ?></td>
+                </tr>
+                <tr>
+                    <td class="name">Rating</td>
+                    <td><?= $product->rating ?? "<i>Not yet rated</i>" ?></td>
+                </tr>
+                <tr>
+                    <td class="name">Category</td>
+                    <td><?= $product->category ?></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <!-- Reviews -->
+        <?php if (isset($_SESSION['user'])): ?>
+            <div class="create-comment"></div>
+        <?php endif; ?>
+
+        <div class="comments-list">
+            
         </div>
     </div>
 </main>
