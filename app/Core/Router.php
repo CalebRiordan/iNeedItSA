@@ -126,6 +126,10 @@ class Router
         redirect($_SERVER['HTTP_REFERER']);
     }
 
+    public function getUri(){
+        return parse_url($_SERVER["REQUEST_URI"])['path'];
+    }
+
     public function abort($code = 404)
     {
         http_response_code($code);

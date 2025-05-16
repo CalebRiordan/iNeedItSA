@@ -1,8 +1,9 @@
-import { buildQueryString } from "../utils/queryBuilder.js";
+import { buildQueryString } from "/js/utils/queryBuilder.js";
 import {
   validatePrice,
   highlightBorderError,
 } from "/js/utils/priceValidator.js";
+import { resizeProductCardTitles } from "/js/utils/scaleProductCardFont.js";
 
 const content = document.querySelector(".products-content-wrapper");
 const params = JSON.parse(content.getAttribute("data-params"));
@@ -162,6 +163,7 @@ function refreshPartials(queryString) {
       }
 
       window.scrollTo(0, 0);
+      resizeProductCardTitles();
 
       // Update page-selector
       setPageEventListeners();

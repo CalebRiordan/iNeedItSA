@@ -1,26 +1,31 @@
 <?php
 
+use Core\Authenticator;
 use Core\Router;
 use Core\Session;
 
-session_start();
+try {
+  session_start();
 
-// Autoloader
-require __DIR__.'/../vendor/autoload.php';
+  // Autoloader
+  require __DIR__ . '/../vendor/autoload.php';
 
-// Services
-require base_path('app/core/services.php');
+  // Services
+  require base_path('app/core/services.php');
 
-// Router
-$router = new Router();
-require base_path("routes.php");
-$uri = parse_url($_SERVER["REQUEST_URI"])['path'];
+  // Automatic login
+  (new Authenticator)->tryAutoLogin();
 
-$method = $_SERVER['REQUEST_METHOD'];
-$router->route($uri, $method);
+  // Router
+  $router = new Router();
+  require base_path("routes.php");
+  $uri = $router->getUri();
+  $router->route($uri, $_SERVER['REQUEST_METHOD']);
 
-Session::unflash();
-?>
+  Session::unflash();
+} catch (Exception $ex) {
+  abort(505);
+} ?>
 
 <!-- Global environment variables -->
 <script>
