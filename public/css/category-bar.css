@@ -4,6 +4,8 @@
 }
 
 .category-bar ul{
+    display: flex;
+    margin-right: 15px;
     list-style: none;
     width: 100%;
     justify-content: center;

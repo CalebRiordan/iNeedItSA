@@ -227,6 +227,7 @@ main {
 .product-description h3 {
     padding: 16px;
     margin: 0;
+    box-sizing: border-box;
 }
 
 .product-description p {
@@ -234,6 +235,7 @@ main {
     margin: 0 0 10px 0;
     line-height: 1.6;
     padding: 16px;
+    box-sizing: border-box;
 }
 
 .product-details {

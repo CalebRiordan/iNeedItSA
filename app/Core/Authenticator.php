@@ -19,7 +19,7 @@ class Authenticator
 
         if ($user) {
             if (password_verify($password, $user['password'])) {
-                $this->login($user);
+                static::login($user);
 
                 return true;
             }
@@ -28,13 +28,13 @@ class Authenticator
         return false;
     }
 
-    public function login($user){
+    public static function login($user){
         Session::put('user', ['email' => $user['email']]);
 
         session_regenerate_id(true);
     }
 
-    public function logout()
+    public static function logout()
     {
         Session::clear();
         session_destroy();

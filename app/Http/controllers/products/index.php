@@ -2,9 +2,10 @@
 
 // Sanitize query params
 
+use Core\Filters\ProductFilter;
 use Http\Controllers\PartialController;
 
-$params = filterProductsParams($_GET);
+$params = ProductFilter::validParams($_GET);
 
 if (!$params){
     header("location: /");

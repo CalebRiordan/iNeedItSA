@@ -25,8 +25,7 @@ class PartialController
 
     public static function renderProductDisplay($params): ?array
     {
-        // dd($params);
-        $validParams = filterProductsParams($params);
+        $validParams = ProductFilter::validParams($params);
         if (!$validParams) return [];
 
         $filter = new ProductFilter();

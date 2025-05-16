@@ -236,7 +236,7 @@ button {
 }
 
 .products-grid {
-    margin: 45px 0;
+    margin: 0 0 45px 0;
     display: grid;
     gap: 16px;
     row-gap: 32px;

@@ -12,8 +12,8 @@ const searchButton = document.querySelector(".filter-panel .search-button");
 const stars = document.querySelectorAll(".star-rating .star");
 const minInput = document.getElementById("input-min");
 const maxInput = document.getElementById("input-max");
-const resultLabel = document.querySelector(".products-catalogue h1 span");
 const productsCatalogue = document.querySelector(".products-catalogue");
+const productsGrid = document.querySelector(".products-grid");
 
 let minPrice = params["maxPrice"] ?? null;
 let maxPrice = params["maxPrice"] ?? null;
@@ -105,13 +105,13 @@ function applyParams() {
 }
 
 function processSearch() {
-  applyParams()
+  applyParams();
   let queryString = getQueryString();
 
   if (queryString) {
     refreshPartials(queryString);
-    resultLabel.textContent = `\"${encodeURIComponent(searchField.value)}\"`;
-    history.replaceState(null, "", `/products${queryString}`)
+    updateResultsLabel()
+    history.replaceState(null, "", `/products${queryString}`);
   }
 }
 
@@ -141,25 +141,24 @@ function getQueryString() {
     rating: params["rating"] ?? null,
     page: params["page"] ?? null,
   };
-  
+
   return buildQueryString(queryParams);
 }
 
-function refreshPartials(queryString) {  
+function refreshPartials(queryString) {
   fetch(`/partial/products-display${queryString}`)
     .then((response) => response.json())
     .then((data) => {
-      
-      if (data['products-display'] !== ""){
+
+      if (data["products-display"] !== "") {
+        productsCatalogue.classList.remove("empty");
         // Replace existing HTML
-        document.querySelector(".products-grid").innerHTML =
-          data["products-display"];
+        productsGrid.innerHTML = data["products-display"];
         document.querySelector(".page-selector").innerHTML =
           data["page-selector"];
-          productsCatalogue.classList.remove('empty');
       } else {
-        productsCatalogue.classList.add('empty');
-        document.querySelector(".page-selector").innerHTML = ""
+        productsCatalogue.classList.add("empty");
+        document.querySelector(".page-selector").innerHTML = "";
       }
 
       window.scrollTo(0, 0);
@@ -169,12 +168,25 @@ function refreshPartials(queryString) {
     });
 }
 
+function updateResultsLabel() {
+  let search = encodeURIComponent(searchField.value).trim();
+  let header = document.getElementById("results-header");
+
+  if (search) {
+    header.innerHTML = `Results for <span>${search}</span>`;
+    header.style.display = "block";
+  } else {
+    header.style.display = "none";
+  }
+}
+
 // Initial setup
 setPageEventListeners();
 setRating(rating);
 setPage();
+updateResultsLabel();
 
-if (params['products-display'] === ""){
-  productsCatalogue.classList.add('empty');
-  document.querySelector(".page-selector").innerHTML = ""
+if (params["products-display"] === "") {
+  productsCatalogue.classList.add("empty");
+  document.querySelector(".page-selector").innerHTML = "";
 }

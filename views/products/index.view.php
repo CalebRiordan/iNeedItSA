@@ -1,7 +1,7 @@
 <?php
 
 $stylesheets = ['navbar.css', 'category-bar.css', 'products/index.css', 'product-card.css'];
-$scripts = ['products/index.js'];
+$scripts = ['products/index.js', 'utils/scaleProductCardFont.js'];
 
 $cardWidth = 'auto';
 
@@ -96,7 +96,7 @@ require base_path('views/partials/category-bar.php');
         </div>
 
         <div class="products-catalogue">
-            <h1><?= isset($params['search']) ? "Results for <span> {$params['search']}" : "" ?></span></h1>
+            <h1 id="results-header"><?= isset($params['search']) ? "Results for <span> {$params['search']}" : "" ?></span></h1>
             <div class="products-grid">
                 <?= $productsDisplay ?>
             </div>
