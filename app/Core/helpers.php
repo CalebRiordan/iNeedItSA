@@ -1,5 +1,7 @@
 <?php
 
+use Core\Session;
+
 function base_path($path)
 {
     return __DIR__ . '/../../' . $path;
@@ -53,44 +55,6 @@ function returnJson($data = [], int $code = 200)
     exit;
 }
 
-function filterProductsParams($params): ?array
-{
-    $validParams = [];
-    
-    $val = $params['search'] ?? "";
-    $val = htmlspecialchars($val, ENT_QUOTES);
-    if (!empty($val)) {
-        $validParams['search'] = $val;
-    }
-    
-    $val = $params['category'] ?? null;
-    if ($val && ctype_digit((string)$val) && (int)$val >= 0 && (int)$val <= 7) {
-        $validParams['category'] = (int)$val;
-    }
-
-    $val = $params['minPrice'] ?? null;
-    if ($val && is_numeric($val) && (float)$val >= 0) {
-        $validParams['minPrice'] = (float)$val;
-    }
-
-    $val = $params['maxPrice'] ?? null;
-    if ($val && is_numeric($val) && (float)$val >= 0) {
-        $validParams['maxPrice'] = (float)$val;
-    }
-
-    $val = $params['rating'] ?? null;
-    if ($val && ctype_digit((string)$val) && (int)$val >= 1 && (int)$val <= 5) {
-        $validParams['rating'] = (int)$val;
-    }
-
-    $val = $params['page'] ?? null;
-    if ($val && ctype_digit((string)$val) && (int)$val >= 1) {
-        $validParams['page'] = (int)$val;
-    }
-
-    return $validParams;
-}
-
 function elapsedTimeString(DateTime $date): string
 {
     $now = new DateTime();
@@ -113,14 +77,14 @@ function elapsedTimeString(DateTime $date): string
 }
 
 
-function redirectIfGuest(string $uri = ""){
+function redirectIfGuest(string $uri = "/"){
     if (!isset($_SESSION['user'])){
         header("location: {$uri}");
         exit();
     }
 }
 
-function redirectIfLoggedIn(string $uri = ""){
+function redirectIfLoggedIn(string $uri = "/"){
     if (isset($_SESSION['user'])){
         header("location: {$uri}");
         exit();

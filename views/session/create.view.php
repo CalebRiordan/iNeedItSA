@@ -1,6 +1,8 @@
 <?php
 
-$stylesheets = ['navbar.css', 'login/create.css'];
+use Core\Session;
+
+$stylesheets = ['navbar.css', 'session/create.css'];
 
 require base_path('views/partials/header.php');
 require base_path('views/partials/navbar.php');
@@ -8,8 +10,9 @@ require base_path('views/partials/navbar.php');
 
 <main>
     <div class="login-container">
-        <form class="login-form">
+        <form class="login-form" action="/login" method="POST">
             <h1>Login</h1>
+
             <div class="input-group">
                 <input type="email" placeholder="Email" name="email" required>
                 <div class="icon">
@@ -18,6 +21,8 @@ require base_path('views/partials/navbar.php');
                     </svg>
                 </div>
             </div>
+            <p class="error"><?= $errors['email'] ?? "" ?></p>
+
             <div class="input-group">
                 <input type="password" placeholder="Password" name="password" required>
                 <div class="icon">
@@ -26,6 +31,10 @@ require base_path('views/partials/navbar.php');
                     </svg>
                 </div>
             </div>
+            <p class="error"><?= $errors['password'] ?? "" ?></p>
+
+            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+
             <button type="submit">Login</button>
         </form>
     </div>

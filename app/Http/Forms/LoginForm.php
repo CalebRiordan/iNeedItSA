@@ -12,7 +12,7 @@ class LoginForm extends Form{
 
     public function __construct(array $attributes)
     {
-        $missing = self::missingKeys($attributes, ["email, password"]);
+        $missing = self::missingKeys($attributes, ["email", "password"]);
         if (!empty($missing)){
             throw new InvalidArgumentException("LoginForm requires a '{$missing[0]}' attribute to validate - none provided.");
         }

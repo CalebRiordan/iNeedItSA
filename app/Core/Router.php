@@ -95,7 +95,7 @@ class Router
                 if ($params) {
                     // Middleware::resolve($route['middleware']);
 
-                    $this->controller($route['controller']);
+                    return $this->controller($route['controller'], $params);
                 }
             }
         }
@@ -110,18 +110,18 @@ class Router
         return [];
     }
 
-    private function controller($controller){
+    private function controller($controller, $params){
         try {
             return require base_path('app/Http/Controllers/' . $controller);
         } catch (\Core\ValidationException $ex) {
             Session::flash('errors', $ex->errors);
             Session::flash('old', $ex->old);
             
-            $this->redirectToPrevious();
+            static::redirectToPrevious();
         }
     }
 
-    public function redirectToPrevious()
+    public static function redirectToPrevious()
     {
         redirect($_SERVER['HTTP_REFERER']);
     }

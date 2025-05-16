@@ -1,6 +1,6 @@
 @import url("globals.css");
 
-.navbar{
+.navbar {
     background-color: var(--primary-colour);
     width: 100%;
     display: flex;
@@ -9,50 +9,65 @@
     height: var(--navbar-height);
     margin: none;
     padding: 0;
-    position: fixed;    
+    position: fixed;
     z-index: 10;
 }
 
-.navbar-logo{
+.navbar-logo {
     display: inline-block;
     margin: 10px 15px;
     width: 140px;
 }
 
-.navbar-logo img{
+.navbar-logo img {
     width: 100%;
 }
 
-ul{
+.navbar ul {
     display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
-    margin-right: 15px;
-    gap: 15px;
+    margin-right: 35px;
+    gap: 2rem;
 }
 
-.nav-link{
+.nav-link {
     display: inline-block;
-    background-color: var(--primary-colour);
     text-decoration: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 20px;
+}
+
+.nav-link .logout {
+    color: var(--off-bg-colour);
+}
+
+.nav-link.nav-btn {
+    background-color: var(--primary-colour);
     color: var(--text-colour-light);
     padding: 6px 16px 8px 16px;
     border: 2px solid var(--highlight-colour);
     border-radius: 20px;
     text-align: center;
-    cursor: pointer;    
-    font-family: inherit;
-    font-size: 20px;
 }
 
-.salient {
+.nav-link svg {
+    fill: var(--off-bg-colour);
+    width: 1.8rem;
+    transform: translateY(20%);
+}
+
+.navbar .salient {
     background-color: var(--salient-colour);
 }
 
-.nav-link:hover{
+.nav-link:hover {
     filter: brightness(115%);
 }
 
-#navbar-offset{
+#navbar-offset {
     width: 100%;
     height: var(--navbar-height);
 }

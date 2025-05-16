@@ -125,7 +125,7 @@ require base_path('views/partials/category-bar.php');
                 </tr>
                 <tr>
                     <td class="name">Condition Details</td>
-                    <td><?= $product->conditionDetails ?></td>
+                    <td><?= $product->conditionDetails ?? "-"?></td>
                 </tr>
                 <tr>
                     <td class="name">Rating</td>

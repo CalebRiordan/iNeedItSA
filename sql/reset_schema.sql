@@ -18,8 +18,8 @@ DROP TABLE IF EXISTS product_image_url;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-SOURCE sql/schema.sql;
-SOURCE sql/mock_data.sql;
+SOURCE schema.sql;
+SOURCE mock_data.sql;
 
 DELIMITER //
 CREATE TRIGGER update_product_date_created

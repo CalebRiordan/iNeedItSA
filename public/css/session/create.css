@@ -23,7 +23,15 @@ main {
 
 .input-group {
     position: relative;
-    margin-bottom: 1.4rem;
+}
+
+.login-form p.error{
+    min-height: 1em;
+    max-height: 3em;
+    width: 100%;
+    font-size: 0.8em;
+    color: var(--error-colour);
+    margin: 3px 0 10px 0;
 }
 
 .input-group input {

@@ -103,4 +103,40 @@ class ProductFilter extends BaseFilter
             }
         }
     }
+
+    public static function validParams($params): ?array
+    {
+        $validParams = [];
+
+        $val = $params['search'] ?? "";
+        $val = htmlspecialchars($val, ENT_QUOTES);
+        if (!empty($val)) {
+            $validParams['search'] = $val;
+        }
+
+        $val = $params['category'] ?? null;
+        if ($val && ctype_digit((string)$val) && (int)$val >= 0 && (int)$val <= 7) {
+            $validParams['category'] = (int)$val;
+        }
+
+        $val = $params['minPrice'] ?? null;
+        if ($val && is_numeric($val) && (float)$val >= 0) {
+            $validParams['minPrice'] = (float)$val;
+        }
+
+        $val = $params['maxPrice'] ?? null;
+        if ($val && is_numeric($val) && (float)$val >= 0) {
+            $validParams['maxPrice'] = (float)$val;
+        }
+
+        $val = $params['rating'] ?? null;
+        if ($val && ctype_digit((string)$val) && (int)$val >= 1 && (int)$val <= 5) {
+            $validParams['rating'] = (int)$val;
+        }
+
+        $val = $params['page'] ?? 1;
+        $validParams['page'] = (ctype_digit((string)$val) && (int)$val >= 1) ? (int)$val : 1;
+
+        return $validParams;
+    }
 }
