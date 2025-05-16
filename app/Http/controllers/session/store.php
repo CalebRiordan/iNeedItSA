@@ -5,6 +5,7 @@ use Http\Forms\LoginForm;
 
 $email = $_POST['email'];
 $password = $_POST['password'];
+$persistentLogin = $_POST['persist-login'] ?? false; 
 
 // Server-side form validation
 $form = LoginForm::validate([
@@ -13,12 +14,16 @@ $form = LoginForm::validate([
 ]);
 
 // User Authentication
-$signedIn = (new Authenticator)->attempt($email, $password);
+$auth = new Authenticator();
+$signedIn = $auth->attempt($email, $password);
 if (!$singedIn) {
     $form->error(
         'password',
         'No matching account found for that email address and password.'
     )->throw();
+}
+if ($persistentLogin){
+    $auth->setPersistentLoginCookie($email);
 }
 
 $previousPage = $_POST['previousPage'] ?? "/";

@@ -32,15 +32,16 @@ class UserRepository extends BaseRepository
         if (!$row) {
             return null;
         }
-        
+
         $user = UserDTO::fromRow($row);
-        
+
         return $user;
     }
 
     public function findPreviewById(string $id): ?UserPreviewDTO
     {
-        $sql = "SELECT {ProductPreviewDTO::toFields()} FROM user WHERE u.user_id = ?";
+        $fields = UserPreviewDTO::toFields();
+        $sql = "SELECT {$fields} FROM user WHERE u.user_id = ?";
 
         $row = $this->db->query($sql, [$id])->find();
 
@@ -49,17 +50,34 @@ class UserRepository extends BaseRepository
 
     public function findByEmail($email): ?LoginDTO
     {
-        $sql = "SELECT {LoginDTO::toFields()} FROM user WHERE email = ?";
-
+        $fields = LoginDTO::toFields();
+        $sql = "SELECT {$fields} FROM user WHERE email = ?";
+        
         return LoginDTO::fromRow(
             $this->db->query($sql, [$email])->find()
         );
     }
 
+    public function findByToken($token): ?LoginDTO
+    {
+        $fields = LoginDTO::toFields();
+        $sql = <<<SQL
+            SELECT {$fields} 
+            FROM user 
+            WHERE login_token = ?
+        SQL;
+
+        $row = $this->db->query($sql, [$token])->find() ?? [];
+        $user = LoginDTO::fromRow($row);
+
+        return $user;
+    }
+
     public function findAllPreviews(?UserFilter $filter = null): array
     {
         $filter ??= new UserFilter();
-        $sql = "SELECT {UserPreviewDTO::toFields()} FROM user {$filter->getWhereClause()}";
+        $fields = UserPreviewDTO::toFields();
+        $sql = "SELECT {$fields} FROM user {$filter->getWhereClause()}";
         $rows = $this->db->query($sql, $filter->getValues())->find();
         $users = UserDTO::fromRows($rows);
         return $users;
@@ -95,6 +113,23 @@ class UserRepository extends BaseRepository
             $newId,
             ...$userValues,
         );
+    }
+
+    public function saveToken(string $email, string $token)
+    {
+        $hashedToken = password_hash($token, PASSWORD_BCRYPT);
+
+        $sql = <<<SQL
+            UPDATE user
+            SET login_token = ?
+            WHERE email = ?
+        SQL;
+
+        $success = $this->db->query($sql, [$hashedToken, $email])->wasSuccessful();
+
+        if (!$success) {
+            throw new \Exception("Failed to save user login token to database for user with email '{$email}'");
+        }
     }
 
     public function update(UpdateUserDTO $user): bool
@@ -141,7 +176,8 @@ class UserRepository extends BaseRepository
         $this->handleRoleAdjustment($id, "seller", $new, $existing);
     }
 
-    private function handleRoleAdjustment(string $id, string $role, ?SellerProfileDTO $new, ?SellerProfileDTO $existing = null){
+    private function handleRoleAdjustment(string $id, string $role, ?SellerProfileDTO $new, ?SellerProfileDTO $existing = null)
+    {
         if ($new && !$existing) { // Add new role
             $this->addRole($id, $role, $new);
         } elseif ($new && $existing) { // Update existing role
@@ -156,7 +192,7 @@ class UserRepository extends BaseRepository
         $dtoClass = UserDTO::$roleClasses[$role];
 
         $this->db->query(
-            "INSERT INTO {$role} ({$dtoClass::toFields()}) VALUES ({$dtoClass::placeholders()})", 
+            "INSERT INTO {$role} ({$dtoClass::toFields()}) VALUES ({$dtoClass::placeholders()})",
             [$id, ...$profile->getMappedValues()]
         );
     }

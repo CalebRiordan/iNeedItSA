@@ -2,23 +2,26 @@
 
 namespace Core;
 
+use Core\DTOs\LoginDTO;
+use Core\Repositories\UserRepository;
 use Core\Session;
 
 class Authenticator
 {
-    protected $db;
+    protected $users;
 
     public function __construct()
     {
-        $this->db = Container::resolve(Database::class);
+        $this->users = new UserRepository();
     }
 
     public function attempt($email, $password)
     {
-        $user = $this->db->query("SELECT * FROM user WHERE email = ?", [$email])->find();
+
+        $user = $this->users->findByEmail($email);
 
         if ($user) {
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($password, $user->password)) {
                 static::login($user);
 
                 return true;
@@ -28,8 +31,8 @@ class Authenticator
         return false;
     }
 
-    public static function login($user){
-        Session::put('user', ['email' => $user['email']]);
+    public static function login(LoginDTO $user){
+        Session::put('user', ['email' => $user->password]);
 
         session_regenerate_id(true);
     }
@@ -39,7 +42,36 @@ class Authenticator
         Session::clear();
         session_destroy();
 
+        static::expireCookie('PHPSESSID');
+    }
+
+    private static function expireCookie($name){
         $params = session_get_cookie_params();
-        setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain']);
+        setcookie($name, '', time() - 3600, $params['path'], $params['domain']);
+    }
+
+    public function setPersistentLoginCookie($email) {
+        $token = bin2hex(random_bytes(32));
+        setcookie("logged_in", $token, time() + (60 * 60 * 24 * 60), "/", "", false, true); // 2 months
+
+        try{
+            $this->users->saveToken($email, $token);
+        } catch (\Exception $ex){
+            setcookie("remember_me", "", time() - 3600, "/");
+        }
+    }
+
+    public function tryAutoLogin(){
+        if (!isset($_SESSION['user']) && isset($_COOKIE['logged_in'])) {
+            $token = $_COOKIE['logged_in'];
+            
+            $user = $this->users->findByToken($token);
+            
+            if ($user) {
+                $this->login($user);
+            } else {
+                static::expireCookie('logged_in');
+            }
+        }
     }
 }

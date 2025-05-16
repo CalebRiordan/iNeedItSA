@@ -33,6 +33,11 @@ require base_path('views/partials/navbar.php');
             </div>
             <p class="error"><?= $errors['password'] ?? "" ?></p>
 
+            <div class="sli-checkbox">
+                <input id="persist-login" name="persist-login" type="checkbox" checked> 
+                <label for="persist-login">Stay logged in</label>
+            </div>
+
             <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
 
             <button type="submit">Login</button>

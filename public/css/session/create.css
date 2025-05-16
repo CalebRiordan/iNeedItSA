@@ -53,6 +53,34 @@ main {
     width: 24px;
 }
 
+.sli-checkbox{
+    background-color: var(--background-colour);
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 4px;
+}
+
+.sli-checkbox input[type='checkbox']{
+    width:1.6em;
+    height:1.6em;
+    background:white;
+    border-radius:5px;
+    border:2px solid var(--text-colour-dark);
+    transform: translateY(5%);
+}
+
+input[type='checkbox']:checked {
+    accent-color: var(--primary-colour);
+}
+
+.sli-checkbox label{
+    font-size: 1.2em;
+    color: var(--text-colour-dark);
+}
+
 button {
     width: 100%;
     background-color: var(--primary-colour);;

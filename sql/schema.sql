@@ -16,6 +16,7 @@ CREATE TABLE user (
     address VARCHAR(255) NOT NULL,
     profile_pic_url VARCHAR(255),
     date_joined DATE NOT NULL,
+    login_token VARCHAR(255),
     is_buyer BOOLEAN DEFAULT False,
     is_seller BOOLEAN DEFAULT False
 );

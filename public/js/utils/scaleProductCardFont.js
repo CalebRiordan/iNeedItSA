@@ -1,4 +1,4 @@
-function resizeProductCardTitles() {
+export function resizeProductCardTitles() {
   const productCards = document.querySelectorAll(".product-card");
 
   productCards.forEach((card) => {
@@ -16,8 +16,7 @@ function resizeProductCardTitles() {
     
     name.style.maxHeight = (nameFontSize * 1.4 * 2) + "px";
     desc.style.maxHeight = (descFontSize * 1.4 * 3) + "px";
-    // desc.style.padding = Math.floor(descFontSize / 2) + "px 0";
-  });
+  });  
 }
 
 let resizeTimeout;
