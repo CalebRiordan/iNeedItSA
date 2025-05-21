@@ -2,14 +2,14 @@
 
 use Core\Session;
 
-$stylesheets = ['navbar.css', 'session/create.css'];
+$stylesheets = ['navbar.css', 'form.css', 'session/create.css'];
 
 require base_path('views/partials/header.php');
 require base_path('views/partials/navbar.php');
 ?>
 
 <main>
-    <div class="login-container">
+    <div class="form-container">
         <form class="login-form" action="/login" method="POST">
             <h1>Login</h1>
 
@@ -33,7 +33,7 @@ require base_path('views/partials/navbar.php');
             </div>
             <p class="error"><?= $errors['password'] ?? "" ?></p>
 
-            <div class="sli-checkbox">
+            <div class="checkbox">
                 <input id="persist-login" name="persist-login" type="checkbox" checked> 
                 <label for="persist-login">Stay logged in</label>
             </div>

@@ -1,48 +1,10 @@
-main {
-    font-family: inherit; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    margin: 0;
-    background-color: var(--background-colour);
-}
-
-.login-container {
-    background: var(--background-colour);
-    padding: 1.5rem;
-    border-radius: 10px;
-    width: 22%;
+.form-container {
+    width: 25%;
     margin-top: -100px;
 }
 
-.login-form h1 {
-    margin-bottom: 1.4rem;
-    text-align: center;
-}
-
-.input-group {
-    position: relative;
-}
-
-.login-form p.error{
-    min-height: 1em;
-    max-height: 3em;
-    width: 100%;
-    font-size: 0.8em;
-    color: var(--error-colour);
-    margin: 3px 0 10px 0;
-}
-
 .input-group input {
-    width: 100%;
-    padding: 12px 12px 12px 48px;
-    background-color: var(--dark-bg-colour);
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    font-size: 1.2em;
-    box-sizing: border-box;
+    padding-left: 48px;
 }
 
 .input-group .icon {
@@ -53,49 +15,6 @@ main {
     width: 24px;
 }
 
-.sli-checkbox{
-    background-color: var(--background-colour);
-    width: 100%;
+.checkbox {
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 4px;
-}
-
-.sli-checkbox input[type='checkbox']{
-    width:1.6em;
-    height:1.6em;
-    background:white;
-    border-radius:5px;
-    border:2px solid var(--text-colour-dark);
-    transform: translateY(5%);
-}
-
-input[type='checkbox']:checked {
-    accent-color: var(--primary-colour);
-}
-
-.sli-checkbox label{
-    font-size: 1.2em;
-    color: var(--text-colour-dark);
-}
-
-button {
-    width: 100%;
-    background-color: var(--primary-colour);;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.4em;
-}
-
-button:hover {
-    filter: brightness(110%);
-}
-
-button:active {
-    filter: brightness(120%);
 }

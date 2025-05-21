@@ -1,0 +1,95 @@
+.form-container {
+    width: 50%;
+    margin-top: -100px;
+}
+
+.section-1 {
+    display: grid;
+    grid-template-columns: 1fr fit-content(400px);
+    gap: 1.4em;
+}
+
+.section-1 .text-inputs {
+    width: auto;
+}
+
+.image-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-pic-container {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    border: 2px solid var(--dark-bg-colour);
+}
+
+.profile-pic-container div {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-pic-container img {
+    width: 70%;
+    height: 70%;
+    object-position: center;
+    transform: translate(22%, 22%);
+}
+
+.section-2 {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8em;
+}
+
+.section-2>.input-group.province {
+    width: 100%;
+}
+
+.section-2>.input-group {
+    width: 100%;
+}
+
+.input-group select {
+    width: 100%;
+}
+
+.input-group .phone-no {
+    padding-left: calc(1.2em * 2.5);
+}
+
+.input-group .country-code {
+    position: absolute;
+    left: 8px;
+    top: 0.5em;
+    font-size: 1em;
+}
+
+.section-3 {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.section-3>.input-group {
+    width: 100%;
+}
+
+.checkbox {
+    margin-top: 5px;
+}
+
+.checkbox input[type='checkbox']{
+    width:0.8em;
+    height:0.8em;
+}
+
+.checkbox label{
+    font-size: 0.8em;
+}

@@ -11,6 +11,7 @@ const params = JSON.parse(content.getAttribute("data-params"));
 const searchField = document.querySelector(".filter-panel .search-field input");
 const searchButton = document.querySelector(".filter-panel .search-button");
 const stars = document.querySelectorAll(".star-rating .star");
+const filterButton = document.querySelector(".filter-panel .apply-filter-btn");
 const minInput = document.getElementById("input-min");
 const maxInput = document.getElementById("input-max");
 const productsCatalogue = document.querySelector(".products-catalogue");
@@ -31,8 +32,16 @@ document.querySelectorAll(".category-list .option").forEach((option) => {
     document.querySelectorAll(".category-list .option").forEach((opt) => {
       opt.classList.remove("active");
     });
-    this.classList.add("active");
-    category = this.dataset.value;
+
+    const selected = this.dataset.value;
+    if (selected === category){
+      category = null;
+    } else {
+      category = selected;
+      this.classList.add("active");
+    }
+
+    updateFilterBtnState();
   });
 });
 
@@ -47,6 +56,7 @@ stars.forEach((star) => {
 [minInput, maxInput].forEach((input) => {
   input.addEventListener("beforeinput", (e) => {
     validatePrice(input, minInput, maxInput, e);
+    setTimeout(updateFilterBtnState, 0);
   });
 });
 
@@ -60,9 +70,12 @@ maxInput?.addEventListener("blur", function () {
 });
 
 // Process Search
-searchButton.addEventListener("click", processSearch);
+searchButton.addEventListener("click", applyFilter);
 searchField.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") processSearch();
+  if (event.key === "Enter") applyFilter();
+});
+searchField.addEventListener("input", () => {
+  updateSearchButtonState(true);
 });
 
 function setRating(number) {
@@ -77,6 +90,7 @@ function setRating(number) {
 
   switch (Number(number)) {
     case 1:
+      label = `Any rating`;
       break;
     case 5:
       label = `5 stars only`;
@@ -87,9 +101,10 @@ function setRating(number) {
   }
 
   document.getElementById("rating-label").textContent = label;
+  updateFilterBtnState();
 }
 
-function applyParams() {
+function applyFilter() {
   minPrice = getValue(minInput);
   maxPrice = getValue(maxInput);
 
@@ -99,21 +114,13 @@ function applyParams() {
     category,
     rating,
   });
-
+  
   let queryString = getQueryString();
   refreshPartials(queryString);
+  updateFilterBtnState(false);
+  updateResultsLabel();
+  searchButton.classList.add("disabled");
   history.replaceState(null, "", `/products${queryString}`);
-}
-
-function processSearch() {
-  applyParams();
-  let queryString = getQueryString();
-
-  if (queryString) {
-    refreshPartials(queryString);
-    updateResultsLabel()
-    history.replaceState(null, "", `/products${queryString}`);
-  }
 }
 
 function setPageEventListeners() {
@@ -135,7 +142,7 @@ function setPage(page = 1) {
 function getQueryString() {
   // use params
   let queryParams = {
-    search: encodeURIComponent(searchField.value),
+    search: encodeURIComponent(searchField.value).trim(),
     category: params["category"] ?? null,
     minPrice: params["minPrice"] ?? null,
     maxPrice: params["maxPrice"] ?? null,
@@ -147,9 +154,10 @@ function getQueryString() {
 }
 
 function refreshPartials(queryString) {
+  
   fetch(`/partial/products-display${queryString}`)
-    .then((response) => response.json())
-    .then((data) => {
+  .then((response) => response.json())
+  .then((data) => {
 
       if (data["products-display"] !== "") {
         productsCatalogue.classList.remove("empty");
@@ -175,10 +183,31 @@ function updateResultsLabel() {
   let header = document.getElementById("results-header");
 
   if (search) {
-    header.innerHTML = `Results for <span>${search}</span>`;
+    header.innerHTML = `Results for <span>"${search}"</span>`;
     header.style.display = "block";
   } else {
     header.style.display = "none";
+  }
+}
+
+function updateSearchButtonState(){
+  if (searchField.value.trim() !== ""){
+    searchButton.classList.remove("disabled");
+  } else {
+    searchButton.classList.add("disabled");
+  }
+}
+
+function updateFilterBtnState(enable = true) {
+  let minPrice = getValue(minInput);
+  let maxPrice = getValue(maxInput);
+
+  if ((maxPrice > 0 && minPrice > maxPrice) || !enable) {
+    filterButton.classList.add("disabled");
+    filterButton.removeEventListener("click", applyFilter);
+  } else {
+    filterButton.classList.remove("disabled");
+    filterButton.addEventListener('click', applyFilter);
   }
 }
 
@@ -187,6 +216,7 @@ setPageEventListeners();
 setRating(rating);
 setPage();
 updateResultsLabel();
+updateFilterBtnState(false);
 
 if (params["products-display"] === "") {
   productsCatalogue.classList.add("empty");
