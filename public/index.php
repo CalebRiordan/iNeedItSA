@@ -14,7 +14,7 @@ try {
   require base_path('app/core/services.php');
 
   // Automatic login
-  (new Authenticator)->tryAutoLogin();
+  (new Authenticator)->updateLoginState();
 
   // Router
   $router = new Router();

@@ -115,7 +115,7 @@ class ProductFilter extends BaseFilter
         }
 
         $val = $params['category'] ?? null;
-        if ($val && ctype_digit((string)$val) && (int)$val >= 0 && (int)$val <= 7) {
+        if ($val !== null && ctype_digit((string)$val) && (int)$val >= 0 && (int)$val <= 7) {
             $validParams['category'] = (int)$val;
         }
 

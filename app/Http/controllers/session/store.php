@@ -22,6 +22,7 @@ if (!$singedIn) {
         'No matching account found for that email address and password.'
     )->throw();
 }
+
 if ($persistentLogin){
     $auth->setPersistentLoginCookie($email);
 }

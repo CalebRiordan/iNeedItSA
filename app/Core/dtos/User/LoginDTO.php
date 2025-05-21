@@ -21,4 +21,16 @@ class LoginDTO extends BaseDTO
         public string $email,
         public string $password,
     ) {}
+
+    public static function fromUserDto(UserDTO $user)
+    {
+        return new LoginDTO(
+            $user->id,
+            $user->firstName,
+            $user->lastName,
+            $user->address,
+            $user->email,
+            $user->password
+        );
+    }
 }

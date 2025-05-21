@@ -9,6 +9,7 @@ use Core\Session;
 class Authenticator
 {
     protected $users;
+    protected $sessionTimeout = 7200;
 
     public function __construct()
     {
@@ -31,8 +32,10 @@ class Authenticator
         return false;
     }
 
-    public static function login(LoginDTO $user){
+    public static function login(LoginDTO $user)
+    {
         Session::put('user', ['email' => $user->password]);
+        Session::put("last_activity", time());
 
         session_regenerate_id(true);
     }
@@ -40,37 +43,49 @@ class Authenticator
     public static function logout()
     {
         Session::clear();
-        session_destroy();
 
         static::expireCookie('PHPSESSID');
     }
 
-    private static function expireCookie($name){
+    private static function expireCookie($name)
+    {
         $params = session_get_cookie_params();
         setcookie($name, '', time() - 3600, $params['path'], $params['domain']);
     }
 
-    public function setPersistentLoginCookie($email) {
+    public function setPersistentLoginCookie($email)
+    {
         $token = bin2hex(random_bytes(32));
-        setcookie("logged_in", $token, time() + (60 * 60 * 24 * 60), "/", "", false, true); // 2 months
+        setcookie("remember_login", $token, time() + (60 * 60 * 24 * 60), "/", "", false, true); // 2 months
 
-        try{
+        try {
             $this->users->saveToken($email, $token);
-        } catch (\Exception $ex){
-            setcookie("remember_me", "", time() - 3600, "/");
+        } catch (\Exception $ex) {
+            setcookie("remember_login", "", time() - 3600, "/");
         }
     }
 
-    public function tryAutoLogin(){
-        if (!isset($_SESSION['user']) && isset($_COOKIE['logged_in'])) {
-            $token = $_COOKIE['logged_in'];
-            
+    public function updateLoginState()
+    {
+        if (isset($_SESSION['user'])) {
+
+            // 1. User session exists but is expired
+            if (!isset($_COOKIE['remember_login']) && (time() - $_SESSION['last_activity']) > $this->sessionTimeout) {
+                $this->logout();
+                return;
+            }
+
+            Session::put("last_activity", time());
+        } 
+        // 2. No user session exists but user enabled persistent login
+        elseif (isset($_COOKIE['remember_login'])) {
+            $token = $_COOKIE['remember_login'];
             $user = $this->users->findByToken($token);
-            
+
             if ($user) {
                 $this->login($user);
             } else {
-                static::expireCookie('logged_in');
+                static::expireCookie('remember_login');
             }
         }
     }

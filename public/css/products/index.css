@@ -1,7 +1,7 @@
 .products-content-wrapper {
     padding-top: 40px;
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: clamp(220px, 18vw, 320px) 1fr;
 }
 
 .filter-panel {
@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 16px;
 }
 
 .filter-panel>div,
@@ -51,7 +52,7 @@ button {
     background-color: var(--dark-bg-colour);
     box-sizing: border-box;
     border: none;
-    font-size: 18px;
+    font-size: 1.2em;
     padding: 0 8px;
     outline: none;
 }
@@ -79,6 +80,15 @@ button {
     opacity: 60%;
 }
 
+.search-bar .search-button.disabled svg {
+    fill: var(--disabled-colour);
+    cursor: default;
+}
+
+.search-bar .search-button.disabled {
+    pointer-events: none;
+}
+
 /* ==================== APPLY FILTER BUTTON ====================  */
 
 .apply-filter-btn {
@@ -87,18 +97,21 @@ button {
     text-decoration: none;
     color: var(--primary-colour);
     padding: 6px 16px 8px 16px;
+    margin-bottom: 0;
     border: 2px solid var(--primary-colour);
     border-radius: 20px;
     text-align: center;
     cursor: pointer;
     font-family: inherit;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.3em;
 }
 
 .apply-filter-btn.disabled {
     color: var(--disabled-colour);
     border-color: var(--disabled-colour);
+    cursor: default;
+    pointer-events: none;
 }
 
 .apply-filter-btn:active{
@@ -119,7 +132,8 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px;
+    padding: 5px 2%;
+    width: 85%;
 }
 
 .price-options .range-selector label {
@@ -128,7 +142,10 @@ button {
 }
 
 .price-options .range-selector>div {
-    display: inline-block;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 75%;
 }
 
 .price-options .range-selector>div span {
@@ -138,7 +155,7 @@ button {
 
 .price-options .range-selector input {
     display: inline-block;
-    width: 100px;
+    width: 65%;
     padding: 0 5px;
     font-family: inherit;
     border-radius: 5px;
@@ -151,7 +168,7 @@ button {
     display: block;
     color: black;
     background-color: var(--background-colour);
-    padding: 6px 15px;
+    padding: 0.3em 0.8em;
     text-decoration: none;
     cursor: pointer;
     font-size: 1.4em;
@@ -187,8 +204,8 @@ button {
 }
 
 .star-rating .star {
-    width: 36px;
-    height: 26px;
+    width: 2.4em;
+    height: 1.8em;
     position: relative;
     fill: gold;
 }
@@ -226,20 +243,20 @@ button {
 }
 
 .products-catalogue h1 {
-    font-size: 20px;
+    font-size: 1.3em;
     font-weight: normal;
 }
 
 .products-catalogue h1 span {
-    font-size: 26px;
+    font-size: 1.4em;
     font-weight: bold;
 }
 
 .products-grid {
-    margin: 0 0 45px 0;
+    margin: 0 0 30px 0;
     display: grid;
-    gap: 2%;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
+    gap: 1.4em;
+    grid-template-columns: repeat(4, 1fr);
     box-sizing: border-box;
 }
 
@@ -297,13 +314,45 @@ button {
 /* Media Queries */
 
 @media (max-width: 900px) {
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    .products-content-wrapper {
+        grid-template-columns: 200px 1fr;
+        padding-top: 10px;
     }
+
+    .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .filter-panel {
+        font-size: 12px;
+    }
+
+    .filter-panel>div,
+button {
+    margin: 5px 0;
+}
+
+.category-list .option{
+    padding: 0.2em 0.6em;
+}
 }
 
 @media (max-width: 600px) {
-    .products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    .products-content-wrapper {
+        grid-template-columns: 1fr;
     }
+
+    .filter-panel {
+        display: none;
+        font-size: 8px;
+    }
+
+    .filter-panel>div,
+button {
+    margin: 2px 0;
+}
+
+.category-list .option{
+    padding: 0.15em 0.6em;
+}
 }

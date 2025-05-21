@@ -3,16 +3,18 @@
     flex-shrink: 0;
     background: var(--off-bg-colour);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    outline: 1px solid transparent;
     padding: 0.7em;
     aspect-ratio: 2/3;
     color: var(--text-colour-dark);
     display: grid;
     grid-template-rows: auto 15% 1fr auto;
     text-decoration: none;
+    box-sizing: border-box;
 }
 
 .product-card:hover {
-    border: 1px solid black;
+    outline: 1px solid black;
     cursor: pointer;
 }
 

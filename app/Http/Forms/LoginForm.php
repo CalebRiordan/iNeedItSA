@@ -2,9 +2,6 @@
 
 namespace Http\Forms;
 
-use Core\ValidationException;
-use Core\Validator;
-use Exception;
 use InvalidArgumentException;
 
 class LoginForm extends Form{
@@ -19,11 +16,11 @@ class LoginForm extends Form{
 
         $this->attributes = $attributes;
 
-        if (!LoginForm::email($attributes['email'])) {
+        if (!self::email($attributes['email'])) {
             $this->errors['email'] = "Please provide a valid email address.";
         }
 
-        if ($attributes['password'] && !LoginForm::string($attributes['password'], 7, 20)) {
+        if ($attributes['password'] && !self::string($attributes['password'], 7, 20)) {
             $this->errors['password'] = "Please provide a password between 7 and 20 characters";
         }
     }
