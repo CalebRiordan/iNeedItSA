@@ -28,5 +28,4 @@ if ($persistentLogin){
 }
 
 $previousPage = $_POST['previousPage'] ?? "/";
-dd($previousPage);
 redirect($previousPage);

@@ -48,6 +48,11 @@ class ProductRepository extends BaseRepository
     public function findAll(?ProductFilter $filter = null): array
     {
         $filter ??= new ProductFilter();
+
+        $where = $filter->getWhereClause();
+        $limit = $filter->getLimitClause();
+        $offset = $filter->getOffsetClause();
+
         $sql = <<<SQL
             SELECT * FROM product p
             LEFT JOIN seller s
@@ -56,9 +61,9 @@ class ProductRepository extends BaseRepository
             ON u.user_id = s.user_id
             LEFT JOIN product_image_url pi 
             ON p.product_id = pi.product_id
-            {$filter->getWhereClause()}
-            {$filter->getLimitClause()}
-            {$filter->getOffsetClause()}
+            {$where}
+            {$limit}
+            {$offset}
             ORDER BY p.product_id;
         SQL;
         $rows = $this->db->query($sql, $filter->getValues())->findAll();
@@ -99,15 +104,21 @@ class ProductRepository extends BaseRepository
     public function findAllPreviews(?ProductFilter $filter = null): array
     {
         $filter ??= new ProductFilter();
+
         $fields = ProductPreviewDTO::toFields("p");
+        $where = $filter->getWhereClause();
+        $orderBy = $filter->getOrderByClause('p.product_id');
+        $limit = $filter->getLimitClause();
+        $offset = $filter->getOffsetClause();
+
         $sql = <<<SQL
             SELECT {$fields}, COALESCE(pi.img_url, "") as img_url FROM product p
             LEFT JOIN product_image_url pi 
             ON p.product_id = pi.product_id AND pi.is_display_img = True
-            {$filter->getWhereClause()}
-            {$filter->getOrderByClause('p.product_id')}
-            {$filter->getLimitClause()}
-            {$filter->getOffsetClause()}
+            {$where}
+            {$orderBy}
+            {$limit}
+            {$offset}
         SQL;
         
         $rows = $this->db->query($sql, $filter->getValues())->findAll();
@@ -155,11 +166,13 @@ class ProductRepository extends BaseRepository
             return null;
         }
 
+        $fields = CreateProductDTO::toFields();
+        $values = $product->getMappedValues();
         // Insert Product record
         $sql = <<<SQL
             INSERT INTO Product 
-            ({CreateProductDTO::toFields()})
-            VALUES ({$product->getMappedValues()})
+            ({$fields})
+            VALUES ({$values})
         SQL;
 
         $newId = $this->db->query($sql, $product->getMappedValues())->newId();
@@ -179,10 +192,11 @@ class ProductRepository extends BaseRepository
             return false;
         }
 
+        $sets = $product->getMappedUpdateSet();
         // Update Product table
         $sql = <<<SQL
             UPDATE Product
-            SET {$product->getMappedUpdateSet()}
+            SET {$sets}
             WHERE product_id = ?
         SQL;
 
@@ -338,9 +352,11 @@ class ProductRepository extends BaseRepository
 
     public function getCount(?ProductFilter $filter): int{
         $filter ??= new ProductFilter();
+
+        $where = $filter->getWhereClause();
         $sql = <<<SQL
             SELECT COUNT(*) FROM product
-            {$filter->getWhereClause()}
+            {$where}
         SQL;
         
         $result = $this->db->query($sql, $filter->getValues())->find();

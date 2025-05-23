@@ -88,19 +88,17 @@ class Form
         return is_numeric($value) && strlen($value) >= $min && strlen($value) <= $max;
     }
 
-    protected static function validImage($image)
+    protected static function acceptableImage(array $image)
     {
-        if ($image !== null) {
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-            $fileName = $image['name'];
-            $fileSize = $image['size'];
-            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $fileName = $image['name'];
+        $fileSize = $image['size'];
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-            if (!in_array($fileExtension, $allowedExtensions) || $fileSize > 4 * 1024 * 1024) { // Max 4MB
-                return false;
-            }
+        if (!in_array($fileExtension, $allowedExtensions) || $fileSize > 4 * 1024 * 1024) { // Max 4MB
+            return false;
         }
 
-        return true;
+        return false;
     }
 }

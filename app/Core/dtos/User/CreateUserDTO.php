@@ -16,6 +16,8 @@ class CreateUserDTO extends BaseDTO
         "profile_pic_url" => "profilePicUrl",
     ];
 
+    public ?string $profilePicUrl = null;
+
     public function __construct(
         public string $firstName,
         public string $lastName,
@@ -25,7 +27,7 @@ class CreateUserDTO extends BaseDTO
         public string $location,
         public string $province,
         public string $address,
-        public ?string $profilePicUrl = null,
+        public ?array $profilePicFile = null,
         public ?string $shipAddress = null,
-    ){}
+    ) {}
 }

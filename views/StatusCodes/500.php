@@ -8,7 +8,7 @@ require base_path('views/partials/navbar.php');
 
 <main class="status-code">
     <!-- <div class="container"> -->
-    <h1>505</h1>
+    <h1>500</h1>
     <h2>Internal Server Error :(</h2>
     <h4>Sorry for the inconvenience</h4>
     <a href="/">    

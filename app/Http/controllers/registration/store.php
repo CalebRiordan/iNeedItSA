@@ -4,19 +4,12 @@ use Core\Authenticator;
 use Core\DTOs\CreateUserDTO;
 use Core\DTOs\LoginDTO;
 use Core\Repositories\UserRepository;
-use Http\Forms\LoginForm;
 use Http\Forms\RegistrationForm;
 
-$email = $_POST['email'];
 
-// Server-side form validation
-$form = LoginForm::validate([
-    'email' => $email,
-    'password' => $password,
-]);
 
 $users = new UserRepository();
-$user = $users->findByEmail($email);
+$user = $users->findByEmail($_POST['email']);
 
 if ($user) {
     redirect('/login');
@@ -30,11 +23,13 @@ if ($user) {
         "location"       => $_POST["location"],
         "province"       => $_POST["province"],
         "address"        => $_POST["address"],
-        "profilePic"  => $_FILES["profile_pic"],
-        "shipAddress"    => $_POST["shipping_address"] ?? null,
+        "profilePic"  => noImageUploaded($_FILES["profile_pic"]) ? null : $_FILES["profile_pic"],
+        "shipAddress"    => $_POST["ship_address"] ?? null,
     ];
 
-    $form = RegistrationForm::validate($fields);
+    
+    // Server-side form validation
+    RegistrationForm::validate($fields);
 
     $user = new CreateUserDTO(
         $fields["firstName"],
@@ -49,15 +44,15 @@ if ($user) {
         $fields["shipAddress"]
     );
 
-    $users = new UserRepository();
+    
     $user = $users->create($user);
+    
+    if (!$user) abort(500);
 
-    if ($user) {
-        $user = LoginDTO::fromUserDto($user);
-        $auth = new Authenticator();
-        $auth->login($user);
-        redirect('/');
-    }
+    $user = LoginDTO::fromUserDto($user);
+    $auth = new Authenticator();
+    $auth->login($user);
 
-    abort(505);
+    $previousPage = $_POST['previousPage'] ?? "/";
+    redirect($previousPage);
 }

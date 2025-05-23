@@ -52,7 +52,7 @@ class UserRepository extends BaseRepository
     {
         $fields = LoginDTO::toFields();
         $sql = "SELECT {$fields} FROM user WHERE email = ?";
-        
+
         return LoginDTO::fromRow(
             $this->db->query($sql, [$email])->find()
         );
@@ -77,8 +77,11 @@ class UserRepository extends BaseRepository
     {
         $filter ??= new UserFilter();
         $fields = UserPreviewDTO::toFields();
-        $sql = "SELECT {$fields} FROM user {$filter->getWhereClause()}";
+        $where = $filter->getWhereClause();
+
+        $sql = "SELECT {$fields} FROM user {$where}";
         $rows = $this->db->query($sql, $filter->getValues())->find();
+
         $users = UserDTO::fromRows($rows);
         return $users;
     }
@@ -90,11 +93,18 @@ class UserRepository extends BaseRepository
 
         $user->password = password_hash($user->password, PASSWORD_BCRYPT);
 
+        $user->profilePicUrl = !empty($user->profilePicFile) ?
+            $this->saveProfilePicture($user->profilePicFile) :
+            null;
+
+        $fields = CreateUserDTO::toFields();
+        $placeholders = CreateUserDTO::placeholders();
+
         // Insert new User record
         $sql = <<<SQL
             INSERT INTO user 
-            ({CreateUserDTO::toFields()}, date_joined )
-            VALUES ({CreateUserDTO::placeholders()}, ?)
+            ({$fields}, date_joined)
+            VALUES ({$placeholders}, ?)
         SQL;
         $userValues = [
             ...$user->getMappedValues(),
@@ -113,6 +123,22 @@ class UserRepository extends BaseRepository
             $newId,
             ...$userValues,
         );
+    }
+
+    private function saveProfilePicture(array $file): ?string
+    {
+        if (validImage($file)) {
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $filename = uniqid('pfp_', true) . '.' . $extension;
+
+            $targetPath = base_path('public/uploads/profile_pics/') . $filename;
+
+            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                return $targetPath;
+            }
+        }
+
+        return null;
     }
 
     public function saveToken(string $email, string $token)
@@ -143,12 +169,13 @@ class UserRepository extends BaseRepository
         }
 
         // Prepare UPDATE query
+        $sets = $user->getMappedUpdateSet();
         $isBuyer = $user->buyerProfile ? true : false;
         $isSeller = $user->sellerProfile ? true : false;
 
         $sql = <<<SQL
             UPDATE user 
-            SET {$user->getMappedUpdateSet()}, is_buyer = {$isBuyer}, is_seller = {$isSeller}
+            SET {$sets}, is_buyer = {$isBuyer}, is_seller = {$isSeller}
             WHERE user_id = ?
         SQL;
 
@@ -191,16 +218,27 @@ class UserRepository extends BaseRepository
     {
         $dtoClass = UserDTO::$roleClasses[$role];
 
+        $fields = $dtoClass::toFields();
+        $placeholders = $dtoClass::placeholders();
+
+        // Add role in in corresponding role table
         $this->db->query(
-            "INSERT INTO {$role} ({$dtoClass::toFields()}) VALUES ({$dtoClass::placeholders()})",
+            "INSERT INTO {$role} ({$fields}) VALUES ({$placeholders})",
             [$id, ...$profile->getMappedValues()]
+        );
+
+        // Set subtype discriminator in User table
+        $this->db->query(
+            "UPDATE user SET is_{$role} = 1 WHERE user_id = ?",
+            [$id]
         );
     }
 
     public function updateRole(string $id, string $role, BaseDTO $profile)
     {
+        $placeholders = $profile->getMappedUpdateSet();
         $this->db->query(
-            "UPDATE {$role} SET ({$profile->getMappedUpdateSet()}) WHERE user_id = ?",
+            "UPDATE {$role} SET ({$placeholders}) WHERE user_id = ?",
             [$id]
         );
     }
@@ -208,6 +246,8 @@ class UserRepository extends BaseRepository
     public function removeRole(string $id, string $role)
     {
         $this->db->query("DELETE FROM {$role} WHERE user_id = ?", [$id]);
+
+        $this->db->query("UPDATE user SET is_{$role} = 0 WHERE user_id = ?", [$id]);
     }
 
     public function delete(string $id): bool

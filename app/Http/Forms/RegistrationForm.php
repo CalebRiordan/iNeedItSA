@@ -85,7 +85,7 @@ class RegistrationForm extends Form{
         }
         $this->notEmpty('shipAddress', "Shipping Address");
 
-        if (!self::validImage($attributes['profilePic'])){
+        if (validImage($attributes['profilePic']) && !self::acceptableImage($attributes['profilePic'])){
             $this->errors['profilePic'] = "Image must be a JPG, JPEG, and PNG no greater in size than 4MB";
         }
     }

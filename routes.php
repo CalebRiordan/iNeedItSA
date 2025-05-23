@@ -10,5 +10,6 @@ $router->get("/login", "session/create.php");
 $router->post("/login", "session/store.php");
 $router->get("/logout", "session/destroy.php");
 $router->get("/register", "registration/create.php");
+$router->post("/register", "registration/store.php");
 
 $router->partial("/products-display");

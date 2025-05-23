@@ -31,10 +31,12 @@ class Database
             die('Query preparation failed: ' . $this->connection->error);
         }
 
+
         if (!empty($params)) {
             $types = $this->getTypes($params);
             $this->statement->bind_param($types, ...$params);
         }
+
 
         $this->statement->execute();
 
@@ -43,14 +45,14 @@ class Database
 
     public function find(): ?array
     {
-        $result = $this->statement->get_result(); 
+        $result = $this->statement->get_result();
         $this->close();
         return $result->fetch_assoc();
     }
 
     public function findAll(): array
     {
-        $result = $this->statement->get_result(); 
+        $result = $this->statement->get_result();
         $this->close();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
@@ -67,24 +69,25 @@ class Database
         return $this->statement->affected_rows > 0;
     }
 
-    public function close(){
+    public function close()
+    {
         $this->statement->close();
     }
 
-    private function getTypes(array $params){
+    private function getTypes(array $params)
+    {
         $types = '';
         foreach ($params as $param) {
-            if (is_int($param)) { 
+            if (is_int($param)) {
                 $types .= 'i';
             } elseif (is_float($param)) {
                 $types .= 'd';
-            } elseif (is_string($param)) {
+            } elseif (is_string($param) || is_null($param)) {
                 $types .= 's';
             } elseif (is_bool($param)) {
                 $types .= 'i';
                 $param = (int) $param;
             } else {
-                // fallback to binary?
                 abort(500);
             }
         }

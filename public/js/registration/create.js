@@ -1,26 +1,30 @@
+import { sanitise, anySpecialChars } from "/js/utils/sanitisation.js";
+
 const phoneNumInput = document.querySelector(".input-group .phone-no");
 const checkbox = document.getElementById("same-address");
 const addressInput = document.getElementById("address");
 const shipAddressInput = document.getElementById("ship-address");
+const preview = document.getElementById("profile-pic-preview");
+const profilePicInput = document.getElementById("profile-pic");
+const image = document.getElementById("img-container");
+const register = document.querySelector(".form-container form button");
 
 function previewProfilePic(event) {
   const input = event.target;
-  const preview = document.getElementById("profile-pic-preview");
-  const placeholder = document.getElementById("profile-pic-placeholder");
   if (input.files && input.files[0]) {
     const reader = new FileReader();
     reader.onload = function (e) {
       preview.src = e.target.result;
-      preview.style.display = "block";
-      // Optionally remove background image
-      placeholder.style.backgroundImage = "none";
+      preview.classList.remove("placeholder");
     };
     reader.readAsDataURL(input.files[0]);
   }
 }
+window.previewProfilePic = previewProfilePic;
 
 function syncAddressInput() {
   shipAddressInput.value = addressInput.value;
+  shipAddressInput.dispatchEvent(new Event("input"));
 }
 
 function addressInputEventListener(enabled = true) {
@@ -34,19 +38,35 @@ function addressInputEventListener(enabled = true) {
 function setSameAddressCheckbox() {
   if (checkbox.checked) {
     shipAddressInput.value = address.value;
-    console.log("disabled");
-    shipAddressInput.disabled = true;
+    shipAddressInput.readOnly = true;
+    shipAddressInput.classList.add("disabled");
     addressInputEventListener();
   } else {
-    console.log("enabled");
-    shipAddressInput.disabled = false;
+    shipAddressInput.readOnly = false;
+    shipAddressInput.classList.remove("disabled");
     addressInputEventListener(false);
   }
 }
 
+function showError(field, message) {
+  const error = field.closest(".input-group").querySelector(".error");
+  error.textContent = message;
+
+  // Define the handler so it can be removed later
+  function clearErrorHandler() {
+    error.textContent = "";
+    field.removeEventListener("input", clearErrorHandler);
+  }
+
+  field.addEventListener("input", clearErrorHandler);
+}
+
+image.addEventListener("click", () => profilePicInput.click());
+profilePicInput.addEventListener("change", previewProfilePic);
+
 phoneNumInput.addEventListener("input", function () {
   document.querySelector(".error-phone-no").textContent = "";
-
+  
   this.value = this.value.replace(/\D/g, "");
 
   if (this.value.length > 9) {
@@ -72,5 +92,17 @@ phoneNumInput.addEventListener("blur", function () {
 });
 
 checkbox.addEventListener("change", setSameAddressCheckbox);
+
+register.addEventListener("click", (e) => {
+  console.log("register");
+
+  document.querySelectorAll("[required]").forEach((field) => {
+    const val = field.value.trim();
+    if (val === "") {
+      showError(field, "Please fill out this field.");
+    } else if (anySpecialChars(val) && field.querySelector('#password') !== null)
+      showError(field, "Please avoid using special characters.");
+  });
+});
 
 setSameAddressCheckbox();

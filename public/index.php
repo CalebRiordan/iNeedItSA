@@ -24,7 +24,8 @@ try {
 
   Session::unflash();
 } catch (Exception $ex) {
-  abort(505);
+  dd($ex);
+  // abort(500);
 } ?>
 
 <!-- Global environment variables -->

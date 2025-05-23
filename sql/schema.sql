@@ -94,23 +94,6 @@ CREATE TABLE order_item (
     FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE
 );
 
-CREATE TABLE community (
-    comm_id INT AUTO_INCREMENT PRIMARY KEY,
-    founder_id INT,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(300) NOT NULL,
-    date_created DATE NOT NULL,
-    FOREIGN KEY (founder_id) REFERENCES user(user_id) ON DELETE SET NULL
-);
-
-CREATE TABLE community_participation (
-    participation_Id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    comm_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE, 
-    FOREIGN KEY (comm_id) REFERENCES community(comm_id) ON DELETE CASCADE
-);
-
 CREATE TABLE employee (
     emp_id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,

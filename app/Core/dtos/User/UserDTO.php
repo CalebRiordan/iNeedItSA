@@ -2,17 +2,17 @@
 
 namespace Core\DTOs;
 
-enum Role: string
-{
-    case Buyer = 'buyer';
-    case Seller = 'seller';
-}
-
 class UserDTO extends BaseDTO
 {
+
+    /**
+     * Maps user role names to their corresponding profile DTO class names.
+     *
+     * @var array<string, BaseDTO>
+     */
     public static array $roleClasses = [
-        'Buyer' => BuyerProfileDTO::class,
-        'Seller' => SellerProfileDTO::class,
+        'buyer' => BuyerProfileDTO::class,
+        'seller' => SellerProfileDTO::class,
     ];
 
     protected static array $sqlMapping = [
@@ -60,7 +60,7 @@ class UserDTO extends BaseDTO
         return $this->sellerProfile !== null ? True : False;
     }
 
-    public static function fromRow(array $row): ?static
+    public static function fromRow(?array $row): ?static
     {
         $user = parent::fromRow($row);
         if (!$user){
