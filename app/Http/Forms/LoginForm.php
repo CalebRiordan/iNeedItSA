@@ -24,16 +24,4 @@ class LoginForm extends Form{
             $this->errors['password'] = "Please provide a password between 7 and 20 characters";
         }
     }
-    
-    private static function email($value)
-    {
-        return filter_var($value, FILTER_VALIDATE_EMAIL);
-    }
-
-    private static function string($value, $min = 1, $max = INF)
-    {
-        $value = trim($value);
-
-        return strlen($value) >= $min && strlen($value) <= $max;
-    }
 }

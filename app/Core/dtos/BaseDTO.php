@@ -48,7 +48,7 @@ abstract class BaseDTO implements JsonSerializable
         return implode(', ', array_fill(0, count($mapping), '?'));
     }
 
-    public static function fromRow(array $row): ?static
+    public static function fromRow(?array $row): ?static
     {
         if (!$row)
             return null;
@@ -124,7 +124,7 @@ abstract class BaseDTO implements JsonSerializable
         $propertyNames = [];
         foreach ($properties as $property) {
             $propertyName = $property->getName();
-            
+
             if (!in_array($propertyName, $exclude, true)) {
                 $propertyNames[] = $propertyName;
                 $values[] = $property->getValue($this);
@@ -147,15 +147,13 @@ abstract class BaseDTO implements JsonSerializable
      */
     public function getMappedValues(): array
     {
-        $reflection = new ReflectionClass($this);
+        $reflection = new ReflectionClass($this::class);
 
         $values = [];
         $mapping = static::getSqlMapping();
-        foreach ($mapping as $fieldName => $propertyName) {
-            if ($propertyName !== '') {
-                if ($reflection->hasProperty($propertyName)) {
-                    $values[] = $reflection->getProperty($propertyName)->getValue();
-                }
+        foreach ($mapping as $_ => $propertyName) {
+            if ($reflection->hasProperty($propertyName)) {
+                $values[] = $reflection->getProperty($propertyName)->getValue($this);
             }
         }
 
@@ -183,7 +181,7 @@ abstract class BaseDTO implements JsonSerializable
         $result = [];
         foreach ($properties as $property) {
             $propName = $property->getName();
-            if (!in_array($propName, $exclusions)){
+            if (!in_array($propName, $exclusions)) {
                 $result[$propName] = $property->getValue($this);
             }
         }

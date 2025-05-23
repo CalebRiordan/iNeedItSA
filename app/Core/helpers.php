@@ -69,7 +69,7 @@ function elapsedTimeString(DateTime $date): string
         $output = max(1, $interval->d) . ' days ago';
     }
 
-    if (str_starts_with($output, "1")){
+    if (str_starts_with($output, "1")) {
         $output = str_replace("s ", " ", $output);
     }
 
@@ -77,16 +77,31 @@ function elapsedTimeString(DateTime $date): string
 }
 
 
-function redirectIfGuest(string $uri = "/"){
-    if (!isset($_SESSION['user'])){
+function redirectIfGuest(string $uri = "/")
+{
+    if (!isset($_SESSION['user'])) {
         header("location: {$uri}");
         exit();
     }
 }
 
-function redirectIfLoggedIn(string $uri = "/"){
-    if (isset($_SESSION['user'])){
+function redirectIfLoggedIn(string $uri = "/")
+{
+    if (isset($_SESSION['user'])) {
         header("location: {$uri}");
         exit();
     }
+}
+
+function noImageUploaded(array $file): bool
+{
+    return $file['error'] === UPLOAD_ERR_NO_FILE;
+}
+
+function validImage(?array $file)
+{
+    return $file 
+        && isset($file['tmp_name'])
+        && is_uploaded_file($file['tmp_name']) 
+        && $file['error'] === UPLOAD_ERR_OK;
 }
