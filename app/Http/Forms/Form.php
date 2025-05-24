@@ -95,10 +95,10 @@ class Form
         $fileSize = $image['size'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-        if (!in_array($fileExtension, $allowedExtensions) || $fileSize > 4 * 1024 * 1024) { // Max 4MB
+        if (!in_array($fileExtension, $allowedExtensions) || $fileSize > 2 * 1024 * 1024) { // Max 4MB
             return false;
         }
 
-        return false;
+        return true;
     }
 }

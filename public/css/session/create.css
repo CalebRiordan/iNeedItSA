@@ -15,6 +15,18 @@
     width: 24px;
 }
 
+.toggle-password svg {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-45%);
+    width: 24px;
+}
+
+.toggle-password svg.hide {
+    display: none;
+}
+
 .checkbox {
     margin-bottom: 20px;
 }

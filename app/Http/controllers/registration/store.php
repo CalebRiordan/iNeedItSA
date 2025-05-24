@@ -6,13 +6,13 @@ use Core\DTOs\LoginDTO;
 use Core\Repositories\UserRepository;
 use Http\Forms\RegistrationForm;
 
-
+$email = $_POST['email'];
 
 $users = new UserRepository();
-$user = $users->findByEmail($_POST['email']);
+$user = $users->findByEmail($email);
 
 if ($user) {
-    redirect('/login');
+    redirect("/login?email={$email}");
 } else {
     $fields = [
         "firstName"      => $_POST["first_name"],
@@ -26,7 +26,6 @@ if ($user) {
         "profilePic"  => noImageUploaded($_FILES["profile_pic"]) ? null : $_FILES["profile_pic"],
         "shipAddress"    => $_POST["ship_address"] ?? null,
     ];
-
     
     // Server-side form validation
     RegistrationForm::validate($fields);
@@ -43,7 +42,6 @@ if ($user) {
         $fields["profilePic"],
         $fields["shipAddress"]
     );
-
     
     $user = $users->create($user);
     

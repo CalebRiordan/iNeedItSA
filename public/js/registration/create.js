@@ -7,20 +7,35 @@ const shipAddressInput = document.getElementById("ship-address");
 const preview = document.getElementById("profile-pic-preview");
 const profilePicInput = document.getElementById("profile-pic");
 const image = document.getElementById("img-container");
-const register = document.querySelector(".form-container form button");
+const register = document.querySelector(".form-container #btn-submit");
+const removeImageBtn = document.querySelector(".image-input .remove-btn");
 
 function previewProfilePic(event) {
   const input = event.target;
   if (input.files && input.files[0]) {
     const reader = new FileReader();
     reader.onload = function (e) {
-      preview.src = e.target.result;
-      preview.classList.remove("placeholder");
+      selectImage(e.target.result);
     };
     reader.readAsDataURL(input.files[0]);
+
+    document.querySelector(".image-error").textContent = "";
   }
 }
 window.previewProfilePic = previewProfilePic;
+
+function selectImage(src) {
+  preview.src = src;
+  preview.classList.remove("placeholder");
+  removeImageBtn.style.display = "block";
+}
+
+function removeImage() {
+  profilePicInput.value = "";
+  preview.src = "";
+  removeImageBtn.style.display = "none";
+  preview.classList.add("placeholder");
+}
 
 function syncAddressInput() {
   shipAddressInput.value = addressInput.value;
@@ -61,12 +76,14 @@ function showError(field, message) {
   field.addEventListener("input", clearErrorHandler);
 }
 
+// Event Listeners
+
 image.addEventListener("click", () => profilePicInput.click());
 profilePicInput.addEventListener("change", previewProfilePic);
 
 phoneNumInput.addEventListener("input", function () {
   document.querySelector(".error-phone-no").textContent = "";
-  
+
   this.value = this.value.replace(/\D/g, "");
 
   if (this.value.length > 9) {
@@ -100,9 +117,14 @@ register.addEventListener("click", (e) => {
     const val = field.value.trim();
     if (val === "") {
       showError(field, "Please fill out this field.");
-    } else if (anySpecialChars(val) && field.querySelector('#password') !== null)
+    } else if (
+      anySpecialChars(val) &&
+      field.querySelector("#password") !== null
+    )
       showError(field, "Please avoid using special characters.");
   });
 });
+
+removeImageBtn.addEventListener("click", removeImage);
 
 setSameAddressCheckbox();
