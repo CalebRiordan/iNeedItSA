@@ -6,7 +6,7 @@ export function resizeProductCardTitles() {
     const desc = card.querySelector(".product-card .desc");
     const price = card.querySelector(".product-card .bottom-row");
     const cardWidth = card.clientWidth;
-    const nameFontSize = Math.floor(cardWidth / 15);
+    const nameFontSize = Math.max(Math.floor(cardWidth / 15), 14);
     const descFontSize = Math.floor(cardWidth / 17);
     const priceFontSize = Math.floor(cardWidth / 20);
 

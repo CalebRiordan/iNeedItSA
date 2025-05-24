@@ -47,9 +47,7 @@ if ($user) {
     
     if (!$user) abort(500);
 
-    $user = LoginDTO::fromUserDto($user);
-    $auth = new Authenticator();
-    $auth->login($user);
+    (new Authenticator())->login($user);
 
     $previousPage = $_POST['previousPage'] ?? "/";
     redirect($previousPage);

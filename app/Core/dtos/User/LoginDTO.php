@@ -15,9 +15,6 @@ class LoginDTO extends BaseDTO
 
     public function __construct(
         public string $id,
-        public string $firstName,
-        public string $lastName,
-        public string $address,
         public string $email,
         public string $password,
     ) {}
@@ -26,9 +23,6 @@ class LoginDTO extends BaseDTO
     {
         return new LoginDTO(
             $user->id,
-            $user->firstName,
-            $user->lastName,
-            $user->address,
             $user->email,
             $user->password
         );
