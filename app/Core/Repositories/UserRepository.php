@@ -33,6 +33,8 @@ class UserRepository extends BaseRepository
             return null;
         }
 
+        // Workaround for overlapping 'user_id' fields
+        $row['user_id'] = $id;
         $user = UserDTO::fromRow($row);
 
         return $user;
@@ -58,19 +60,14 @@ class UserRepository extends BaseRepository
         );
     }
 
-    public function findByToken($token): ?LoginDTO
+    public function findByToken($token): ?UserDTO
     {
-        $fields = LoginDTO::toFields();
-        $sql = <<<SQL
-            SELECT {$fields} 
-            FROM user 
-            WHERE login_token = ?
-        SQL;
+        $row = $this->db->query(
+            "SELECT user_id FROM user WHERE login_token = ?",
+            [$token]
+        )->find();
 
-        $row = $this->db->query($sql, [$token])->find() ?? [];
-        $user = LoginDTO::fromRow($row);
-
-        return $user;
+        return $row ? $this->findById($row["user_id"]) : null;
     }
 
     public function findAllPreviews(?UserFilter $filter = null): array
@@ -88,8 +85,7 @@ class UserRepository extends BaseRepository
 
     public function create(CreateUserDTO $user): ?UserDTO
     {
-        if ($this->findByEmail($user->email))
-            return null;
+        if ($this->findByEmail($user->email)) return null;
 
         $user->password = password_hash($user->password, PASSWORD_BCRYPT);
 
@@ -131,9 +127,9 @@ class UserRepository extends BaseRepository
             $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
             $filename = uniqid('pfp_', true) . '.' . $extension;
 
-            $targetPath = base_path('public/uploads/profile_pics/') . $filename;
+            $targetPath = "/uploads/profile_pics/{$filename}";
 
-            if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+            if (move_uploaded_file($file['tmp_name'], base_path('public/'.$targetPath))) {
                 return $targetPath;
             }
         }

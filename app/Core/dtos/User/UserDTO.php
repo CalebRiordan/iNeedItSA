@@ -72,13 +72,17 @@ class UserDTO extends BaseDTO
 
     public function allocateProfiles($row)
     {
+        // Initialize variables to prevent access before initialization
+        $this->buyerProfile = null;
+        $this->sellerProfile = null;
+
         if ($row['is_buyer']) {
             $this->buyerProfile = new BuyerProfileDTO(
                 $row['ship_address'],
                 $row['num_orders']
             );
         }
-
+        
         if ($row['is_seller']) {
             $this->sellerProfile = new SellerProfileDTO(
                 $row['verified'],

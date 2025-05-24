@@ -72,6 +72,7 @@ abstract class BaseDTO implements JsonSerializable
 
         return $instance;
     }
+
     /** @return self[] */
     public static function fromRows(array $rows): array
     {

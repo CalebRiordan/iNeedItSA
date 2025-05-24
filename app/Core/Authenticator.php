@@ -3,6 +3,7 @@
 namespace Core;
 
 use Core\DTOs\LoginDTO;
+use Core\DTOs\UserDTO;
 use Core\Repositories\UserRepository;
 use Core\Session;
 
@@ -18,23 +19,30 @@ class Authenticator
 
     public function attempt($email, $password)
     {
-
         $user = $this->users->findByEmail($email);
 
-        if ($user) {
-            if (password_verify($password, $user->password)) {
-                static::login($user);
+        if ($user && password_verify($password, $user->password)) {
+            // LoginDTO -> UserDTO
+            $user = $this->users->findById($user->id);
+            static::login($user);
 
-                return true;
-            }
+            return true;
         }
 
         return false;
     }
 
-    public static function login(LoginDTO $user)
+    public static function login(UserDTO $user)
     {
-        Session::put('user', ['email' => $user->password]);
+        Session::put('user', [
+            'id' => $user->id,
+            'firstName' => $user->firstName,
+            'lastName' => $user->lastName,
+            'email' => $user->email,
+            'profilePicUrl' => $user->profilePicUrl,
+            'buyerProfile' => $user->buyerProfile,
+            'sellerProfile' => $user->sellerProfile
+        ]);
         Session::put("last_activity", time());
 
         session_regenerate_id(true);
@@ -61,6 +69,7 @@ class Authenticator
         try {
             $this->users->saveToken($email, $token);
         } catch (\Exception $ex) {
+            throw new \Exception("Exception for testing purposes - PersistentLoginCookie not working caused exception");
             setcookie("remember_login", "", time() - 3600, "/");
         }
     }
@@ -76,7 +85,7 @@ class Authenticator
             }
 
             Session::put("last_activity", time());
-        } 
+        }
         // 2. No user session exists but user enabled persistent login
         elseif (isset($_COOKIE['remember_login'])) {
             $token = $_COOKIE['remember_login'];

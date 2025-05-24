@@ -1,4 +1,4 @@
-<a class="product-card" style="width: <?= isset($cardWidth) ? $cardWidth : '15%' ?>;" href="/products/<?= $product->id ?>">
+<a class="product-card" style="width: <?= isset($cardWidth) ? $cardWidth : '18%' ?>;" href="/products/<?= $product->id ?>">
 
   <div class="image-container">
     <?php if ($product->discount > 0): ?>

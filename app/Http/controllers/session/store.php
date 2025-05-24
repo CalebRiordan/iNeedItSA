@@ -5,7 +5,7 @@ use Http\Forms\LoginForm;
 
 $email = $_POST['email'];
 $password = $_POST['password'];
-$persistentLogin = $_POST['persist-login'] ?? false; 
+$persistentLogin = $_POST['persist-login'] ?? false;
 
 // Server-side form validation
 $form = LoginForm::validate([
@@ -23,7 +23,7 @@ if (!$singedIn) {
     )->throw();
 }
 
-if ($persistentLogin){
+if ($persistentLogin) {
     $auth->setPersistentLoginCookie($email);
 }
 
