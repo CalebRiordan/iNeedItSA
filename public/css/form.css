@@ -17,12 +17,16 @@ main {
     margin-bottom: 10em;
 }
 
-.form-container form > h1 {
+.form-container form>h1 {
     margin: 1.5em 0;
     text-align: center;
 }
 
 .input-group {
+    position: relative;
+}
+
+.input-wrapper {
     position: relative;
 }
 
@@ -60,7 +64,7 @@ main {
     box-sizing: border-box;
 }
 
-.checkbox{
+.checkbox {
     background-color: var(--background-colour);
     width: 100%;
     display: flex;
@@ -69,12 +73,12 @@ main {
     gap: 4px;
 }
 
-.checkbox input[type='checkbox']{
-    width:1.4em;
-    height:1.4em;
+.checkbox input[type='checkbox'] {
+    width: 1.4em;
+    height: 1.4em;
     background: var(--background-colour);
-    border-radius:5px;
-    border:2px solid var(--text-colour-dark);
+    border-radius: 5px;
+    border: 2px solid var(--text-colour-dark);
     transform: translateY(5%);
 }
 
@@ -82,12 +86,12 @@ input[type='checkbox']:checked {
     accent-color: var(--primary-colour);
 }
 
-.checkbox label{
+.checkbox label {
     font-size: 1em;
     color: var(--text-colour-dark);
 }
 
-.form-container button {
+.form-container #btn-submit {
     width: 100%;
     background-color: var(--primary-colour);
     color: var(--text-colour-light);
@@ -98,10 +102,10 @@ input[type='checkbox']:checked {
     font-size: 1em;
 }
 
-.form-container button:hover {
+.form-container #btn-submit:hover {
     filter: brightness(110%);
 }
 
-.form-container button:active {
+.form-container #btn-submit:active {
     filter: brightness(120%);
 }

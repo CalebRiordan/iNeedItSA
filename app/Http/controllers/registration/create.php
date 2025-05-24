@@ -1,5 +1,9 @@
-<?php 
+<?php
+
+use Core\Session;
 
 redirectIfLoggedIn();
 
-view('registration/create');
+view('registration/create', [
+    'errors' => Session::get('errors')
+]);

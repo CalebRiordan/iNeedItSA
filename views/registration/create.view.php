@@ -47,7 +47,7 @@ if (!isset($user) || !$user) {
 
                 <div class="text-inputs">
                     <div class="input-group first">
-                        <input type="text" placeholder="First Name" name="first_name" required value="<?= $user->firstName?>">
+                        <input type="text" placeholder="First Name" name="first_name" required value="<?= $user->firstName ?>">
                         <p class="error"><?= $errors['first_name'] ?? "" ?></p>
                     </div>
 
@@ -62,8 +62,13 @@ if (!isset($user) || !$user) {
                     </div>
 
                     <div class="input-group">
-                        <input type="password" placeholder="Password" name="password" required>
-                        <p class="error"><?= $errors['password'] ?? "" ?></p>
+                        <div class="input-wrapper">
+                            <input id="password" type="password" placeholder="Password" name="password" required>
+
+                            <?php require base_path('views/partials/toggle-password-btn.php') ?>
+                        </div>
+
+                        <p class="error image-error"><?= $errors['password'] ?? "" ?></p>
                     </div>
                 </div>
 
@@ -79,7 +84,8 @@ if (!isset($user) || !$user) {
                         </div>
                         <div class="overlay"><span>+</span></div>
                     </div>
-                    <br>
+
+                    <button type="button" class="remove-btn" style="display:none;">&times;</button>
                     <p class="error"><?= $errors['profilePic'] ?? "" ?></p>
                 </div>
             </div>
@@ -111,7 +117,7 @@ if (!isset($user) || !$user) {
                 </div>
 
                 <div class="input-group">
-                    <input class="phone-no" inputmode="numeric" name="phone_no" required pattern="^[6-8][0-9]{8}$" title="Enter a valid South African phone number" value="<?= $user->phoneNo ?? '0'?>">
+                    <input class="phone-no" inputmode="numeric" name="phone_no" required pattern="^[6-8][0-9]{8}$" title="Enter a valid South African phone number" value="<?= $user->phoneNo ?? '0' ?>">
                     <div class="country-code">+27</div>
                     <p class="error error-phone-no"><?= $errors['phone_no'] ?? "" ?></p>
                 </div>
@@ -145,7 +151,7 @@ if (!isset($user) || !$user) {
 
             <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
 
-            <button type="submit">Register</button>
+            <button id="btn-submit" type="submit">Register</button>
         </form>
     </div>
 </main>
