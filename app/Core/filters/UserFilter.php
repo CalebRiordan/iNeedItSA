@@ -15,14 +15,14 @@ class UserFilter extends BaseFilter
         $this->numBindings['name'] = 5;
     }
 
-    public function sellersOnly(bool $includeBuyers = True)
+    public function sellersOnly()
     {
-        $this->criteria['sellersOnly'] = $includeBuyers;
+        $this->criteria['sellersOnly'] = True;
     }
 
-    public function setCommunity(string $communityId)
+    public function buyersOnly()
     {
-        $this->criteria['community'] = $communityId;
+        $this->criteria['buyersOnly'] = True;
     }
 
     public function getWhereClause(): string
@@ -44,7 +44,7 @@ class UserFilter extends BaseFilter
                         )
                     SQL;
                     break;
-                    
+
                 case 'name':
                     $conditions[] = <<<SQL
                         ({$this->sqlSearch('first_name')} 
@@ -54,11 +54,10 @@ class UserFilter extends BaseFilter
                     break;
 
                 case 'sellersOnly':
-                    $condition = "is_seller = True";
-                    $conditions[] = $value ? $condition : "{$condition} AND is_buyer = False";              
+                    $conditions[] = "is_seller = True";
 
-                case 'community':
-                    $conditions[] = "user_id IN (SELECT user_id FROM user_participation WHERE comm_id = ?)";             
+                case 'buyersOnly':
+                    $conditions[] = "is_buyer = True AND is_seller = False";
 
                 default:
                     throw new \Exception("Invalid filter criteria '{$key}'");
@@ -66,5 +65,27 @@ class UserFilter extends BaseFilter
         }
 
         return $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
+    }
+
+    public function build(array $params)
+    {
+        if ($params) {
+            foreach ($params as $key => $value) {
+                switch ($key) {
+                    case 'product':
+                        $this->setProduct($value);
+                        break;
+                    case 'name':
+                        $this->setName($value);
+                        break;
+                    case 'sellersOnly':
+                        $this->sellersOnly();
+                        break;
+                    case 'buyersOnly':
+                        $this->buyersOnly($value);
+                        break;
+                }
+            }
+        }
     }
 }

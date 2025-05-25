@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Core\Middleware;
+
 class Router
 {
     protected $routes = [];
@@ -14,6 +16,7 @@ class Router
             'controller' => $controller,
             'method' => $method,
             'type' => $this->nextType,
+            'middleware' => NULL
         ];
 
         $this->nextType = 'page';
@@ -93,7 +96,7 @@ class Router
             if ($route['type'] === 'page') {
                 $params = Router::routeMatch($route, $uri, $method);
                 if ($params) {
-                    // Middleware::resolve($route['middleware']);
+                    Middleware::resolve($route['middleware']);
 
                     return $this->controller($route['controller'], $params);
                 }
@@ -128,6 +131,10 @@ class Router
 
     public function getUri(){
         return parse_url($_SERVER["REQUEST_URI"])['path'];
+    }
+
+    public function getMethod(){
+        return $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
     }
 
     public function abort($code = 404)

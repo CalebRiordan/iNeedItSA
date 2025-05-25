@@ -10,8 +10,6 @@ DROP TABLE IF EXISTS product_image;
 DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS `order`;
 DROP TABLE IF EXISTS order_item;
-DROP TABLE IF EXISTS community;
-DROP TABLE IF EXISTS community_participation;
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS profile_picture;
 DROP TABLE IF EXISTS product_image_url;
