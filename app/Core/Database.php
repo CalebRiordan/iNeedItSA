@@ -2,8 +2,6 @@
 
 namespace Core;
 
-use Error;
-
 class Database
 {
     public $connection;

@@ -8,9 +8,9 @@
 
     <div class="right">
         <ul>
-            <?php $user = $_SESSION['user'] ?? null; ?>
-            <?php if ($user): ?>
-                <?php $user ?>
+            <?php $SessionUser = $_SESSION['user'] ?? null; ?>
+            <?php if ($SessionUser): ?>
+                <?php $SessionUser ?>
                 <li>
                     <a class="nav-link" href="/logout"><span class="logout">Logout</span></a>
                 </li>
@@ -23,9 +23,9 @@
                 </li>
                 <li>
                     <a class="nav-link user-profile">
-                        <?php if ($user['profilePicUrl']): ?>
+                        <?php if ($SessionUser['profilePicUrl']): ?>
                             <div class="img-container">
-                                <img src="<?= $user['profilePicUrl'] ?>" alt="Profile Picture">
+                                <img src="<?= $SessionUser['profilePicUrl'] ?>" alt="Profile Picture">
                             </div>
                         <?php else: ?>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

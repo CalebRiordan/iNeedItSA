@@ -20,7 +20,8 @@ try {
   $router = new Router();
   require base_path("routes.php");
   $uri = $router->getUri();
-  $router->route($uri, $_SERVER['REQUEST_METHOD']);
+  $method = $router->getMethod();
+  $router->route($uri, $method);
 
   Session::unflash();
 } catch (Exception $ex) {

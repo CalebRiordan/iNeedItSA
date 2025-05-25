@@ -2,7 +2,6 @@
 
 use Core\Authenticator;
 use Core\DTOs\CreateUserDTO;
-use Core\DTOs\LoginDTO;
 use Core\Repositories\UserRepository;
 use Http\Forms\RegistrationForm;
 
