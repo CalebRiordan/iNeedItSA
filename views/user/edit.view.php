@@ -1,47 +1,23 @@
 <?php
 
-use Core\DTOs\CreateUserDTO;
-
-$stylesheets = ['navbar.css', 'form.css', 'registration/create.css'];
-$scripts = ['registration/create.js'];
+$stylesheets = ['navbar.css', 'form.css', 'user/create.css'];
+$scripts = ['user/create.js'];
 
 require base_path('views/partials/header.php');
 require base_path('views/partials/navbar.php');
-
-if (!isset($user) || !$user) {
-    $user = new CreateUserDTO(
-        htmlspecialchars($_POST['first_name'] ?? ''),
-        htmlspecialchars($_POST['last_name'] ?? ''),
-        htmlspecialchars($_POST['email'] ?? ''),
-        htmlspecialchars($_POST['password'] ?? ''),
-        htmlspecialchars($_POST['phone_no'] ?? '0'),
-        htmlspecialchars($_POST['location'] ?? ''),
-        htmlspecialchars($_POST['province'] ?? ''),
-        htmlspecialchars($_POST['address'] ?? ''),
-        null,
-        htmlspecialchars($_POST['ship_address'] ?? '')
-    );
-
-    // FOR TESTING
-    $user = new CreateUserDTO(
-        "Caleb",
-        "Riordan",
-        "caleb@gmail.com",
-        "badPassword",
-        "846563352",
-        "Mowbray",
-        "Western Cape",
-        "20 Dixton Road",
-        null,
-        "20 Dixton Road"
-    );
-}
 ?>
 
 <main>
     <div class="form-container">
-        <form action="/register" method="POST" enctype="multipart/form-data">
-            <h1>Create a new account</h1>
+        <form action="/profile" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+
+            <!-- Missing attributes -->
+            <input type="hidden" name="user_id" value="<?= $user->id ?>">
+
+
+            <h1>Edit account</h1>
 
             <div class="section section-1">
 
@@ -57,36 +33,39 @@ if (!isset($user) || !$user) {
                     </div>
 
                     <div class="input-group">
-                        <input type="email" placeholder="Email" name="email" required value="<?= $user->email ?? '' ?>">
-                        <p class="error"><?= $errors['email'] ?? "" ?></p>
+                        <input id="address" type="text" placeholder="Home Address" name="address" required value="<?= $user->address ?? '' ?>">
+                        <p class="error"><?= $errors['address'] ?? "" ?></p>
                     </div>
 
                     <div class="input-group">
-                        <div class="input-wrapper">
-                            <input id="password" type="password" placeholder="Password" name="password" required>
+                        <input id="ship-address" type="text" placeholder="Shipping Address" name="ship_address" required value="<?= $user->shipAddress ?? '' ?>" readonly>
 
-                            <?php require base_path('views/partials/toggle-password-btn.php') ?>
+                        <div class="checkbox">
+                            <input id="same-address" name="same-address" type="checkbox" checked>
+                            <label for="same-address">Use home address</label>
                         </div>
 
-                        <p class="error image-error"><?= $errors['password'] ?? "" ?></p>
+                        <p class="error"><?= $errors['ship_address'] ?? "" ?></p>
                     </div>
+
                 </div>
 
                 <div class="image-input">
                     <div class="profile-pic-container">
-                        <input type="file" name="profile_pic" id="profile-pic" accept="image/*" onchange="previewProfilePic(event)">
+                        <input id="image-changed" type="hidden" name="image_changed" value=false>
+                        <input type="file" name="profile_pic" id="profile-pic" accept="image/*">
                         <div id="img-container" onclick="document.getElementById('profile-pic').click();">
                             <img
                                 id="profile-pic-preview"
                                 src="<?= $user->profilePicUrl ?? '' ?>"
-                                class="<?= $user && $user->profilePicUrl && !$_POST["profile_pic"] ? "" : "placeholder" ?>"
+                                class="<?= $user && $user->profilePicUrl ? "" : "placeholder" ?>"
                                 alt="Profile Preview">
                         </div>
                         <div class="overlay"><span>+</span></div>
                     </div>
 
-                    <button type="button" class="remove-btn" style="display:none;">&times;</button>
-                    <p class="error"><?= $errors['profilePic'] ?? "" ?></p>
+                    <button type="button" class="remove-btn" style="display: <?= $user && $user->profilePicUrl ? "block" : "none" ?>;">&times;</button>
+                    <p class="error image-error"><?= $errors['profilePic'] ?? "" ?></p>
                 </div>
             </div>
 
@@ -129,29 +108,7 @@ if (!isset($user) || !$user) {
             </div>
 
 
-            <div class="section section-3">
-
-                <div class="input-group">
-                    <input id="address" type="text" placeholder="Home Address" name="address" required value="<?= $user->address ?? '' ?>">
-                    <p class="error"><?= $errors['address'] ?? "" ?></p>
-                </div>
-
-                <div class="input-group">
-                    <input id="ship-address" type="text" placeholder="Shipping Address" name="ship_address" required value="<?= $user->shipAddress ?? '' ?>" readonly>
-
-                    <div class="checkbox">
-                        <input id="same-address" name="same-address" type="checkbox" checked>
-                        <label for="same-address">Use home address</label>
-                    </div>
-
-                    <p class="error"><?= $errors['ship_address'] ?? "" ?></p>
-                </div>
-
-            </div>
-
-            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
-
-            <button id="btn-submit" type="submit">Register</button>
+            <button id="btn-submit" type="submit">Update Profile</button>
         </form>
     </div>
 </main>

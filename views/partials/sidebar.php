@@ -32,15 +32,15 @@
     </div>
 
     <div class="sidebar-item">
-        <a>Cart</a>
+        <a href="/orders">Cart</a>
     </div>
 
     <div class="sidebar-item">
-        <a>Orders</a>
+        <a href="/orders">Orders</a>
     </div>
 
     <div class="sidebar-item">
-        <a>Logout</a>
+        <a href="/logout">Logout</a>
     </div>
 </div>
 <div class="sidebar-overlay hidden"></div>

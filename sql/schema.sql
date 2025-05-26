@@ -30,7 +30,7 @@ CREATE TABLE buyer (
 
 CREATE TABLE seller (
     user_id INT PRIMARY KEY,
-    verified VARCHAR(255),
+    verified BOOLEAN DEFAULT FALSE,
     products_sold INT DEFAULT 0,
     total_views INT DEFAULT 0,
     date_registered DATE,
@@ -105,21 +105,6 @@ CREATE TABLE employee (
     phone_no VARCHAR(20) NOT NULL,
     role VARCHAR(50) NOT NULL
 );
-
-CREATE TABLE profile_picture (
-    prof_pic_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    image BLOB NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id)
-);
-
-CREATE TABLE product_image (
-    product_img_id INT AUTO_INCREMENT PRIMARY KEY,
-    product_id INT NOT NULL,
-    image BLOB NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES product(product_id)
-);
-
 
 -- Triggers
 

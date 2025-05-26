@@ -14,6 +14,10 @@ class UpdateProductDTO extends BaseDTO
         "category" => "category",
     ];
 
+    public string $displayImageUrl;
+    public array $imageUrls = [];
+
+
     public function __construct(
         public string $id,
         public string $name,
@@ -22,8 +26,8 @@ class UpdateProductDTO extends BaseDTO
         public string $condition,
         public ?string $conditionDetails,
         public string $category,
-        public string $displayImageUrl,
+        public array $displayImageFile,
         /** @var string[] */
-        public array $imageUrls,
-        ) {}
+        public array $imageFiles,
+    ) {}
 }

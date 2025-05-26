@@ -2,8 +2,6 @@
 
 use Core\Session;
 
-redirectIfLoggedIn();
-
-view('registration/create', [
+view('user/create', [
     'errors' => Session::get('errors')
 ]);

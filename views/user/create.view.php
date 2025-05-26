@@ -1,16 +1,35 @@
 <?php
 
-$stylesheets = ['navbar.css', 'form.css', 'registration/create.css'];
-$scripts = ['registration/create.js'];
+use Core\DTOs\CreateUserDTO;
+
+$stylesheets = ['navbar.css', 'form.css', 'user/create.css'];
+$scripts = ['user/create.js'];
 
 require base_path('views/partials/header.php');
 require base_path('views/partials/navbar.php');
+
+if (!isset($user) || !$user) {
+    $user = new CreateUserDTO(
+        htmlspecialchars($_POST['first_name'] ?? ''),
+        htmlspecialchars($_POST['last_name'] ?? ''),
+        htmlspecialchars($_POST['email'] ?? ''),
+        htmlspecialchars($_POST['password'] ?? ''),
+        htmlspecialchars($_POST['phone_no'] ?? '0'),
+        htmlspecialchars($_POST['location'] ?? ''),
+        htmlspecialchars($_POST['province'] ?? ''),
+        htmlspecialchars($_POST['address'] ?? ''),
+        null,
+        htmlspecialchars($_POST['ship_address'] ?? '')
+    );
+}
 ?>
 
 <main>
     <div class="form-container">
         <form action="/register" method="POST" enctype="multipart/form-data">
-            <h1>Edit account</h1>
+            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+
+            <h1>Create a new account</h1>
 
             <div class="section section-1">
 
@@ -32,7 +51,7 @@ require base_path('views/partials/navbar.php');
 
                     <div class="input-group">
                         <div class="input-wrapper">
-                            <input id="password" type="password" placeholder="Password" name="password" required value="<?= $user->password ?? '' ?>">
+                            <input id="password" type="password" placeholder="Password" name="password" required>
 
                             <?php require base_path('views/partials/toggle-password-btn.php') ?>
                         </div>
@@ -43,7 +62,7 @@ require base_path('views/partials/navbar.php');
 
                 <div class="image-input">
                     <div class="profile-pic-container">
-                        <input type="file" name="profile_pic" id="profile-pic" accept="image/*" onchange="previewProfilePic(event)">
+                        <input type="file" name="profile_pic" id="profile-pic" accept="image/*">
                         <div id="img-container" onclick="document.getElementById('profile-pic').click();">
                             <img
                                 id="profile-pic-preview"
@@ -118,9 +137,9 @@ require base_path('views/partials/navbar.php');
 
             </div>
 
-            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+            <button id="btn-submit" type="submit">Register</button>
 
-            <button id="btn-submit" type="submit">Update Profile</button>
+            <p class="redirect-text">Already have an account? <a href="/login">Log in!</a></p>
         </form>
     </div>
 </main>

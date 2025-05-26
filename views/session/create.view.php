@@ -9,6 +9,8 @@ require base_path('views/partials/navbar.php');
 <main>
     <div class="form-container">
         <form class="login-form" action="/login" method="POST">
+            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+
             <h1>Login</h1>
 
             <div class="input-group">
@@ -47,9 +49,9 @@ require base_path('views/partials/navbar.php');
                 <label for="persist-login">Stay logged in</label>
             </div>
 
-            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
-
             <button id="btn-submit" type="submit">Login</button>
+
+            <p class="redirect-text">Don't have an account? <a href="/register">Register here!</a></p>
         </form>
     </div>
 </main>

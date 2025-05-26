@@ -5,13 +5,13 @@ use Core\Session;
 
 $user = Session::get("user");
 
-if (!$user){
+if (!$user){ 
     die();
 }
 
 $user = (new UserRepository())->findById($user['id']);
 
-view('registration/edit', [
+view('user/edit', [
     'user' => $user,
     'errors' => Session::get('errors')
 ]);

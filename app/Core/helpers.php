@@ -76,23 +76,6 @@ function elapsedTimeString(DateTime $date): string
     return $output;
 }
 
-
-function redirectIfGuest(string $uri = "/")
-{
-    if (!isset($_SESSION['user'])) {
-        header("location: {$uri}");
-        exit();
-    }
-}
-
-function redirectIfLoggedIn(string $uri = "/")
-{
-    if (isset($_SESSION['user'])) {
-        header("location: {$uri}");
-        exit();
-    }
-}
-
 function noImageUploaded(array $file): bool
 {
     return $file['error'] === UPLOAD_ERR_NO_FILE;
