@@ -35,8 +35,7 @@ class PartialController
 
         // products-display variables
         $products = $repository->findAllPreviews($filter);
-        // dd()
-
+        
         // page-selector variables
         $productCount = $repository->getCount($filter);
         $currentPage = $validParams['page'] ?? 1;

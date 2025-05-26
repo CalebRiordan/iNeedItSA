@@ -137,7 +137,7 @@ class ProductRepository extends BaseRepository
         $fields = ProductPreviewDTO::toFields("p");
         $sql = <<<SQL
             SELECT {$fields}, pi.img_url FROM product p
-            LEFT JOIN product_image_url pi 
+            LEFT JOIN product_image_url pi
             ON p.product_id = pi.product_id
             ORDER BY views DESC, avg_rating DESC 
             LIMIT 16;
@@ -156,7 +156,7 @@ class ProductRepository extends BaseRepository
 
     public function getImagesFor(string $id): ?array
     {
-        return $this->db->query("SELECT * FROM product_image WHERE product_id = ?", [$id])->findAll();
+        return $this->db->query("SELECT * FROM product_image_url WHERE product_id = ?", [$id])->findAll();
     }
 
     public function create(CreateProductDTO $product): ?ProductPreviewDTO

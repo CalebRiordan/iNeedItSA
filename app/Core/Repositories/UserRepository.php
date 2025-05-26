@@ -89,12 +89,12 @@ class UserRepository extends BaseRepository
 
         $user->password = password_hash($user->password, PASSWORD_BCRYPT);
 
-        $user->profilePicUrl = !empty($user->profilePicFile) ?
+        $user->setProfilePicUrl($user->profilePicFile ?
             $this->saveProfilePicture($user->profilePicFile) :
-            null;
+            null);
 
-        $fields = CreateUserDTO::toFields();
-        $placeholders = CreateUserDTO::placeholders();
+        $fields = $user->toFields();
+        $placeholders = $user->placeholders();
 
         // Insert new User record
         $sql = <<<SQL
@@ -111,7 +111,7 @@ class UserRepository extends BaseRepository
 
         // Insert corresponding Buyer record
         $buyerRole = new BuyerProfileDTO($user->shipAddress, 0);
-        $this->addRole($newId, Role::Buyer->value, $buyerRole);
+        $this->addRole($newId, Role::Buyer->value, ['ship_address' => $user->shipAddress]);
 
         // Return new UserDTO
         $userValues[] = $buyerRole;
@@ -129,7 +129,7 @@ class UserRepository extends BaseRepository
 
             $targetPath = "/uploads/profile_pics/{$filename}";
 
-            if (move_uploaded_file($file['tmp_name'], base_path('public/'.$targetPath))) {
+            if (move_uploaded_file($file['tmp_name'], base_path('public/' . $targetPath))) {
                 return $targetPath;
             }
         }
@@ -159,68 +159,44 @@ class UserRepository extends BaseRepository
         // Check existing user
         $existingUser = $this->findById($user->id);
 
-        $newEmailTaken = $existingUser->email !== $user->email && $this->findByEmail($user->email);
-        if (!$existingUser || $newEmailTaken) {
+        if (!$existingUser) {
             return false;
+        }
+
+        if ($user->imageChanged) {
+            $user->setProfilePicUrl($user->profilePicFile ?
+                $this->saveProfilePicture($user->profilePicFile) :
+                null);
         }
 
         // Prepare UPDATE query
         $sets = $user->getMappedUpdateSet();
-        $isBuyer = $user->buyerProfile ? true : false;
-        $isSeller = $user->sellerProfile ? true : false;
 
         $sql = <<<SQL
             UPDATE user 
-            SET {$sets}, is_buyer = {$isBuyer}, is_seller = {$isSeller}
+            SET {$sets}
             WHERE user_id = ?
         SQL;
 
         // Update user
-        if (!$this->db->query($sql, $user->id)->wasSuccessful()) return false;
-
-        // Update roles
-        try {
-            $this->updateBuyerRole($user->id, $user->buyerProfile, $existingUser->buyerProfile);
-            $this->updateSellerRole($user->id, $user->sellerProfile, $existingUser->sellerProfile);
-        } catch (\Throwable $th) {
-            throw new \Exception("Failed to update user roles");
-        }
+        if (!($this->db->query($sql, [$user->id])->wasSuccessful())) return false;
+        $this->changeShippingAddress($user->id, $user->shipAddress);
 
         return true;
     }
 
-    public function updateBuyerRole(string $id, ?BuyerProfileDTO $new, ?BuyerProfileDTO $existing = null)
-    {
-        $this->handleRoleAdjustment($id, "buyer", $new, $existing);
-    }
-
-    public function updateSellerRole(string $id, ?SellerProfileDTO $new, ?SellerProfileDTO $existing = null)
-    {
-        $this->handleRoleAdjustment($id, "seller", $new, $existing);
-    }
-
-    private function handleRoleAdjustment(string $id, string $role, ?SellerProfileDTO $new, ?SellerProfileDTO $existing = null)
-    {
-        if ($new && !$existing) { // Add new role
-            $this->addRole($id, $role, $new);
-        } elseif ($new && $existing) { // Update existing role
-            $this->updateRole($id, $role, $new);
-        } elseif (!$new && $existing) { // Remove role
-            $this->removeRole($id, $role);
-        }
-    }
-
-    public function addRole(string $id, string $role, BaseDTO $profile)
+    public function addRole(string $id, string $role, array $mapping)
     {
         $dtoClass = UserDTO::$roleClasses[$role];
 
-        $fields = $dtoClass::toFields();
-        $placeholders = $dtoClass::placeholders();
+        $fields = array_keys($mapping);
+        $values = array_values($mapping);
+        $placeholders = BaseDTO::placeholders(count($mapping));
 
         // Add role in in corresponding role table
         $this->db->query(
             "INSERT INTO {$role} ({$fields}) VALUES ({$placeholders})",
-            [$id, ...$profile->getMappedValues()]
+            [$id, ...$values]
         );
 
         // Set subtype discriminator in User table
@@ -257,8 +233,20 @@ class UserRepository extends BaseRepository
 
     public function exists(string $id): bool
     {
-        $result = $this->db->query("SELECT 1 FROM user WHERE user_id = ? LIMIT 1")->find();
+        $result = $this->db->query("SELECT 1 FROM user WHERE user_id = ? LIMIT 1", [$id])->find();
 
         return !empty($result);
+    }
+
+    public function changeShippingAddress(string $id, string $address)
+    {
+        if ($this->exists($id) && $address) {
+            return $this->db->query(
+                "UPDATE buyer SET ship_address = ? WHERE user_id = ?",
+                [$address, $id]
+            )->wasSuccessful();
+        }
+
+        return false;
     }
 }

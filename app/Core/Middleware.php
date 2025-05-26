@@ -28,7 +28,7 @@ class Middleware
 
     private static function auth()
     {
-        if (!$_SESSION['user'] ?? false) {
+        if (!($_SESSION['user'] ?? false)) {
             redirect('/register');
         }
     }

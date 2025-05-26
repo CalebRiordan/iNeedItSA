@@ -8,27 +8,31 @@ class UpdateUserDTO extends BaseDTO
         "user_id" => "id",
         "first_name" => "firstName",
         "last_name" => "lastName",
-        "email" => "email",
         "phone_no" => "phoneNo",
         "location" => "location",
         "province" => "province",
         "address" => "address",
-        "profile_pic_url" => "profilePicUrl",
-        "is_buyer" => "",
-        "is_seller" => "",
     ];
+
+    public ?string $profilePicUrl = null;
 
     public function __construct(
         public string $id,
         public string $firstName,
         public string $lastName,
-        public string $email,
         public string $phoneNo,
         public string $location,
         public string $province,
         public string $address,
-        public ?string $profilePicUrl = null,
-        public ?BuyerProfileDTO $buyerProfile = null,
-        public ?SellerProfileDTO $sellerProfile = null
+        public string $shipAddress,
+        public bool $imageChanged,
+        public ?array $profilePicFile = null,
     ){}
+
+    public function setProfilePicUrl($url){
+        if ($url){
+            $this->profilePicUrl = $url;
+            $this->instanceSqlMapping["profile_pic_url"] = "profilePicUrl"; 
+        }
+    }
 }

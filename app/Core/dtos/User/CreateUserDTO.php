@@ -13,7 +13,6 @@ class CreateUserDTO extends BaseDTO
         "location" => "location",
         "province" => "province",
         "address" => "address",
-        "profile_pic_url" => "profilePicUrl",
     ];
 
     public ?string $profilePicUrl = null;
@@ -30,4 +29,12 @@ class CreateUserDTO extends BaseDTO
         public ?array $profilePicFile = null,
         public ?string $shipAddress = null,
     ) {}
+
+    public function setProfilePicUrl($url)
+    {
+        if ($url){
+            $this->profilePicUrl = $url;
+            $this->instanceSqlMapping["profile_pic_url"] = "profilePicUrl";
+        }
+    }
 }
