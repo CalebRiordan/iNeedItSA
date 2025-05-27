@@ -120,7 +120,7 @@ class ProductRepository extends BaseRepository
             {$limit}
             {$offset}
         SQL;
-        
+
         $rows = $this->db->query($sql, $filter->getValues())->findAll();
         $products = [];
         foreach ($rows as $row) {
@@ -246,20 +246,23 @@ class ProductRepository extends BaseRepository
         $this->executeIfExists($id, "UPDATE product SET quant_in_stock = quant_in_stock + ? WHERE product_id = ?", [$id, $stock]);
     }
 
-    public function increaseViews(string $id) 
+    public function increaseViews(string $id)
     {
         $this->executeIfExists($id, "UPDATE product SET views = views + 1 WHERE product_id = ?", [$id]);
     }
 
-    public function applyDiscount(string $id, int $discountPct) {
+    public function applyDiscount(string $id, int $discountPct)
+    {
         $this->executeIfExists($id, "UPDATE product SET pct_discount = ? WHERE product_id = ?", [$discountPct, $id]);
     }
 
-    public function removeDiscount(string $id) {
+    public function removeDiscount(string $id)
+    {
         $this->executeIfExists($id, "UPDATE product SET pct_discount = 0 WHERE product_id = ?", [$id]);
     }
 
-    public function updateAvgRating(string $id) {
+    public function updateAvgRating(string $id)
+    {
         $sql = <<<SQL
             UPDATE product
             SET target_column = (
@@ -270,7 +273,6 @@ class ProductRepository extends BaseRepository
             WHERE product_id = ?;
         SQL;
         $this->executeIfExists($id, $sql, [$id, $id]);
-
     }
 
     public function updateImages($id, array $imageUrls, string $displayImageUrl)
@@ -350,7 +352,8 @@ class ProductRepository extends BaseRepository
         return null;
     }
 
-    public function getCount(?ProductFilter $filter): int{
+    public function getCount(?ProductFilter $filter): int
+    {
         $filter ??= new ProductFilter();
 
         $where = $filter->getWhereClause();
@@ -358,17 +361,18 @@ class ProductRepository extends BaseRepository
             SELECT COUNT(*) FROM product
             {$where}
         SQL;
-        
+
         $result = $this->db->query($sql, $filter->getValues())->find();
         return reset($result);
     }
 
-    public function getCountOnId(string $id): int{
+    public function getCountOnId(string $id): int
+    {
         $sql = <<<SQL
             SELECT COUNT(*) FROM product
             WHERE product_id = ?
         SQL;
-        
+
         $result = $this->db->query($sql, $id)->find();
         return reset($result);
     }

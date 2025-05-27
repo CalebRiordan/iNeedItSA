@@ -3,8 +3,8 @@
 $router->get("/", "index.php");
 $router->get("/home", "index.php");
 
-$router->get("/products", "products/index.php");
-$router->get("/products/{id}", "products/show.php");
+$router->get("/products", "product/index.php");
+$router->get("/products/{id}", "product/show.php");
 
 $router->get("/login", "session/create.php")->only('guest');
 $router->post("/login", "session/store.php")->only('guest');
@@ -17,3 +17,4 @@ $router->put("/profile", "user/update.php")->only('auth');
 $router->get("/orders", "order/index.php")->only('auth');
 
 $router->partial("/products-display");
+$router->partial("/cart", "POST");

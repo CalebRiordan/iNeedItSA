@@ -33,10 +33,10 @@
 
 .sidebar .user-info {
     height: var(--navbar-height);
-    display: flex;
-    justify-content: start;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 1em;
+    gap: 0.6rem;
 }
 
 .sidebar .name-email-container {
@@ -46,20 +46,23 @@
     justify-content: space-between;
     align-items: start;
     text-align: left;
-    flex: 1;
+    overflow: hidden;
 }
 
 .sidebar .name-email-container p {
     margin: 0;
     padding: 0;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .sidebar p.name {
     font-size: 1.2em;
     color: var(--text-colour-dark);
     font-weight: bold;
-    text-overflow: ellipsis;
-    text-wrap: nowrap;
 }
 
 .sidebar p.email {
@@ -98,6 +101,6 @@
     color: var(--text-colour-dark);
 }
 
-.sidebar-item a{
+.sidebar-item a {
     all: unset;
 }

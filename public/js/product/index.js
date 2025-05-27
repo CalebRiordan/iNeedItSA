@@ -156,7 +156,7 @@ function getQueryString() {
 function refreshPartials(queryString) {
   
   fetch(`/partial/products-display${queryString}`)
-  .then((response) => response.json())
+  .then((res) => res.json())
   .then((data) => {
 
       if (data["products-display"] !== "") {

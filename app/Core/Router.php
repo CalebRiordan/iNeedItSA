@@ -24,10 +24,10 @@ class Router
         return $this;
     }
 
-    public function partial($uri)
+    public function partial($uri, string $method = "GET")
     {
         $this->nextType = 'partial';
-        return $this->add('GET', $uri, 'PartialController.php');
+        return $this->add($method, $uri, 'PartialController.php');
     }
 
     public function get($uri, $controller)
@@ -70,26 +70,6 @@ class Router
         $isPartial ? $this->routePartial($uri, $method) : $this->routePage($uri, $method);
     }
 
-    public function routePartial($uri, $method)
-    {
-        foreach ($this->routes as $route) {
-            if ($route['type'] === 'partial') {
-                if (str_starts_with($uri, $route['uri']) && $route['method'] === strtoupper($method)) {
-                    require_once base_path('app/http/controllers/' . $route['controller']);
-                    
-                    $controllerName = str_replace('.php', '', $route['controller']);
-                    $partialController = 'Http\\Controllers\\' . $controllerName;
-                    
-                    $partial = ltrim(strstr($uri, '?', true) ?: $uri, '/');
-
-                    $partialController::handle($partial, $_GET);
-                    return;
-                }
-            }
-        }
-        $this->abort();
-    }
-
     public function routePage($uri, $method)
     {
         foreach ($this->routes as $route) {
@@ -105,21 +85,43 @@ class Router
         $this->abort();
     }
 
-    private static function routeMatch(array $route, string $uri, string $method){
+    public function routePartial($uri, $method)
+    {
+        foreach ($this->routes as $route) {
+            if ($route['type'] === 'partial') {
+                if (str_starts_with($uri, $route['uri']) && $route['method'] === strtoupper($method)) {
+                    require_once base_path('app/http/controllers/' . $route['controller']);
+
+                    $controllerName = str_replace('.php', '', $route['controller']);
+                    $partialController = 'Http\\Controllers\\' . $controllerName;
+
+                    $partial = ltrim(strstr($uri, '?', true) ?: $uri, '/');
+
+                    $partialController::handle($partial, $_GET);
+                    return;
+                }
+            }
+        }
+        $this->abort();
+    }
+
+    private static function routeMatch(array $route, string $uri, string $method)
+    {
         $pattern = '#^' . preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route["uri"]) . '$#';
-        if (preg_match($pattern, $uri, $matches) && $route['method'] === strtoupper($method)){
+        if (preg_match($pattern, $uri, $matches) && $route['method'] === strtoupper($method)) {
             return $matches;
         }
         return [];
     }
 
-    private function controller($controller, $params){
+    private function controller($controller, $params)
+    {
         try {
             return require base_path('app/Http/Controllers/' . $controller);
         } catch (\Core\ValidationException $ex) {
             Session::flash('errors', $ex->errors);
             Session::flash('old', $ex->old);
-            
+
             static::redirectToPrevious();
         }
     }
@@ -129,11 +131,13 @@ class Router
         redirect($_SERVER['HTTP_REFERER']);
     }
 
-    public function getUri(){
+    public function getUri()
+    {
         return parse_url($_SERVER["REQUEST_URI"])['path'];
     }
 
-    public function getMethod(){
+    public function getMethod()
+    {
         return $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
     }
 

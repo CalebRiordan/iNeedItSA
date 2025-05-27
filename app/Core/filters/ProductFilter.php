@@ -4,6 +4,14 @@ namespace Core\Filters;
 
 class ProductFilter extends BaseFilter
 {
+
+    public function setIds(array $ids){
+        if (!empty($ids)){
+            $this->criteria['ids'] = $ids;
+            $this->numBindings['ids'] = count($ids);
+        }
+    }
+
     public function setSearch(string $searchQuery)
     {
         $this->criteria['search'] = $searchQuery;
@@ -49,6 +57,10 @@ class ProductFilter extends BaseFilter
 
         foreach ($this->criteria as $key => $value) {
             switch ($key) {
+                case 'ids':
+                    $placeholders = implode(', ', array_fill(0, $this->numBindings['ids'], '?'));
+                    $conditions[] = "product_id IN ({$placeholders})";
+                    break;
                 case 'search':
                     $conditions[] = "({$this->sqlSearch('name')} OR {$this->sqlSearch('description')})";
                     break;
@@ -81,6 +93,9 @@ class ProductFilter extends BaseFilter
         if ($params) {
             foreach ($params as $key => $value) {
                 switch ($key) {
+                    case 'ids':
+                        $this->setSearch($value);
+                        break;
                     case 'search':
                         $this->setSearch($value);
                         break;

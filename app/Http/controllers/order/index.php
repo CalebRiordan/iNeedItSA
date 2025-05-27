@@ -8,4 +8,6 @@ if ($view === "cart") {
     redirect("/orders#orders");
 }
 
-view("orders/index");
+// Get cart info
+
+view("order/index");

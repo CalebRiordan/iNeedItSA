@@ -1,7 +1,7 @@
 <?php
 
-$stylesheets = ['navbar.css', 'category-bar.css', 'products/show.css', 'products-search-bar.css'];
-$scripts = ['products/show.js', 'products-search-bar.js'];
+$stylesheets = ['navbar.css', 'category-bar.css', 'product/show.css', 'products-search-bar.css'];
+$scripts = ['product/show.js', 'products-search-bar.js'];
 
 require base_path('views/partials/header.php');
 require base_path('views/partials/navbar.php');
