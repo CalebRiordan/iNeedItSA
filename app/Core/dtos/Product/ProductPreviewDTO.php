@@ -13,6 +13,9 @@ class ProductPreviewDTO extends BaseDTO
         "avg_rating" => "rating",
     ];
 
+    protected static array $excludeFromReflection = ['quantity'];
+    public ?int $quantity = null;
+
     public function __construct(
         public string $id,
         public string $name,

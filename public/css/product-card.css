@@ -1,7 +1,7 @@
 .product-card {
     width: 15%; /* default */
     flex-shrink: 0;
-    background: var(--off-bg-colour);
+    background-color: var(--off-bg-colour);
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
     outline: 1px solid transparent;
     padding: 0.7em;

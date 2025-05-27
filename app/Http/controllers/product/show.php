@@ -8,4 +8,4 @@ if (!$id) abort(404);
 $repo = new ProductRepository();
 $product = $repo->findById($id);
 
-view("products/show", ["product" => $product]);
+view("product/show", ["product" => $product]);
