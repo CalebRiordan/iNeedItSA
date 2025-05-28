@@ -9,6 +9,7 @@ abstract class BaseFilter
     protected ?int $limit = null;
     protected ?int $offset = null;
     protected ?string $orderBy = null;
+    protected array $prefix = [];
 
     abstract public function getWhereClause(): string;
 
@@ -33,9 +34,9 @@ abstract class BaseFilter
         return $values;
     }
 
-    public function sqlSearch($fieldName)
+    public function sqlSearch(string $fieldName, string $prefix = "")
     {
-        return "{$fieldName} LIKE CONCAT('%', ?, '%') OR SOUNDEX({$fieldName}) = SOUNDEX(?)";
+        return "{$prefix}{$fieldName} LIKE CONCAT('%', ?, '%') OR SOUNDEX({$prefix}{$fieldName}) = SOUNDEX(?)";
     }
 
     public function setLimit(int $number)
@@ -65,6 +66,7 @@ abstract class BaseFilter
         $this->limit = null;
         $this->offset = null;
         $this->orderBy = null;
+        $this->prefix = [];
     }
 
     public function getLimitClause(?int $default = null): string
@@ -85,5 +87,10 @@ abstract class BaseFilter
     {
         $this->orderBy = $this->orderBy ?? $defaultField;
         return $this->orderBy === null ? '' : "ORDER BY {$this->orderBy}";
+    }
+
+    protected function prefix(string $key)
+    {
+        return isset($this->prefix[$key]) && $this->prefix[$key] ? $this->prefix[$key] . "." : "";
     }
 }
