@@ -1,6 +1,6 @@
 <?php
 
-$stylesheets = ['navbar.css', 'status-code.css'];
+$stylesheets = ['status-code.css'];
 
 require base_path('views/partials/header.php');
 require base_path('views/partials/navbar.php');

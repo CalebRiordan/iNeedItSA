@@ -28,7 +28,7 @@
     </div>
 
     <div class="sidebar-item">
-        <a href="profile/edit">Edit Profile</a>
+        <a href="/profile/edit">Edit Profile</a>
     </div>
 
     <div class="sidebar-item">

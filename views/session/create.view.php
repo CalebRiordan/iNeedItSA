@@ -1,6 +1,6 @@
 <?php
 
-$stylesheets = ['navbar.css', 'form.css', 'session/create.css'];
+$stylesheets = ['form.css', 'session/create.css'];
 
 require base_path('views/partials/header.php');
 require base_path('views/partials/navbar.php');
@@ -9,7 +9,7 @@ require base_path('views/partials/navbar.php');
 <main>
     <div class="form-container">
         <form class="login-form" action="/login" method="POST">
-            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+            <input type="hidden" name="previousPage" value="<?= previousPage(); ?>">
 
             <h1>Login</h1>
 

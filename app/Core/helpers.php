@@ -43,7 +43,7 @@ function dd($value)
 function abort($code = 404)
 {
     http_response_code($code);
-    require base_path("views/StatusCodes/{$code}.php");
+    require base_path("views/StatusCodes/{$code}.view.php");
     die();
 }
 
@@ -83,8 +83,20 @@ function noImageUploaded(array $file): bool
 
 function validImage(?array $file)
 {
-    return $file 
+    return $file
         && isset($file['tmp_name'])
-        && is_uploaded_file($file['tmp_name']) 
+        && is_uploaded_file($file['tmp_name'])
         && $file['error'] === UPLOAD_ERR_OK;
+}
+
+function previousPage(string $default = "/")
+{
+    return $_SERVER['HTTP_REFERER'] ?? $_GET['previous'] ?? $default;
+}
+
+function response(int $code, array $data = [])
+{
+    http_response_code($code);
+    echo json_encode($data);
+    exit;
 }

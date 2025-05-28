@@ -1,6 +1,6 @@
 <?php
 
-$stylesheets = ['navbar.css', 'category-bar.css', 'product/index.css', 'product-card.css'];
+$stylesheets = ['category-bar.css', 'product/index.css', 'product-card.css'];
 $scripts = ['product/index.js', 'utils/scaleProductCardFont.js'];
 
 $cardWidth = 'auto';

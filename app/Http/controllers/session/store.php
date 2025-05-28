@@ -16,7 +16,7 @@ $form = LoginForm::validate([
 // User Authentication
 $auth = new Authenticator();
 $signedIn = $auth->attempt($email, $password);
-if (!$singedIn) {
+if (!$signedIn) {
     $form->error(
         'password',
         'No matching account found for that email address and password.'
@@ -27,5 +27,14 @@ if ($persistentLogin) {
     $auth->setPersistentLoginCookie($email);
 }
 
-$previousPage = $_POST['previousPage'] ?? "/";
-redirect($previousPage);
+$cart = $_SESSION['cart'] ?? [];
+$redirect = $_POST['previousPage'] ?? '/';
+
+header("Content-Type: text/html");
+?>
+<script>
+  const cart = <?= json_encode($cart) ?>;
+  localStorage.setItem("cart", JSON.stringify(cart));
+  window.location.href = "<?= $redirect ?>";
+</script>
+<?php exit ?>

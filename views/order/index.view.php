@@ -1,6 +1,6 @@
 <?php
 
-$stylesheets = ['navbar.css', 'order/index.css'];
+$stylesheets = ['order/index.css'];
 $scripts = ['order/index.js'];
 
 require base_path('views/partials/header.php');
