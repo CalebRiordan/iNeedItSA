@@ -2,7 +2,7 @@
 
 use Core\DTOs\CreateUserDTO;
 
-$stylesheets = ['navbar.css', 'form.css', 'user/create.css'];
+$stylesheets = ['form.css', 'user/create.css'];
 $scripts = ['user/create.js'];
 
 require base_path('views/partials/header.php');
@@ -27,7 +27,7 @@ if (!isset($user) || !$user) {
 <main>
     <div class="form-container">
         <form action="/register" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+            <input type="hidden" name="previousPage" value="<?= previousPage() ?>">
 
             <h1>Create a new account</h1>
 

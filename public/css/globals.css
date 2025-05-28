@@ -77,3 +77,28 @@ main {
     text-wrap: nowrap;
     opacity: 0.7;
 }
+
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid transparent;
+  border-top: 2px solid var(--text-colour-light);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+  margin-left: 0.5em;
+  vertical-align: middle;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

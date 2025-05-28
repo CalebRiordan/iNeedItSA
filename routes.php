@@ -16,5 +16,10 @@ $router->put("/profile", "user/update.php")->only('auth');
 
 $router->get("/orders", "order/index.php")->only('auth');
 
+$router->get("/cart", "cart/show.php")->only('auth');
+$router->post("/cart", "cart/store.php")->only('auth');
+
+$router->get("/500", "500.php");
+
 $router->partial("/products-display");
 $router->partial("/cart", "POST");

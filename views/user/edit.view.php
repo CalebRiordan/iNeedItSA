@@ -1,6 +1,6 @@
 <?php
 
-$stylesheets = ['navbar.css', 'form.css', 'user/create.css'];
+$stylesheets = ['form.css', 'user/create.css'];
 $scripts = ['user/create.js'];
 
 require base_path('views/partials/header.php');
@@ -11,7 +11,7 @@ require base_path('views/partials/navbar.php');
     <div class="form-container">
         <form action="/profile" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_method" value="PUT">
-            <input type="hidden" name="previousPage" value="<?= $_SERVER['HTTP_REFERER'] ?? "/" ?>">
+            <input type="hidden" name="previousPage" value="<?= previousPage(); ?>">
 
             <!-- Missing attributes -->
             <input type="hidden" name="user_id" value="<?= $user->id ?>">

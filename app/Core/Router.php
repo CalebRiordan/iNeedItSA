@@ -82,7 +82,7 @@ class Router
                 }
             }
         }
-        $this->abort();
+        abort();
     }
 
     public function routePartial($uri, $method)
@@ -102,7 +102,7 @@ class Router
                 }
             }
         }
-        $this->abort();
+        abort();
     }
 
     private static function routeMatch(array $route, string $uri, string $method)
@@ -139,14 +139,5 @@ class Router
     public function getMethod()
     {
         return $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
-    }
-
-    public function abort($code = 404)
-    {
-        http_response_code($code);
-
-        require base_path("views/StatusCodes/{$code}.php");
-
-        die();
     }
 }

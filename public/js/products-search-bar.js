@@ -1,5 +1,5 @@
-import { highlightBorderError } from "./utils/priceValidator.js";
-import { buildQueryString } from "./utils/queryBuilder.js";
+import { highlightBorderError } from "/js/utils/priceValidator.js";
+import { buildQueryString } from "/js/utils/queryBuilder.js";
 import { validatePrice } from "/js/utils/priceValidator.js";
 
 // Event listeners for category dropdown

@@ -1,5 +1,6 @@
     <!-- Scripts -->
     <?php if (isset($scripts)): ?>
+        <?php $scripts[] = 'navbar.js'; ?>
         <?php foreach ($scripts as $script): ?>
             <script type="module" src="/js/<?= $script ?>" defer></script>
         <?php endforeach; ?>

@@ -39,6 +39,13 @@
     gap: 0.6rem;
 }
 
+.sidebar .user-info svg{
+    fill: var(--off-bg-colour);
+    width: 2rem;
+    transform: translateY(20%);
+    fill: rgba(var(--text-colour-dark-rgb), 0.4);
+}
+
 .sidebar .name-email-container {
     height: 2.8rem;
     display: flex;

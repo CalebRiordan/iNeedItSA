@@ -17,6 +17,7 @@ try {
   (new Authenticator)->updateLoginState();
 
   // Router
+
   $router = new Router();
   require base_path("routes.php");
   $uri = $router->getUri();
@@ -25,7 +26,7 @@ try {
 
   Session::unflash();
 } catch (Exception $ex) {
-  dd($ex);
+  echo $ex;
   // abort(500);
 } ?>
 

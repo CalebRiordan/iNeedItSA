@@ -1,4 +1,3 @@
-@import url("globals.css");
 @import url("sidebar.css");
 
 .navbar {
@@ -58,6 +57,26 @@
     fill: var(--off-bg-colour);
     width: 2rem;
     transform: translateY(20%);
+}
+
+.nav-link.cart{
+    position: relative;
+}
+
+.nav-link .cart-volume{
+    width: 0.9em;
+    height: 0.9em;
+    font-size: 0.8em;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: -10%;
+    background-color: var(--highlight-colour);
+    color: var(--text-colour-dark);
+    border-radius: 50%;
 }
 
 .navbar .salient {
