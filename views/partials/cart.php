@@ -8,12 +8,12 @@
         </div>
 
         <div class="product-info">
-            <h2><?= $product->name ?></h2>
-            <h4 class="price">
+            <p class="name"><?= $product->name ?></p>
+            <p class="price">
                 R<?= $product->discount > 0
                         ? number_format($product->price * ((100 - $product->discount) / 100), 0)
                         : number_format($product->price) ?>
-            </h4>
+            </p>
             <?php if ($product->discount > 0): ?>
                 <span class="discount-badge"><?= $product->discount ?>% promotion applied!</span>
             <?php endif; ?>
@@ -27,8 +27,9 @@
             </div>
 
             <div class="quantity-selector">
-                <p>Qty:</p>
-                <input type="number" min="1" max="50" value=<?= $product->quantity ?? 1 ?>>
+                <label for="qty">Qty:</label>
+                <br>
+                <input id="qty" type="number" min="1" max="50" value=<?= $product->quantity ?? 1 ?>>
             </div>
 
         </div>
