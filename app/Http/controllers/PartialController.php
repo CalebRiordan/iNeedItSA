@@ -2,6 +2,7 @@
 
 namespace Http\Controllers;
 
+use Core\DTOs\ProductDTO;
 use Core\Filters\ProductFilter;
 use Core\Repositories\ProductRepository;
 
@@ -69,7 +70,8 @@ class PartialController
             PartialController::response(200);
         }
 
-        $filter = (new ProductFilter())->setIds($ids);
+        $filter = new ProductFilter();
+        $filter->setIds($ids, "p");
         $products = (new ProductRepository())->findAllPreviews($filter);
 
         // Set quantity for each product

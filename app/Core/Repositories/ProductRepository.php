@@ -122,6 +122,7 @@ class ProductRepository extends BaseRepository
         SQL;
 
         $rows = $this->db->query($sql, $filter->getValues())->findAll();
+
         $products = [];
         foreach ($rows as $row) {
             $product = ProductPreviewDTO::fromRow($row);

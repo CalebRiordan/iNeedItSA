@@ -4,18 +4,20 @@ namespace Core\Filters;
 
 class ProductFilter extends BaseFilter
 {
-
-    public function setIds(array $ids){
-        if (!empty($ids)){
+    public function setIds(array $ids, string $prefix = "")
+    {
+        if (!empty($ids)) {
             $this->criteria['ids'] = $ids;
             $this->numBindings['ids'] = count($ids);
+            $this->prefix['ids'] = $prefix;
         }
     }
 
-    public function setSearch(string $searchQuery)
+    public function setSearch(string $searchQuery, string $prefix = "")
     {
         $this->criteria['search'] = $searchQuery;
         $this->numBindings['search'] = 4;
+        $this->prefix['search'] = $prefix;
     }
 
     public function setCategory(int $index)
@@ -34,7 +36,7 @@ class ProductFilter extends BaseFilter
         $this->criteria['maxPrice'] = $amount;
     }
 
-    public function rating(int $minRating)
+    public function rating(int $minRating, string $prefix = "")
     {
         $this->criteria['rating'] = $minRating;
     }
@@ -59,10 +61,10 @@ class ProductFilter extends BaseFilter
             switch ($key) {
                 case 'ids':
                     $placeholders = implode(', ', array_fill(0, $this->numBindings['ids'], '?'));
-                    $conditions[] = "product_id IN ({$placeholders})";
+                    $conditions[] = "{$this->prefix('ids')}product_id IN ({$placeholders})";
                     break;
                 case 'search':
-                    $conditions[] = "({$this->sqlSearch('name')} OR {$this->sqlSearch('description')})";
+                    $conditions[] = "({$this->sqlSearch('name', $this->prefix('search'))} OR {$this->sqlSearch('description', $this->prefix('search'))})";
                     break;
                 case 'category':
                     $conditions[] = "category = ?";
