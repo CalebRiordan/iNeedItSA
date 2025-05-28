@@ -2,7 +2,6 @@
 
 namespace Http\Controllers;
 
-use Core\DTOs\ProductDTO;
 use Core\Filters\ProductFilter;
 use Core\Repositories\ProductRepository;
 
