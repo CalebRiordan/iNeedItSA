@@ -1,8 +1,10 @@
 import { Cart } from "/js/utils/cart.js";
+import { updateCartNavLinkCount } from "/js/navbar.js";
 
 const addToCartBtn = document.querySelector("a.add-cart-btn");
-const spinner = document.querySelector(".spinner");
+const loading = document.querySelector(".loading");
 const productId = document.getElementById("product-id");
+const price = document.getElementById("product-price");
 
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -16,10 +18,9 @@ addToCartBtn.addEventListener("click", async (e) => {
         window.location.href = "/login?previous=/products/show";
     } else if (!Cart.itemExists(productId.value)) {
         updateProduct("pending");
-        await Cart.add(productId.value, 1);
+        await Cart.add(productId.value, 1, price.value);
         updateProduct("add");
-
-        // Update cart icon
+        updateCartNavLinkCount();
     }
 });
 
@@ -28,7 +29,7 @@ function updateProduct(state) {
     const notAdded = document.getElementById("item-not-added");
     const added = document.getElementById("item-added");
 
-    spinner.hidden = true;
+    loading.hidden = true;
     addToCartBtn.disabled = false;    
 
     if (state == "add") {
@@ -39,7 +40,7 @@ function updateProduct(state) {
         addToCartBtn.disabled = true;
         added.hidden = true;
         notAdded.hidden = true;
-        spinner.hidden = false;
+        loading.hidden = false;
     } else {
         added.hidden = true;
         notAdded.hidden = false;

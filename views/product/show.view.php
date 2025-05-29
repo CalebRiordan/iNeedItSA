@@ -11,10 +11,11 @@ require base_path('views/partials/category-bar.php');
 ?>
 
 <input id="product-id" value="<?= $product->id ?>" type="hidden">
+<input id="product-price" value="<?= $product->price ?>" type="hidden">
 
 <main>
     <!-- Search Bar -->
-    <div class="centre search-bar-area">
+    <div class="centre-content search-bar-area">
         <?php require base_path("views/partials/products-search-bar.php"); ?>
     </div>
 
@@ -59,7 +60,7 @@ require base_path('views/partials/category-bar.php');
                     </div>
 
                     <div class="content">
-                        <span class="spinner" hidden></span>
+                        <span class="loading" hidden></span>
                     </div>
                 </a>
 
