@@ -1,6 +1,10 @@
 <?php
 
 // Use query string to differentiate purpose of request
+
+use Core\Repositories\OrderRepository;
+use Core\Session;
+
 $view = $params['view'] ?? null;
 if ($view === "cart") {
     redirect("/orders#cart");
@@ -8,6 +12,7 @@ if ($view === "cart") {
     redirect("/orders#history");
 }
 
-// Get cart info
+$orders = (new OrderRepository())
+    ->findByUser(Session::get('user')['id']);
 
-view("order/index");
+view("order/index", ['orders' => $orders]);

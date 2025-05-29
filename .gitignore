@@ -1,3 +1,4 @@
+data_gen_file.sql
 vendor/
 /public/uploads/*
 !/public/uploads/.gitkeep

@@ -14,7 +14,7 @@
   </div>
 
   <div class="desc">
-    <p><?= isset($showDesc) && $showDesc ? htmlspecialchars($product->description) : "" ?></p=>
+    <p><?= !empty($showDesc) ? htmlspecialchars($product->description) : "" ?></p=>
   </div>
 
   <div class="bottom-row">

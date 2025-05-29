@@ -97,7 +97,7 @@
     margin: 1em 0;
 }
 
-.cart-item #qty[type="number"] {
+.cart-item .qty-spinner[type="number"] {
     margin-top: 0.2em;
     width: 2em;
     transform: scale(1.1);

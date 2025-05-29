@@ -30,7 +30,8 @@ async function fetchCartPartial() {
 }
 
 function updateCheckoutCard() {
-    totalQty.textContent = `(${Cart.totalQuantity} items)`;
+    const qty = Cart.totalQuantity;
+    totalQty.textContent = qty === 1 ? `(${qty} item)` : `(${qty} items)`;
     totalPrice.textContent = `R${Cart.totalPrice}`;
 }
 
