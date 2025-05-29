@@ -2,22 +2,23 @@
 
 namespace Core\Repositories;
 
+use Core\DTOs\OrderDTO;
+
 class OrderRepository extends BaseRepository
 {
 
-    public function find(string $id): ?array
-    {
-        return null;
-    }
+    // public function find(string $id): ?array
+    // {}
 
-    public function findAll(): array
+    public function findByUser(string $user_id): array
     {
-        return [];
-    }
+        $sql = <<<SQL
+            SELECT * FROM `order` WHERE user_id = ?
+        SQL;
 
-    public function findAllPreviews($criteria): array
-    {
-        return [];
+        $rows = $this->db->query($sql, [$user_id])->findAll();
+
+        return $rows ? OrderDTO::fromRows($rows) : [];
     }
 
     public function create(array $data): array
@@ -25,13 +26,7 @@ class OrderRepository extends BaseRepository
         return [];
     }
 
-    public function update(string $id, array $data): bool
-    {
-        return false;
-    }
-
-    public function delete(string $id): bool
-    {
-        return false;
+    public function toProducts(): array{
+        return [];
     }
 }

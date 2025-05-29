@@ -37,12 +37,20 @@ require base_path('views/partials/navbar.php');
             <a href="/" class="btn">Browse Products</a>
         </div>
 
+        <?php if (!empty($orders)): ?>
         <div class="orders-wrapper">
             <h1>Order History</h1>
             <div class="orders-section history">
-            
+                <?php foreach($orders as $order): ?>
+                    <div class="order">
+                        <span><?= $order->date ?></span>
+                        <span><?= $order->shipAddress ?></span>
+                        <span><?= $order->totalCost ?></span>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 </main>
 
