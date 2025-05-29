@@ -42,7 +42,7 @@ body {
     background-color: var(--salient-colour);
 }
 
-.centre {
+.centre-content {
     display: flex;
     justify-content: center;
 }
@@ -78,7 +78,7 @@ main {
     opacity: 0.7;
 }
 
-.spinner {
+.loading {
   width: 1em;
   height: 1em;
   border: 2px solid transparent;

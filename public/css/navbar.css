@@ -59,11 +59,11 @@
     transform: translateY(20%);
 }
 
-.nav-link.cart{
+.cart-nav-link{
     position: relative;
 }
 
-.nav-link .cart-volume{
+.cart-nav-link .cart-count{
     width: 0.9em;
     height: 0.9em;
     font-size: 0.8em;

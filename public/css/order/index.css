@@ -1,20 +1,33 @@
 .content-column {
-    margin: 20px 25%;
+    margin: 20px 20%;
     font-size: 18px;
 }
 
+/* ================= Cart Section ================= */
+
 .cart-section {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
     width: 100%;
+    margin-bottom: 10em;
+}
+
+.cart-section .cart {
     display: flex;
     flex-direction: column;
     justify-content: start;
     gap: 1rem;
+    margin-bottom: 2em;
+    flex: 1;
 }
+
+/* ================= Cart Item ================= */
 
 .cart-item {
     width: 100%;
     background-color: var(--off-bg-colour);
-    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
     outline: 1px solid transparent;
     padding: 0.7em;
     padding-right: 1em;
@@ -23,6 +36,7 @@
     align-items: stretch;
     gap: 1em;
     border-radius: 0.5em;
+    box-sizing: border-box;
 }
 
 .cart-item .image-container {
@@ -70,12 +84,12 @@
     padding: 1em 0;
 }
 
-.cart-item .item-actions .remove-item {
+.cart-item .remove-item {
     width: 1.2em;
-    fill: var(--disabled-colour)
+    fill: var(--disabled-colour);
 }
 
-.cart-item .item-actions .remove-item:hover {
+.cart-item .remove-item:hover {
     fill: var(--error-colour);
 }
 
@@ -92,4 +106,70 @@
     border: none;
     box-shadow: none;
     padding: 2px 0.2em;
+}
+
+/* ================= Empty Cart ================= */
+
+.cart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+    margin-bottom: 250px;
+}
+
+.cart-empty p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--disabled-colour);
+}
+
+.cart-empty .btn {
+    padding: 0.5em 1em;
+    background: var(--primary-colour);
+    color: var(--text-colour-light);
+    border: none;
+    text-decoration: none;
+    border-radius: 1em;
+    font-size: 1em;
+}
+
+.cart-empty .btn:hover {
+    filter: brightness(110%);
+}
+
+/* ================= Checkout Card ================= */
+
+.checkout-card {
+    width: 300px;
+    height: fit-content;
+    background-color: var(--off-bg-colour);
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    gap: 1em;
+}
+
+.checkout-card .checkout-details {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 0.5em;
+}
+
+.checkout-card .checkout-btn {
+    width: 100%;
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    text-decoration: none;
+    text-align: center;
+    border-radius: 1em;
+    cursor: pointer;
+    padding: 0.4em;
+    font-size: 1.2em;
+    box-sizing: border-box;
 }

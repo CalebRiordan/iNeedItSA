@@ -1,16 +1,16 @@
 import { Cart } from "/js/utils/cart.js";
 
 const navlinkCart = document.querySelector(".nav-link.cart");
-const volumeBadge = document.querySelector(".nav-link .cart-volume");
+const countBadge = document.querySelector(".nav-link .cart-count");
 
-function updateCartVolume(){
-    if (Cart.volume() > 0){
-        volumeBadge.hidden = false;
-        volumeBadge.textContent = Cart.volume();
+export function updateCartNavLinkCount(){
+    if (Cart.uniqueCount > 0){
+        countBadge.hidden = false;
+        countBadge.textContent = Cart.uniqueCount;
     } else {
-        volumeBadge.hidden = true;
-        volumeBadge.textContent = Cart.volume();
+        countBadge.hidden = true;
+        countBadge.textContent = Cart.uniqueCount;
     }
 }
 
-document.addEventListener("DOMContentLoaded", updateCartVolume);
+document.addEventListener("DOMContentLoaded", updateCartNavLinkCount);

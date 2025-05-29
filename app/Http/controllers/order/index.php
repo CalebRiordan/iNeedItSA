@@ -5,7 +5,7 @@ $view = $params['view'] ?? null;
 if ($view === "cart") {
     redirect("/orders#cart");
 } elseif ($view === "orders") {
-    redirect("/orders#orders");
+    redirect("/orders#history");
 }
 
 // Get cart info

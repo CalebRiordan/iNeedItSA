@@ -105,13 +105,13 @@ require base_path('views/partials/category-bar.php');
                 <?= $productsDisplay ?>
             </div>
             
-            <div class="no-results centre">
+            <div class="no-results centre-content">
                 <img src="/assets/images/no-results-found.png" alt="Sorry, no results found.">
             </div>
         </div>
     </div>
 
-    <div class="centre">
+    <div class="centre-content">
         <div class="page-selector">
             <?= $pageSelector ?>
         </div>

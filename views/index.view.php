@@ -11,12 +11,12 @@ require base_path("views/partials/category-bar.php");
 
 <main>
     <!-- Search Bar -->
-    <div class="centre search-bar-area">
+    <div class="centre-content search-bar-area">
         <?php require base_path("views/partials/products-search-bar.php"); ?>
     </div>
 
     <!-- Featured Products Row -->
-    <div class="centre featured-products-area">
+    <div class="centre-content featured-products-area">
         <?php
         $products = $featuredProducts;
         $sectionTitle = "Featured Products";
@@ -24,7 +24,7 @@ require base_path("views/partials/category-bar.php");
     </div>
 
     <!-- Discounted Products Row -->
-    <div class="centre featured-products-area">
+    <div class="centre-content featured-products-area">
         <?php
         $products = $discountedProducts;
         $sectionTitle = "On Promotion";
@@ -32,7 +32,7 @@ require base_path("views/partials/category-bar.php");
     </div>
 
     <!-- Top Rated Products Row -->
-    <div class="centre featured-products-area">
+    <div class="centre-content featured-products-area">
         <?php
         $products = $topRatedProducts;
         $sectionTitle = "Top rated";
