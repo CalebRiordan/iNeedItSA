@@ -1,6 +1,6 @@
 <?php foreach ($products as $i => $product): ?>
 
-    <div id="item_<?= $product->id ?>" class="cart-item">
+    <div id="item_<?= $product->id ?>" class="item cart-item">
         <div class="image-container">
             <img
                 src="<?= $product->displayImageUrl ? htmlspecialchars($product->displayImageUrl) : '/assets/images/product-placeholder.png' ?>"

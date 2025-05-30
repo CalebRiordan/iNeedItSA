@@ -3,6 +3,7 @@
 namespace Http\Controllers;
 
 use Core\Filters\ProductFilter;
+use Core\Repositories\OrderRepository;
 use Core\Repositories\ProductRepository;
 
 class PartialController
@@ -11,14 +12,14 @@ class PartialController
     {
         switch ($partial) {
             case 'products-display':
-                header('Content-Type: application/json');
-                echo json_encode(static::renderProductDisplay($params));
-                break;
             case 'page-selector':
-                echo static::renderProductDisplay($params);
+                response(static::renderProductDisplay($params));
                 break;
             case 'cart':
                 echo json_encode(static::renderCart($params));
+                break;
+            case 'order':
+                echo json_encode(static::renderOrderItemList($params));
                 break;
             default:
                 response(['error' => 'Partial not found.'], 404);
@@ -44,8 +45,8 @@ class PartialController
         $currentPage = $validParams['page'] ?? 1;
 
         return [
-            "products-display" => self::renderPartial("views/partials/products-display.php", ['products' => $products]),
-            "page-selector" => self::renderPartial("views/partials/page-selector.php", [
+            "products-display" => self::renderPartial("products-display.php", ['products' => $products]),
+            "page-selector" => self::renderPartial("page-selector.php", [
                 'productCount' => $productCount,
                 'currentPage' => $currentPage
             ]),
@@ -61,7 +62,7 @@ class PartialController
 
 
         if (!isset($input['items']) || !is_array($input['items'])) {
-            response( ['error' => "Invalid input. No 'items' key found for cart items."], 400);
+            response(['error' => "Invalid input. No 'items' key found for cart items."], 400);
         }
 
         $ids = array_column($input['items'], 'product_id');
@@ -87,7 +88,24 @@ class PartialController
             }
         }
 
-        return self::renderPartial("views/partials/cart.php", ['products' => $products]);
+        return self::renderPartial("cart.php", ['products' => $products]);
+    }
+
+    public static function renderOrderItemList($params): string
+    {
+        $id = $params["id"] ?? null;
+
+        if (!$id) {
+            response(['error' => "Invalid input. No 'id' key found for order."], 400);
+        }
+
+        try {
+            $items = (new OrderRepository())->findItemsById($id);
+        } catch (\Throwable $th) {
+            response(["error" => "Error retrieving order"], 500);
+        }
+
+        return self::renderPartial("order-items-list.php", ["items" => $items]);
     }
 
     private static function renderPartial($path, $data = [])
@@ -96,8 +114,7 @@ class PartialController
 
         // Return HTML as text using output buffering (ob)
         ob_start();
-        require base_path($path);
+        require base_path("views/partials/{$path}");
         return ob_get_clean();
     }
-
 }

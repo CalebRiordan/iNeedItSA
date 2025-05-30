@@ -7,9 +7,9 @@ use Core\Session;
 
 $view = $params['view'] ?? null;
 if ($view === "cart") {
-    redirect("/orders#cart");
+    redirect("/order#cart");
 } elseif ($view === "orders") {
-    redirect("/orders#history");
+    redirect("/order#history");
 }
 
 $orders = (new OrderRepository())

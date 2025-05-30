@@ -60,7 +60,7 @@ require base_path('views/partials/navbar.php');
                             </div>
 
                             <div class="order-items" hidden>
-
+                                
                             </div>
                         </div>
                     <?php endforeach; ?>

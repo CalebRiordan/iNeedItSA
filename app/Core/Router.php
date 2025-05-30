@@ -89,16 +89,19 @@ class Router
     {
         foreach ($this->routes as $route) {
             if ($route['type'] === 'partial') {
-                if (str_starts_with($uri, $route['uri']) && $route['method'] === strtoupper($method)) {
+                $params = Router::routeMatch($route, $uri, $method);
+                if ($params) {
+                    Middleware::resolve($route['middleware']);
+                    
+                    // Require PartialController.php and call method on class
                     require_once base_path('app/http/controllers/' . $route['controller']);
-
+                    
                     $controllerName = str_replace('.php', '', $route['controller']);
                     $partialController = 'Http\\Controllers\\' . $controllerName;
-
-                    $partial = ltrim(strstr($uri, '?', true) ?: $uri, '/');
-
-                    $partialController::handle($partial, $_GET);
-                    return;
+                    $partial = trim(preg_replace('/\{[^}]+\}/', '', $route['uri']), '/');
+                    $params = array_merge($params, $_GET);
+                    
+                    return $partialController::handle($partial, $params);
                 }
             }
         }
