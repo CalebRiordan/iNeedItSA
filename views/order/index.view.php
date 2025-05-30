@@ -38,18 +38,34 @@ require base_path('views/partials/navbar.php');
         </div>
 
         <?php if (!empty($orders)): ?>
-        <div class="orders-wrapper">
-            <h1>Order History</h1>
-            <div class="orders-section history">
-                <?php foreach($orders as $order): ?>
-                    <div class="order">
-                        <span><?= $order->date ?></span>
-                        <span><?= $order->shipAddress ?></span>
-                        <span><?= $order->totalCost ?></span>
-                    </div>
-                <?php endforeach; ?>
+            <div class="orders-wrapper">
+                <h1>Order History</h1>
+                <div class="history">
+                    <?php foreach ($orders as $order): ?>
+                        <div class="order" data-order-id="<?= $order->id ?>">
+                            <div class="order-dropdown">
+                                <div class="order-summary">
+                                    <span class="status">Collected</span>
+                                    <span class="space"></span>
+                                    <span><?= date('j F Y', strtotime($order->date)) ?></span>
+                                    <span>at <?= $order->shipAddress ?></span>&Tab;&Tab;
+                                    <span>Total: <strong>R<?= $order->totalCost ?></strong></span>
+                                </div>
+
+                                <span class="order-toggle-icon">
+                                    <svg class="chevron left" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                        <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+                                    </svg>
+                                </span>
+                            </div>
+
+                            <div class="order-items" hidden>
+
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
-        </div>
         <?php endif; ?>
     </div>
 </main>
