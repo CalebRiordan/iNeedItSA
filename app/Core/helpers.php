@@ -47,14 +47,6 @@ function abort($code = 404)
     die();
 }
 
-function returnJson($data = [], int $code = 200)
-{
-    http_response_code($code);
-    header('Content-Type: application/json');
-    echo json_encode($data);
-    exit;
-}
-
 function elapsedTimeString(DateTime $date): string
 {
     $now = new DateTime();
@@ -94,9 +86,10 @@ function previousPage(string $default = "/")
     return $_SERVER['HTTP_REFERER'] ?? $_GET['previous'] ?? $default;
 }
 
-function response(int $code, array $data = [])
+function response(array $data, int $code = 200)
 {
     http_response_code($code);
+    header('Content-Type: application/json');
     echo json_encode($data);
     exit;
 }

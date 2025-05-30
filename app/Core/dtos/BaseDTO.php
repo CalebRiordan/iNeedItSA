@@ -15,6 +15,10 @@ abstract class BaseDTO implements JsonSerializable
     protected array $instanceSqlMapping = [];
     protected static array $excludeFromReflection = ['sqlMapping', 'instanceSqlMapping'];
 
+    /**
+     * SQL fields => properties mapping for properties that are not instantiated in a DTO's constructor, but rather added later
+     * Used when data is retrieved from the database in multiple queries
+     */
     public function getInstanceSqlMapping(): array
     {
         return array_merge(static::$sqlMapping, $this->instanceSqlMapping);
@@ -25,6 +29,10 @@ abstract class BaseDTO implements JsonSerializable
         return static::$sqlMapping;
     }
 
+    /**
+     * Returns an array of property names for properties that are not to considered in methods that use the SQL mapping array
+     * (toValues, fromRow, jsonSerialize)
+     */
     public static function getExclusions()
     {
         return array_merge(self::$excludeFromReflection, static::$excludeFromReflection ?? []);
@@ -44,23 +52,10 @@ abstract class BaseDTO implements JsonSerializable
         return implode(', ', $fields);
     }
 
-    public function toFieldsInstance(?string $prefix = null){
-        $mapping = $this->getInstanceSqlMapping();
-        if (empty($mapping))
-            return '';
-
-        $fields = [];
-        foreach ($mapping as $field => $_) {
-            $fields[] = $prefix !== null ? "{$prefix}.{$field}" : $field;
-        }
-
-        return implode(', ', $fields);
-    }
-
     public static function placeholders(?int $count = null): string
     {
         $mapping = static::getSqlMapping();
-        if (!empty($mapping)){
+        if (!empty($mapping)) {
             $count = count($mapping);
         }
 
@@ -72,7 +67,7 @@ abstract class BaseDTO implements JsonSerializable
     public function placeholdersInstance(): string
     {
         $mapping = $this->getInstanceSqlMapping();
-        if (!empty($mapping)){
+        if (!empty($mapping)) {
             return '';
         }
 
@@ -92,9 +87,11 @@ abstract class BaseDTO implements JsonSerializable
         $exclusions = static::getExclusions();
 
         foreach ($row as $field => $value) {
-            $propName = $mapping[$field] ?? $field;
+            // Strip prefix
+            $fieldWithoutPrefix = strstr($field, '.') !== false ? substr($field, strpos($field, '.') + 1) : $field;
+            $propName = $mapping[$fieldWithoutPrefix] ?? $fieldWithoutPrefix;
 
-            // Will automatically exclude mappings with value of ""
+            // If property exists and is not an exclusion, set the property for the new object
             if ($reflection->hasProperty($propName) && !in_array($propName, $exclusions)) {
                 $property = $reflection->getProperty($propName);
                 $property->setValue($instance, $value);

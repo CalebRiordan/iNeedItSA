@@ -15,9 +15,10 @@ $router->get("/profile/edit", "user/edit.php")->only('auth');
 $router->put("/profile", "user/update.php")->only('auth');
 
 $router->get("/orders", "order/index.php")->only('auth');
+$router->get("/orders/{id}", "order/get.php")->only('auth');
 
-$router->get("/cart", "cart/show.php")->only('auth');
-$router->post("/cart", "cart/store.php")->only('auth');
+$router->get("/cart", "cart/get.php")->only('auth');
+$router->post("/cart", "cart/persist.php")->only('auth');
 
 $router->get("/500", "500.php");
 
