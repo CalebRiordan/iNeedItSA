@@ -28,7 +28,6 @@
     width: 100%;
     background-color: var(--off-bg-colour);
     box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
-    outline: 1px solid transparent;
     padding: 0.7em;
     padding-right: 1em;
     display: flex;
@@ -172,4 +171,53 @@
     padding: 0.4em;
     font-size: 1.2em;
     box-sizing: border-box;
+}
+
+/* ================= Order Dropdown ================= */
+
+.orders-wrapper {
+    width: 100%;
+    margin-top: 10em;
+}
+
+.orders-wrapper .history {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.order {
+    background-color: var(--off-bg-colour);
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
+    border-radius: 0.5em;
+    padding: 0.8em 1em;
+    cursor: pointer;
+}
+
+.order .order-dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-summary {
+    width: 50%;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+}
+
+.order-summary .status {
+    color: var(--salient-colour);
+}
+
+.chevron {
+    height: 0.8em;
+    fill: rgba(var(--text-colour-dark-rgb), 0.6);
+}
+
+.order-items {
+    margin-top: 1em;
+    padding: 1em;
+    background: var(--dark-bg-colour);
 }

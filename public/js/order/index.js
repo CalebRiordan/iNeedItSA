@@ -86,3 +86,24 @@ document.addEventListener("DOMContentLoaded", async () => {
         setItemActions();
     }
 });
+
+document.querySelectorAll('.order').forEach(order => {
+    order.addEventListener('click', async function () {
+        const panel = this.querySelector('.order-items');
+        const icon = this.querySelector('.arrow-icon');
+
+        const isOpen = !panel.hasAttribute('hidden');
+
+        if (isOpen) {
+            panel.setAttribute('hidden', '');
+            icon.classList.remove('down');
+            icon.classList.add('left');
+        } else {
+            // You’ll replace this with AJAX later to load order details
+            panel.innerHTML = '<p>Loading order items...</p>';
+            panel.removeAttribute('hidden');
+            icon.classList.remove('left');
+            icon.classList.add('down');
+        }
+    });
+});

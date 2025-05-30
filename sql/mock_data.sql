@@ -1,3 +1,6 @@
+-- Mock data for testing and showcasing
+-- Data generation assisted by Gemini 2.0 Flash
+
 INSERT INTO User (user_id, first_name, last_name, email, password, phone_no, location, province, address, date_joined, is_buyer, is_seller) VALUES
 (1, 'Alice', 'Smith', 'alice_smith@example.com', 'password123', '123 456 7890', 'Mowbray', 'Western Cape', '123 Main St', '2022-01-15', TRUE, FALSE),
 (2, 'Bob', 'Johnson', 'bob_johnson@example.com', 'passw0rd', '321 654 0987', 'East London', 'Eastern Cape', '456 Elm St', '2023-03-22', TRUE, TRUE),
