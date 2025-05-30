@@ -32,11 +32,11 @@
     </div>
 
     <div class="sidebar-item">
-        <a href="/orders#cart">Cart</a>
+        <a href="/order#cart">Cart</a>
     </div>
 
     <div class="sidebar-item">
-        <a href="/orders#history">Orders</a>
+        <a href="/order#history">Orders</a>
     </div>
 
     <div class="sidebar-item">

@@ -91,6 +91,7 @@ CREATE TABLE order_item (
     product_id INT,
     order_id INT NOT NULL,
     quantity INT DEFAULT 1,
+    price_at_purchase DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE SET NULL,
     FOREIGN KEY (order_id) REFERENCES `order`(order_id) ON DELETE CASCADE
 );

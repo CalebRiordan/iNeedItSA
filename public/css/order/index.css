@@ -26,7 +26,7 @@
 
 /* ================= Cart Item ================= */
 
-.cart-item {
+.item {
     width: 100%;
     background-color: var(--off-bg-colour);
     box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
@@ -41,13 +41,13 @@
     font-size: inherit;
 }
 
-.cart-item .image-container {
+.item .image-container {
     width: 30%;
     aspect-ratio: 3/2;
     overflow: hidden;
 }
 
-.cart-item img {
+.item img {
     width: 100%;
 }
 
@@ -239,6 +239,22 @@
     padding: 1em;
     background: var(--dark-bg-colour);
 }
+
+
+/* ================= Order Item ================= */
+
+.order-item .item-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.order-item .item-info a {
+    text-decoration: none;
+    color: var(--text-colour-dark);
+    font-size: 1.4em;
+}
+
 
 /* Media Queries */
 

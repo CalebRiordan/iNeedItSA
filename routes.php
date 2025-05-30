@@ -14,8 +14,7 @@ $router->post("/register", "user/store.php")->only('guest');
 $router->get("/profile/edit", "user/edit.php")->only('auth');
 $router->put("/profile", "user/update.php")->only('auth');
 
-$router->get("/orders", "order/index.php")->only('auth');
-$router->get("/orders/{id}", "order/get.php")->only('auth');
+$router->get("/order", "order/index.php")->only('auth');
 
 $router->get("/cart", "cart/get.php")->only('auth');
 $router->post("/cart", "cart/persist.php")->only('auth');
@@ -23,4 +22,5 @@ $router->post("/cart", "cart/persist.php")->only('auth');
 $router->get("/500", "500.php");
 
 $router->partial("/products-display");
-$router->partial("/cart", "POST");
+$router->partial("/cart", "POST")->only('auth');
+$router->partial("/order/{id}")->only('auth');
