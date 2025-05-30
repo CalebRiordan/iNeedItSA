@@ -81,6 +81,7 @@ CREATE TABLE `order` (
     user_id INT,
     date DATE NOT NULL,
     ship_address VARCHAR(255) NOT NULL,
+    location VARCHAR(100) NOT NULL,
     total DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL
 );

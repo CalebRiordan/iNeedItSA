@@ -3,12 +3,10 @@
 namespace Core\Repositories;
 
 use Core\DTOs\OrderDTO;
+use Core\DTOs\OrderItemDTO;
 
 class OrderRepository extends BaseRepository
 {
-
-    // public function find(string $id): ?array
-    // {}
 
     public function findByUser(string $user_id): array
     {
@@ -20,6 +18,24 @@ class OrderRepository extends BaseRepository
 
         return $rows ? OrderDTO::fromRows($rows) : [];
     }
+
+    public function findItemsById($id): array
+    {
+        $fields = OrderItemDTO::toFields("i");
+        $sql = <<<SQL
+            SELECT {$fields} p.name FROM order_item i 
+            LEFT JOIN product p
+            ON i.product_id = p.product_id
+            LEFT JOIN product_image_url pi
+            ON i.product_id = pi.product_id
+            WHERE i.order_id = ? && pi.display_img_url = TRUE;
+        SQL;
+
+        $rows = $this->db->query($sql, [$id])->findAll();
+
+        return $rows ? OrderItemDTO::fromRows($rows) : [];
+    }
+
 
     public function create(array $data): array
     {

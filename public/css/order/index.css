@@ -6,11 +6,12 @@
 /* ================= Cart Section ================= */
 
 .cart-section {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
     gap: 1em;
     width: 100%;
-    margin-bottom: 10em;
+    margin-bottom: 2em;
+    box-sizing: border-box;
 }
 
 .cart-section .cart {
@@ -20,6 +21,7 @@
     gap: 1rem;
     margin-bottom: 2em;
     flex: 1;
+    font-size: inherit;
 }
 
 /* ================= Cart Item ================= */
@@ -36,6 +38,7 @@
     gap: 1em;
     border-radius: 0.5em;
     box-sizing: border-box;
+    font-size: inherit;
 }
 
 .cart-item .image-container {
@@ -115,7 +118,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 2em;
-    margin-bottom: 250px;
+    margin-bottom: 2em;
 }
 
 .cart-empty p {
@@ -141,7 +144,7 @@
 /* ================= Checkout Card ================= */
 
 .checkout-card {
-    width: 300px;
+    width: 100%;
     height: fit-content;
     background-color: var(--off-bg-colour);
     box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
@@ -151,6 +154,7 @@
     justify-content: end;
     align-items: center;
     gap: 1em;
+    box-sizing: border-box;
 }
 
 .checkout-card .checkout-details {
@@ -177,7 +181,7 @@
 
 .orders-wrapper {
     width: 100%;
-    margin-top: 10em;
+    margin-top: 1em;
 }
 
 .orders-wrapper .history {
@@ -195,29 +199,64 @@
 }
 
 .order .order-dropdown {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1em;
+}
+
+.order-summary {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.order-summary {
-    width: 50%;
-    /* display: flex;
-    justify-content: space-between;
-    align-items: center; */
+.order-summary .left {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2em;
 }
 
 .order-summary .status {
     color: var(--salient-colour);
 }
 
+.order-summary .space {
+    width: 10%;
+    width: 30px;
+}
+
 .chevron {
     height: 0.8em;
-    fill: rgba(var(--text-colour-dark-rgb), 0.6);
+    transition: rotate 0.2s ease;
+}
+
+.chevron.down {
+    rotate: -90deg;
 }
 
 .order-items {
     margin-top: 1em;
     padding: 1em;
     background: var(--dark-bg-colour);
+}
+
+/* Media Queries */
+
+@media (max-width: 900px) {
+    .content-column {
+        margin: 14px 12%;
+        font-size: 12px;
+    }
+
+    ;
+}
+
+@media (max-width: 600px) {
+    .content-column {
+    margin: 10px 8%;
+        font-size: 8px;
+    }
+
+    ;
+
 }

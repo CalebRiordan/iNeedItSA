@@ -21,7 +21,7 @@ class PartialController
                 echo json_encode(static::renderCart($params));
                 break;
             default:
-                response(404, ['error' => 'Partial not found.']);
+                response(['error' => 'Partial not found.'], 404);
         }
         exit;
     }
@@ -61,12 +61,12 @@ class PartialController
 
 
         if (!isset($input['items']) || !is_array($input['items'])) {
-            response(400, ['error' => "Invalid input. No 'items' key found for cart items."]);
+            response( ['error' => "Invalid input. No 'items' key found for cart items."], 400);
         }
 
         $ids = array_column($input['items'], 'product_id');
         if (empty($ids)) {
-            response(200);
+            response([]);
         }
 
         $filter = new ProductFilter();
