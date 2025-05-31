@@ -59,7 +59,7 @@ require base_path('views/partials/navbar.php');
                                 </span>
                             </div>
 
-                            <div class="order-items" hidden>
+                            <div class="order-items" hidden data-loaded=false>
                                 
                             </div>
                         </div>

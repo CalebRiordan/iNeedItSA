@@ -23,22 +23,17 @@ class OrderRepository extends BaseRepository
     {
         $fields = OrderItemDTO::toFields("i");
         $sql = <<<SQL
-            SELECT {$fields}, p.name FROM order_item i 
+            SELECT {$fields}, p.name, pi.img_url FROM order_item i 
             LEFT JOIN product p
             ON i.product_id = p.product_id
             LEFT JOIN product_image_url pi
-            ON i.product_id = pi.product_id
-            WHERE i.order_id = ? AND pi.is_display_img = TRUE;
+            ON i.product_id = pi.product_id AND pi.is_display_img = TRUE
+            WHERE i.order_id = ?
         SQL;
-        
-        try {
-            $rows = $this->db->query($sql, [$id])->findAll();
-        } catch (\Throwable $th) {
-            response([$th->getMessage()]);
-        }
 
+        $rows = $this->db->query($sql, [$id])->findAll();
 
-        return $rows ? OrderItemDTO::fromRows($rows) : [];
+        return $rows ? OrderItemDTO::fromRowsAdditional($rows) : [];
     }
 
 

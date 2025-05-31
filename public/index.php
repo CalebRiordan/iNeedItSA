@@ -9,7 +9,7 @@ try {
 
   // Autoloader
   require __DIR__ . '/../vendor/autoload.php';
-
+  
   // Services
   require base_path('app/core/services.php');
 
@@ -26,7 +26,7 @@ try {
 
   Session::unflash();
 } catch (Exception $ex) {
-  echo $ex;
+  dd($ex);
   // abort(500);
 } ?>
 
