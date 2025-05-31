@@ -93,3 +93,7 @@ function response(array $data, int $code = 200)
     echo json_encode($data);
     exit;
 }
+
+function existingFormData(string $key, string $default = ""){
+    return htmlspecialchars(Session::get($key) ?? $_POST[$key] ?? $default);
+}

@@ -113,7 +113,7 @@ class ProductRepository extends BaseRepository
 
         $sql = <<<SQL
             SELECT {$fields}, COALESCE(pi.img_url, "") as img_url FROM product p
-            LEFT JOIN product_image_url pi 
+            LEFT JOIN product_image_url pi
             ON p.product_id = pi.product_id AND pi.is_display_img = True
             {$where}
             {$orderBy}

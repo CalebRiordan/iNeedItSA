@@ -13,16 +13,16 @@
     font-size: 16px;
 }
 
-.filter-panel>div,
+.filter-panel > div,
 button {
     margin: 10px 0;
 }
 
-.filter-panel>div {
+.filter-panel > div {
     width: 92%;
 }
 
-.filter-panel>div h1 {
+.filter-panel > div h1 {
     text-align: left;
     margin: 10px 0;
 }
@@ -76,7 +76,7 @@ button {
     cursor: pointer;
 }
 
-.search-bar .search-button:active{
+.search-bar .search-button:active {
     opacity: 60%;
 }
 
@@ -114,7 +114,7 @@ button {
     pointer-events: none;
 }
 
-.apply-filter-btn:active{
+.apply-filter-btn:active {
     background-color: var(--primary-colour);
     opacity: 0.3;
     color: black;
@@ -141,14 +141,14 @@ button {
     font-size: inherit;
 }
 
-.price-options .range-selector>div {
+.price-options .range-selector > div {
     display: flex;
     justify-content: end;
     align-items: center;
     width: 75%;
 }
 
-.price-options .range-selector>div span {
+.price-options .range-selector > div span {
     margin: 0 5px;
     font-size: inherit;
 }
@@ -260,11 +260,11 @@ button {
     box-sizing: border-box;
 }
 
-.products-catalogue.empty h1{
+.products-catalogue.empty h1 {
     display: none;
 }
 
-.products-catalogue.empty .products-grid{
+.products-catalogue.empty .products-grid {
     display: none;
 }
 
@@ -272,18 +272,18 @@ button {
     display: none;
 }
 
-.products-catalogue.empty .no-results{
+.products-catalogue.empty .no-results {
     display: flex;
     width: 100%;
 }
 
-.products-catalogue.empty .no-results img{
+.products-catalogue.empty .no-results img {
     width: 40%;
-    aspect-ratio: 1 / 1;;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
 }
 
-.products-catalogue.empty .no-results img{
+.products-catalogue.empty .no-results img {
     object-fit: cover;
 }
 
@@ -313,7 +313,7 @@ button {
 
 /* Media Queries */
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
     .products-content-wrapper {
         grid-template-columns: 200px 1fr;
         padding-top: 10px;
@@ -327,14 +327,14 @@ button {
         font-size: 12px;
     }
 
-    .filter-panel>div,
-button {
-    margin: 5px 0;
-}
+    .filter-panel > div,
+    button {
+        margin: 5px 0;
+    }
 
-.category-list .option{
-    padding: 0.2em 0.6em;
-}
+    .category-list .option {
+        padding: 0.2em 0.6em;
+    }
 }
 
 @media (max-width: 600px) {
@@ -347,12 +347,12 @@ button {
         font-size: 8px;
     }
 
-    .filter-panel>div,
-button {
-    margin: 2px 0;
-}
+    .filter-panel > div,
+    button {
+        margin: 2px 0;
+    }
 
-.category-list .option{
-    padding: 0.15em 0.6em;
-}
+    .category-list .option {
+        padding: 0.15em 0.6em;
+    }
 }

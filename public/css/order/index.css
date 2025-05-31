@@ -27,6 +27,8 @@
 /* ================= Cart Item ================= */
 
 .item {
+    text-decoration: none;
+    color: inherit;
     width: 100%;
     background-color: var(--off-bg-colour);
     box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
@@ -43,16 +45,19 @@
 
 .item .image-container {
     width: 30%;
-    aspect-ratio: 3/2;
+    aspect-ratio: 4/3;
     overflow: hidden;
 }
 
 .item img {
     width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    object-position: center;
 }
 
 .cart-item .product-info {
-    padding: 1em 0;
+    padding: 0.5em 0;
     flex: 1;
     box-sizing: content-box;
     display: grid;
@@ -80,10 +85,10 @@
 }
 
 .cart-item .item-actions {
+    height: 70%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1em 0;
 }
 
 .cart-item .remove-item {
@@ -235,44 +240,90 @@
 }
 
 .order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
     margin-top: 1em;
     padding: 1em;
     background: var(--dark-bg-colour);
 }
 
-
 /* ================= Order Item ================= */
 
-.order-item .item-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.order-item .item-info a {
+.order-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1em;
+    font-size: inherit;
     text-decoration: none;
     color: var(--text-colour-dark);
-    font-size: 1.4em;
 }
 
+.order-item .left {
+    display: flex;
+    gap: 1em;
+}
+
+.order-item .image-container {
+    width: 15%;
+}
+
+.order-item .item-info {
+    height: 100%;
+    position: relative;
+    padding: 0.3em 0 0.4em 0;
+    box-sizing: border-box;
+    font-size: inherit;
+}
+
+.order-item .item-info span {
+    color: var(--text-colour-dark);
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.order-item .item-info p {
+    margin: 0;
+    position: absolute;
+    bottom: 0.4em;
+}
+
+.order-item .price {
+    margin: auto 0;
+}
 
 /* Media Queries */
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
     .content-column {
         margin: 14px 12%;
         font-size: 12px;
     }
 
-    ;
+    .cart-section {
+        display: grid;
+        grid-template-columns: none;
+        grid-template-rows: 1fr auto;
+        gap: 1em;
+        width: 100%;
+        margin-bottom: 2em;
+        box-sizing: border-box;
+    }
 }
 
 @media (max-width: 600px) {
     .content-column {
-    margin: 10px 8%;
+        margin: 10px 8%;
         font-size: 8px;
     }
 
-    ;
-
+    .cart-section {
+        display: grid;
+        grid-template-columns: none;
+        grid-template-rows: 1fr auto;
+        gap: 1em;
+        width: 100%;
+        margin-bottom: 2em;
+        box-sizing: border-box;
+    }
 }

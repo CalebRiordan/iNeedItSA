@@ -115,14 +115,21 @@ document.querySelectorAll(".order").forEach((order) => {
             chevron.classList.remove("down");
         } else {
             panel.hidden = false;
-            panel.innerHTML = "<p>Loading order items...</p>";
             chevron.classList.add("down");
+            
+            if (!panel.loaded) {                
+                panel.innerHTML = "<p>Loading order items...</p>";
+                const orderItems = await fetchOrder(
+                    parseInt(this.dataset.orderId)
+                );
 
-            const orderItems = await fetchOrder(parseInt(this.dataset.orderId));
-            console.log(orderItems);
-
-            if (orderItems) {
-                panel.innerHTML = orderItems;
+                if (orderItems) {
+                    panel.innerHTML = orderItems;
+                    panel.loaded = true;
+                } else {
+                    panel.innerHTML =
+                        "<h1 class='centre-content'>Error Loading Order History</h1>";
+                }
             }
         }
 

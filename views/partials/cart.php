@@ -1,6 +1,6 @@
 <?php foreach ($products as $i => $product): ?>
 
-    <div id="item_<?= $product->id ?>" class="item cart-item">
+    <a id="item_<?= $product->id ?>" class="item cart-item" href="<?= "/products/{$product->id}" ?>">
         <div class="image-container">
             <img
                 src="<?= $product->displayImageUrl ? htmlspecialchars($product->displayImageUrl) : '/assets/images/product-placeholder.png' ?>"
@@ -34,6 +34,6 @@
             </div>
 
         </div>
-    </div>
+    </a>
 
 <?php endforeach; ?>
