@@ -27,7 +27,7 @@ export class ConfirmModal {
         this.onConfirmCallback = callback;
         this.messageElement.textContent = message;
         this.element.classList.remove("hidden");
-        
+
         this.confirmBtn.focus();
     }
 
@@ -39,5 +39,10 @@ export class ConfirmModal {
         if (this.onConfirmCallback) this.onConfirmCallback(confirm);
 
         this.element.classList.add("hidden");
+    }
+
+    setButtons(positive, negative) {
+        this.confirmBtn.textContent = positive;
+        this.cancelBtn.textContent = negative;
     }
 }

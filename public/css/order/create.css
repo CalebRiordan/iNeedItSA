@@ -23,6 +23,10 @@
     margin-bottom: 0.5em;
 }
 
+.section-heading.heading-3{
+    margin-top: 0.1em;
+}
+
 input {
     padding: 0.5em;
     width: 100%;
@@ -30,6 +34,15 @@ input {
     margin-top: 0.5em;
     background: var(--off-bg-colour);
     border: 1px solid var(--dark-bg-colour);
+}
+
+.checkout-container form p.error {
+    min-height: 1.2em;
+    max-height: 2.4em;
+    width: 100%;
+    font-size: 0.8em;
+    color: var(--error-colour);
+    margin: 3px 0 10px 0;
 }
 
 .checkout-container form button {
