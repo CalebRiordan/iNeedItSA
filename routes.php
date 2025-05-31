@@ -16,6 +16,7 @@ $router->put("/profile", "user/update.php")->only('auth');
 
 $router->get("/order", "order/index.php")->only('auth');
 $router->get("/checkout", "order/create.php")->only('auth');
+$router->post("/checkout", "order/store.php")->only('auth');
 
 $router->get("/cart", "cart/get.php")->only('auth');
 $router->post("/cart", "cart/persist.php")->only('auth');

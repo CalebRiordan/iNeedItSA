@@ -9,7 +9,7 @@ require base_path('views/partials/navbar.php');
 ?>
 
 <main class="checkout-container">
-    <form action="/orders/confirm" method="POST">
+    <form action="/checkout" method="POST">
 
         <h1>Checkout</h1>
 
@@ -23,15 +23,16 @@ require base_path('views/partials/navbar.php');
 
         <section>
             <h2 class="section-heading">Payment</h2>
-            <label for="card-number">Enter card number</label>
-            <input id="card-number" type="text" placeholder="Card number" />
+            <label for="card-num">Enter card number</label>
+            <input id="card-num" type="text" placeholder="Card number" />
+            <p class="error error-card-num"><?= $errors['email'] ?? "" ?></p>
         </section>
 
         <section>
-            <h2 class="section-heading">Order Summary</h2>
+            <h2 class="section-heading heading-3">Order Summary</h2>
+            <p class="date-expected"><strong>Expected Arrival:</strong> <?= htmlspecialchars(date("j F Y", strtotime("+5 days"))) ?></p>
             <p><strong>Items:</strong> <?= $itemsCount ?></p>
             <p><strong>Total:</strong> R<?= number_format($total, 2) ?></p>
-            <p class="date-expected">Expected arrival on <strong><?= htmlspecialchars(date("j F Y", strtotime("+5 days"))) ?></strong></p>
         </section>
 
         <button type="submit">
@@ -40,7 +41,7 @@ require base_path('views/partials/navbar.php');
 
     </form>
 
-    <?php require base_path('views/partials/confirmation-modal.php')?>
+    <?php require base_path('views/partials/confirmation-modal.php') ?>
 
 </main>
 
