@@ -21,7 +21,7 @@ class OrderItemDTO extends BaseDTO
         public string $orderId,
         public string $productId,
         public int $quantity,
-        public int $price
+        public float $price
     ) {}
 
     /** Initializes the product information properties for each item derived from a row */

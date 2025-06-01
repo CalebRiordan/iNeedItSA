@@ -2,8 +2,8 @@
 
 $stylesheets = ['status-code.css'];
 
-require base_path('views/partials/header.php');
-require base_path('views/partials/navbar.php');
+require partial('header');
+require partial('navbar');
 ?>
 
 <main class="status-code">
@@ -21,4 +21,4 @@ require base_path('views/partials/navbar.php');
     <!-- </div> -->
 </main>
 
-<?php require base_path('views/partials/footer.php') ?>
+<?php require partial('footer') ?>

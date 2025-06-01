@@ -3,13 +3,14 @@
 $stylesheets = ['form.css', 'user/create.css'];
 $scripts = ['user/create.js'];
 
-require base_path('views/partials/header.php');
-require base_path('views/partials/navbar.php');
+require partial('header');
+require partial('navbar');
 ?>
 
 <main>
     <div class="form-container">
         <form action="/profile" method="POST" enctype="multipart/form-data">
+            <!-- Hidden attributes -->
             <input type="hidden" name="_method" value="PUT">
             <input type="hidden" name="previousPage" value="<?= previousPage(); ?>">
 
@@ -65,7 +66,7 @@ require base_path('views/partials/navbar.php');
                     </div>
 
                     <button type="button" class="remove-btn" style="display: <?= $user && $user->profilePicUrl ? "block" : "none" ?>;">&times;</button>
-                    <p class="error image-error"><?= $errors['profilePic'] ?? "" ?></p>
+                    <p class="error image-error"><?= $errors['profile_pic'] ?? "" ?></p>
                 </div>
             </div>
 
@@ -113,4 +114,4 @@ require base_path('views/partials/navbar.php');
     </div>
 </main>
 
-<?php require base_path('views/partials/footer.php') ?>
+<?php require partial('footer') ?>

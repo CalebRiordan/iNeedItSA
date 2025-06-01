@@ -14,32 +14,32 @@ if ($user) {
     redirect("/login?email={$email}");
 } else {
     $fields = [
-        "firstName" => htmlspecialchars($_POST["first_name"], ENT_QUOTES),
-        "lastName" => htmlspecialchars($_POST["last_name"], ENT_QUOTES),
+        "first_name" => htmlspecialchars($_POST["first_name"], ENT_QUOTES),
+        "last_name" => htmlspecialchars($_POST["last_name"], ENT_QUOTES),
         "email" => htmlspecialchars($_POST["email"], ENT_QUOTES),
         "password" => htmlspecialchars($_POST["password"], ENT_QUOTES),
-        "phoneNo" => htmlspecialchars($_POST["phone_no"], ENT_QUOTES),
+        "phone_no" => htmlspecialchars($_POST["phone_no"], ENT_QUOTES),
         "location" => htmlspecialchars($_POST["location"], ENT_QUOTES),
         "province" => htmlspecialchars($_POST["province"], ENT_QUOTES),
         "address" => htmlspecialchars($_POST["address"], ENT_QUOTES),
-        "profilePic" => noImageUploaded($_FILES["profile_pic"]) ? null : $_FILES["profile_pic"],
-        "shipAddress" => htmlspecialchars($_POST["ship_address"], ENT_QUOTES),
+        "profile_pic" => noImageUploaded($_FILES["profile_pic"]) ? null : $_FILES["profile_pic"],
+        "ship_address" => htmlspecialchars($_POST["ship_address"], ENT_QUOTES),
     ];
 
     // Server-side form validation
     RegistrationForm::validate($fields);
 
     $user = new CreateUserDTO(
-        $fields["firstName"],
-        $fields["lastName"],
+        $fields["first_name"],
+        $fields["last_name"],
         $fields["email"],
         $fields["password"],
-        $fields["phoneNo"],
+        $fields["phone_no"],
         $fields["location"],
         $fields["province"],
         $fields["address"],
-        $fields["profilePic"],
-        $fields["shipAddress"]
+        $fields["profile_pic"],
+        $fields["ship_address"]
     );
 
     $user = $users->create($user);

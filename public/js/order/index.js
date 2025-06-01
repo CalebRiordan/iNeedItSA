@@ -56,6 +56,8 @@ function setItemActions() {
 
     spinners.forEach((spinner) => {
         spinner.addEventListener("change", async () => {
+            console.log(spinner.value);
+            return;
             const id = spinner.dataset.productId;
             const qty = parseInt(spinner.value, 10);
             await Cart.updateQuantity(id, qty);

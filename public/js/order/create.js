@@ -2,8 +2,8 @@ import { ConfirmModal } from "/js/utils/modal.js";
 
 const addressInput = document.getElementById("address");
 const cardInput = document.getElementById("card-num");
-const submitBtn = document.querySelectory(".checkout-container form button");
-cardInputError = document.querySelector(".error-card-num");
+const cardInputError = document.querySelector(".error-card-num");
+const form = document.getElementById("checkout-form");
 
 let address = addressInput.value;
 const modal = new ConfirmModal();
@@ -52,16 +52,18 @@ cardInput.addEventListener("blur", function () {
     }
 });
 
-submitBtn.addEventListener("click", (e) => {
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
     if (cardInput.value.length !== 16) {
-        e.preventDefault();
         cardInputError.textContent = "Card number must be 16 digits";
-    } else {
-        modal.setButtons("confirm", "cancel");
-        modal.show("Are you sure you want to place order?", (confirm) => {
-            if (!confirm) {
-                e.preventDefault();
-            }
-        });
+        return;
     }
+
+    modal.setButtons("confirm", "cancel");
+    modal.show("Are you sure you want to place order?", (confirmed) => {
+        if (confirmed) {
+            form.click();
+        }
+    });
 });

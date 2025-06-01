@@ -5,9 +5,9 @@ $scripts = ['product/index.js', 'utils/scaleProductCardFont.js'];
 
 $cardWidth = 'auto';
 
-require base_path('views/partials/header.php');
-require base_path('views/partials/navbar.php');
-require base_path('views/partials/category-bar.php');
+require partial('header');
+require partial('navbar');
+require partial('category-bar');
 ?>
 
 <main>
@@ -119,4 +119,4 @@ require base_path('views/partials/category-bar.php');
 
 </main>
 
-<?php require base_path('views/partials/footer.php'); ?>
+<?php require partial('footer'); ?>

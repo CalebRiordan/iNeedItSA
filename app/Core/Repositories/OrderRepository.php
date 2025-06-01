@@ -2,6 +2,8 @@
 
 namespace Core\Repositories;
 
+use Core\DTOs\CreateOrderDTO;
+use Core\DTOs\CreateOrderItemDTO;
 use Core\DTOs\OrderDTO;
 use Core\DTOs\OrderItemDTO;
 
@@ -32,14 +34,33 @@ class OrderRepository extends BaseRepository
         SQL;
 
         $rows = $this->db->query($sql, [$id])->findAll();
-
+        
         return $rows ? OrderItemDTO::fromRowsAdditional($rows) : [];
     }
 
-
-    public function create(array $data): array
+    public function create(CreateOrderDTO $order): string
     {
-        return [];
+        // Insert order
+        $fields = CreateOrderDTO::toFields();
+        $placeholders = CreateOrderDTO::placeholders();
+        $sql = <<<SQL
+            INSERT INTO `order` ({$fields}) VALUES
+            ({$placeholders});
+        SQL;
+
+        $orderId = $this->db->query($sql, $order->getMappedValues())->newId();
+        
+        // Insert order items
+        $fields = CreateOrderItemDTO::toFields();
+        $placeholderSets = $order->itemsPlaceholderSets();
+        $sql = <<<SQL
+            INSERT INTO order_item ($fields) VALUES
+            {$placeholderSets}
+        SQL;
+
+        $this->db->query($sql, $order->itemsValues($orderId));
+
+        return $orderId;
     }
 
     public function toProducts(): array{
