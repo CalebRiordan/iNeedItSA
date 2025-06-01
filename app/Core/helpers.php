@@ -31,6 +31,11 @@ function view($path, $attributes = [])
     require base_path('views/' . $path . '.view.php');
 }
 
+function partial($name)
+{
+    return base_path('views/partials/' . $name . '.php');
+}
+
 function dd($value)
 {
     echo "<pre>";
@@ -94,6 +99,12 @@ function response(array $data, int $code = 200)
     exit;
 }
 
-function existingFormData(string $key, string $default = ""){
-    return htmlspecialchars(Session::get($key) ?? $_POST[$key] ?? $default);
+function existingFormData(string $key, string $default = "")
+{
+    return htmlspecialchars(old($key) ?? $_POST[$key] ?? $default);
+}
+
+function old($key, $default = '')
+{
+    return Core\Session::get('old')[$key] ?? $default;
 }

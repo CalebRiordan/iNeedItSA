@@ -47,6 +47,6 @@
     </div>
 </nav>
 
-<?php require base_path('views/partials/sidebar.php'); ?>
+<?php require partial('sidebar'); ?>
 
 <div id="navbar-offset"></div>

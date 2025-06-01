@@ -4,7 +4,7 @@ $stylesheets = ['category-bar.css', 'products-search-bar.css', 'product-row.css'
 $scripts = ['products-search-bar.js', 'product-row.js', 'utils/scaleProductCardFont.js'];
 
 require base_path("views/partials/header.php");
-require base_path('views/partials/navbar.php');
+require partial('navbar');
 
 require base_path("views/partials/category-bar.php");
 ?>

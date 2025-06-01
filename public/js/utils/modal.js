@@ -10,11 +10,11 @@ export class ConfirmModal {
             this.hide(true);
         });
 
-        this.cancelBtn.addEventListener("click", () => this.hide);
+        this.cancelBtn.addEventListener("click", () => this.hide());
 
         this.element.addEventListener("click", (e) => {
             if (e.target === this.element) {
-                this.hide(false);
+                this.hide();
             }
         });
     }

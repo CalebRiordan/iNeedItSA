@@ -5,8 +5,8 @@ use Core\DTOs\CreateUserDTO;
 $stylesheets = ['form.css', 'user/create.css'];
 $scripts = ['user/create.js'];
 
-require base_path('views/partials/header.php');
-require base_path('views/partials/navbar.php');
+require partial('header');
+require partial('navbar');
 
 if (!isset($user) || !$user) {
     $user = new CreateUserDTO(
@@ -53,7 +53,7 @@ if (!isset($user) || !$user) {
                         <div class="input-wrapper">
                             <input id="password" type="password" placeholder="Password" name="password" required>
 
-                            <?php require base_path('views/partials/toggle-password-btn.php') ?>
+                            <?php require partial('toggle-password-btn') ?>
                         </div>
 
                         <p class="error image-error"><?= $errors['password'] ?? "" ?></p>
@@ -74,7 +74,7 @@ if (!isset($user) || !$user) {
                     </div>
 
                     <button type="button" class="remove-btn" style="display:none;">&times;</button>
-                    <p class="error"><?= $errors['profilePic'] ?? "" ?></p>
+                    <p class="error"><?= $errors['profile_pic'] ?? "" ?></p>
                 </div>
             </div>
 
@@ -144,4 +144,4 @@ if (!isset($user) || !$user) {
     </div>
 </main>
 
-<?php require base_path('views/partials/footer.php') ?>
+<?php require partial('footer') ?>

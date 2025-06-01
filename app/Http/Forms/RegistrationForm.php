@@ -10,15 +10,15 @@ class RegistrationForm extends Form{
     public function __construct(array $attributes)
     {
         $required = [
-            "firstName",
-            "lastName",
+            "first_name",
+            "last_name",
             "email",
             "password",
-            "phoneNo",
+            "phone_no",
             "location",
             "province",
             "address",
-            "shipAddress"
+            "ship_address"
         ];
 
         $missing = self::missingKeys($attributes, $required);
@@ -28,15 +28,15 @@ class RegistrationForm extends Form{
 
         $this->attributes = $attributes;
 
-        if (!self::lettersOnly($attributes['firstName'], 1, 50)) {
-            $this->errors['firstName'] = "First name must be letters only and 50 characters or less";
+        if (!self::lettersOnly($attributes['first_name'], 1, 50)) {
+            $this->errors['first_name'] = "First name must be letters only and 50 characters or less";
         }
-        $this->notEmpty('firstName', "First name");
+        $this->notEmpty('first_name', "First name");
         
-        if (!self::lettersOnly($attributes['lastName'], 1, 50)) {
-            $this->errors['lastName'] = "Last name must be letters only and 50 characters or less";
+        if (!self::lettersOnly($attributes['last_name'], 1, 50)) {
+            $this->errors['last_name'] = "Last name must be letters only and 50 characters or less";
         }
-        $this->notEmpty('lastName', "Last name");
+        $this->notEmpty('last_name', "Last name");
 
         if (!self::email($attributes['email'])) {
             $this->errors['email'] = "Please provide a valid email address.";
@@ -48,10 +48,10 @@ class RegistrationForm extends Form{
         }
         $this->notEmpty('password', "Password");
 
-        if (!self::numbersOnly($attributes['phoneNo'], 7, 20)) {
-            $this->errors['phoneNo'] = "Please provide a valid phone number between 7 and 20 characters";
+        if (!self::numbersOnly($attributes['phone_no'], 7, 20)) {
+            $this->errors['phone_no'] = "Please provide a valid phone number between 7 and 20 characters";
         }
-        $this->notEmpty('phoneNo', "Phone number");
+        $this->notEmpty('phone_no', "Phone number");
 
         if (!self::string($attributes['location'], 1, 100)) {
             $this->errors['location'] = "Location cannot be more than 100 characters";
@@ -80,13 +80,13 @@ class RegistrationForm extends Form{
         }
         $this->notEmpty('address', "Address");
 
-        if (!self::string($attributes['shipAddress'], 1, 255)) {
-            $this->errors['shipAddress'] = "Shipping address is required and must be 255 characters or less";
+        if (!self::string($attributes['ship_address'], 1, 255)) {
+            $this->errors['ship_address'] = "Shipping address is required and must be 255 characters or less";
         }
-        $this->notEmpty('shipAddress', "Shipping Address");
+        $this->notEmpty('ship_address', "Shipping Address");
 
-        if (validImage($attributes['profilePic']) && !self::acceptableImage($attributes['profilePic'])){
-            $this->errors['profilePic'] = "Image must be a JPG, JPEG, and PNG no greater in size than 4MB";
+        if (validImage($attributes['profile_pic']) && !self::acceptableImage($attributes['profile_pic'])){
+            $this->errors['profile_pic'] = "Image must be a JPG, JPEG, and PNG no greater in size than 4MB";
         }
     }
 }

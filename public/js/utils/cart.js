@@ -48,6 +48,8 @@ export class Cart {
     }
 
     static async persist() {
+        console.log("fetch");
+        
         fetch("/cart", {
             method: "POST",
             headers: {
@@ -57,6 +59,7 @@ export class Cart {
         })
             .then(async (res) => {
                 const data = await res.json();
+                console.log(data);                
             })
             .catch((error) => {
                 window.location.href = "/500";

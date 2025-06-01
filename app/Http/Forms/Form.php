@@ -18,6 +18,7 @@ class Form
 
     public function throw()
     {
+        // ValidationExceptions are explicitly caught in the Router
         ValidationException::throw($this->errors, $this->attributes);
     }
 

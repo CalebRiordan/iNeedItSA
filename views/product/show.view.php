@@ -5,9 +5,9 @@ use Core\Session;
 $stylesheets = ['category-bar.css', 'product/show.css', 'products-search-bar.css'];
 $scripts = ['product/show.js', 'products-search-bar.js'];
 
-require base_path('views/partials/header.php');
-require base_path('views/partials/navbar.php');
-require base_path('views/partials/category-bar.php');
+require partial('header');
+require partial('navbar');
+require partial('category-bar');
 ?>
 
 <input id="product-id" value="<?= $product->id ?>" type="hidden">
@@ -165,4 +165,4 @@ require base_path('views/partials/category-bar.php');
     </div>
 </main>
 
-<?php require base_path('views/partials/footer.php'); ?>
+<?php require partial('footer'); ?>

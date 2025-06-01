@@ -1,16 +1,16 @@
 <?php
 
+use Core\Session;
+
 $stylesheets = ['order/create.css'];
 $scripts = ['order/create.js'];
 
-require base_path('views/partials/header.php');
-require base_path('views/partials/navbar.php');
-
+require partial('header');
+require partial('navbar');
 ?>
 
 <main class="checkout-container">
-    <form action="/checkout" method="POST">
-
+    <form action="/checkout" method="POST" id="checkout-form">
         <h1>Checkout</h1>
 
         <section>
@@ -18,13 +18,13 @@ require base_path('views/partials/navbar.php');
             <p><strong>Phone:</strong> <?= htmlspecialchars($user->phoneNo) ?></p>
             <p><strong>Location: </strong><?= htmlspecialchars($user->location) ?>, <?= htmlspecialchars($user->province) ?></p>
             <label for="address"><strong>Address</strong></label><br>
-            <input id="address" type="text" value="<?= htmlspecialchars($user->buyerProfile->shipAddress) ?>">
+            <input id="address" name="address" type="text" value="<?= htmlspecialchars($user->buyerProfile->shipAddress) ?>">
         </section>
 
         <section>
             <h2 class="section-heading">Payment</h2>
             <label for="card-num">Enter card number</label>
-            <input id="card-num" type="text" placeholder="Card number" />
+            <input id="card-num" name="card_num" type="text" placeholder="Card number" />
             <p class="error error-card-num"><?= $errors['email'] ?? "" ?></p>
         </section>
 
@@ -39,10 +39,14 @@ require base_path('views/partials/navbar.php');
             Place Order
         </button>
 
+        <input type="hidden" name="csrf_token" value="<?= Session::get('csrf_token') ?>">
+        <input type="hidden" id="toast" value="<?= Session::get('toast') ?>">
     </form>
+    
 
-    <?php require base_path('views/partials/confirmation-modal.php') ?>
+    <?php require_once partial('toast')?>
+    <?php require_once partial('confirmation-modal') ?>
 
 </main>
 
-<?php require base_path('views/partials/footer.php') ?>
+<?php require partial('footer') ?>
