@@ -54,6 +54,9 @@ class Authenticator
             Session::put('csrf_token', bin2hex(random_bytes(32)));
         }
 
+        // Sync cart after login
+        Session::flash('sync_cart', true);
+
         session_regenerate_id(true);
     }
 
@@ -93,6 +96,7 @@ class Authenticator
             }
 
             Session::put("last_activity", time());
+            Session::flash('sync_cart', true);
         }
         // 2. No user session exists but persistent login is enabled
         elseif (isset($_COOKIE['remember_login'])) {

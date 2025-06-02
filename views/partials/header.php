@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>iNeedItSA</title>
-    <!-- Styles -->
-    <?php if (isset($stylesheets)): ?>
-        
+    <?php
+
+    // Load Styles
+    if (isset($stylesheets)): ?>
+
         <?php $stylesheets[] = 'globals.css'; ?>
         <?php $stylesheets[] = 'navbar.css'; ?>
 

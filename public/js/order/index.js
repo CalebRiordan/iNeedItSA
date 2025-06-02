@@ -1,5 +1,4 @@
 import { Cart } from "/js/utils/cart.js";
-import { updateCartNavLinkCount } from "/js/navbar.js";
 
 const totalQty = document.getElementById("total-qty");
 const totalPrice = document.getElementById("total-price");
@@ -56,8 +55,6 @@ function setItemActions() {
 
     spinners.forEach((spinner) => {
         spinner.addEventListener("change", async () => {
-            console.log(spinner.value);
-            return;
             const id = spinner.dataset.productId;
             const qty = parseInt(spinner.value, 10);
             await Cart.updateQuantity(id, qty);
@@ -70,7 +67,7 @@ function setItemActions() {
             const id = btn.dataset.productId;
             await Cart.remove(id);
             document.getElementById(`item_${id}`).remove();
-            updateCartNavLinkCount();
+            Cart.updateNavLinkCount();
             if (Cart.items.length === 0) {
                 cartEmpty();
             }
