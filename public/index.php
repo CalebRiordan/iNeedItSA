@@ -17,14 +17,12 @@ try {
   (new Authenticator)->updateLoginState();
 
   // Router
-
   $router = new Router();
   require base_path("routes.php");
   $uri = $router->getUri();
   $method = $router->getMethod();
   $router->route($uri, $method);
 
-  Session::unflash();
 } catch (Exception $ex) {
   dd($ex);
   // abort(500);
@@ -32,7 +30,15 @@ try {
 
 <!-- Global environment variables -->
 <script>
+  // set config
   window.APP_CONFIG = {
     baseUrl: "<?= env("BASE_URL") ?>"
   };
+
+  // set cart sync data
+  if (<?= Session::has('sync_cart') ? 'true' : 'false' ?>){
+    window.cartData = <?= json_encode(Session::get('cart')) ?>;
+  } 
 </script>
+
+<?php Session::unflash(); ?>

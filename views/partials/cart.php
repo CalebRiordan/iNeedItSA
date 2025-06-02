@@ -1,6 +1,6 @@
 <?php foreach ($products as $i => $product): ?>
 
-    <a id="item_<?= $product->id ?>" class="item cart-item" href="<?= "/products/{$product->id}" ?>">
+    <div id="item_<?= $product->id ?>" class="item cart-item" data-id=<?= $product->id ?>>
         <div class="image-container">
             <img
                 src="<?= $product->displayImageUrl ? htmlspecialchars($product->displayImageUrl) : '/assets/images/product-placeholder.png' ?>"
@@ -34,6 +34,18 @@
             </div>
 
         </div>
-    </a>
+        </a>
 
-<?php endforeach; ?>
+    <?php endforeach; ?>
+
+    <script>
+        // Redirect to item's corresponding product on click. 
+        // Cannot wrap item in <a> or make the cart-item container an <a> without affecting
+        // functionality of internal buttons
+        const items = document.querySelectorAll(".item .cart-item");
+        items.forEach((item) => {
+            item.addEventListener("click", (e) => {
+                window.location.hred = `/product/${item.dataset.id}`;
+            })
+        })
+    </script>

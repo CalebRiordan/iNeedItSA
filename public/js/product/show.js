@@ -1,5 +1,4 @@
 import { Cart } from "/js/utils/cart.js";
-import { updateCartNavLinkCount } from "/js/navbar.js";
 
 const addToCartBtn = document.querySelector("a.add-cart-btn");
 const loading = document.querySelector(".loading");
@@ -20,7 +19,7 @@ addToCartBtn.addEventListener("click", async (e) => {
         updateProduct("pending");
         await Cart.add(productId.value, 1, price.value);
         updateProduct("add");
-        updateCartNavLinkCount();
+        Cart.updateNavLinkCount();
     }
 });
 
