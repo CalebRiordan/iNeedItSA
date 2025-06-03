@@ -27,7 +27,7 @@
     margin-top: 0.1em;
 }
 
-input {
+.checkout-container input {
     padding: 0.5em;
     width: 100%;
     font-size: 1em;
@@ -43,6 +43,12 @@ input {
     font-size: 0.8em;
     color: var(--error-colour);
     margin: 3px 0 10px 0;
+}
+
+.checkout-container #csv-code {
+    width: 14%;
+    min-width: 4em;
+    display: block;
 }
 
 .checkout-container form button {
