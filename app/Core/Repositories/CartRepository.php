@@ -14,8 +14,6 @@ class CartRepository extends BaseRepository
 
     public function persist(string $userId, array $cart): bool
     {
-        if (empty($cart)) return false;
-
         // Delete existing cart items for the user (no-op if none exist)
         $this->db->query("DELETE FROM cart_item WHERE user_id = ?", [$userId]);
 
@@ -38,7 +36,7 @@ class CartRepository extends BaseRepository
             return false;
         }
 
-        if (empty($values)) return false;
+        if (empty($values)) return true;
 
         $placeholders = implode(', ', $placeholders);
 

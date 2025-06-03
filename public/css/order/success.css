@@ -1,0 +1,54 @@
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    background: var(--background-colour);
+    font-size: 18px;
+}
+
+.order-success-card {
+    background: var(--off-bg-colour);
+    padding: 2.5em 2em;
+    border-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2.6px;
+    text-align: center;
+    width: 30%;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.order-success-icon {
+    margin-bottom: 1em;
+}
+
+.redirect-btn {
+    display: inline-block;
+    margin-top: 1.2em;
+    padding: 0.5em 1.2em;
+    background: var(--salient-colour);
+    color: var(--background-colour);
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+.redirect-btn:hover {
+    filter: brightness(85%);
+}
+
+/* Media Queries */
+
+@media (max-width: 1200px) {
+    .order-success-card {
+        width: 55%;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .order-success-card {
+        width: 90%;
+        font-size: 12px;
+    }
+}

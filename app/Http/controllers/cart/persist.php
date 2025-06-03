@@ -4,11 +4,12 @@ use Core\Repositories\CartRepository;
 use Core\Session;
 
 $input = json_decode(file_get_contents('php://input'), true);
-$cart = $input['items'] ?? null;
 
-if (!$cart || !is_array($cart)) {
+// Must not fail with empty array
+if (!isset($input['items']) || !is_array($input['items'])) {
     response(['error' => 'Invalid cart data'], 400);
 }
+$cart = $input['items'];
 
 $userId = Session::get('user')['id'];
 
