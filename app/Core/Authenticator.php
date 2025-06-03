@@ -67,16 +67,11 @@ class Authenticator
     public static function logout()
     {
         // Save cart state to database
-        if (Session::has('cart')) {
-            try {
-                (new CartRepository)->persist(
-                    Session::get('user')['id'],
-                    Session::get('cart')['cart']
-                );
-            } catch (\Throwable $th) {
-                Session::toast("Error occurred while trying to save cart. Unable to log out");
-                return;
-            }
+        if (Session::has('cart') && !(new CartRepository())->persist(
+            Session::get('user')['id'],
+            Session::get('cart')
+        )) {
+            Session::toast("Error occurred while trying to save cart. Unable to log out", "error");
         }
 
         // Clear session 

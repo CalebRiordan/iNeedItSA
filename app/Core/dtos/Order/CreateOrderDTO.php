@@ -19,7 +19,7 @@ class CreateOrderDTO extends BaseDTO
         public string $shipAddress,
         public string $location,
         public string $totalCost,
-        /** @var CreateItemDTO[] */
+        /** @var CreateOrderItemDTO[] */
         public array $items,
     ) {
         $this->date = date('Y-m-d');
@@ -27,10 +27,10 @@ class CreateOrderDTO extends BaseDTO
 
     public function itemsPlaceholderSets()
     {
-        $placeholderSet = static::placeholders();
+        $itemPlaceholderSet = '(' . CreateOrderItemDTO::placeholders() . ')';
         $count = count($this->items);
 
-        return implode(', ', array_fill(0, $count, $placeholderSet));
+        return implode(', ', array_fill(0, $count, $itemPlaceholderSet));
     }
 
     public function itemsValues($orderId)

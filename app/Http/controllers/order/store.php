@@ -58,4 +58,5 @@ Session::put('last_order_processed', [
 // Clear cart & redirect
 (new CartRepository())->deleteByUser($userId);
 Session::remove('cart');
-redirect("/success");
+
+redirect("/order/success");

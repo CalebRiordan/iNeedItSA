@@ -1,6 +1,8 @@
 export class Cart {
   static get items() {
-    return JSON.parse(localStorage.getItem("cart")) || [];
+    const items = JSON.parse(localStorage.getItem("cart"));
+    // Make sure it's an array
+    return Array.isArray(items) ? items : [];
   }
 
   static set(items) {
@@ -62,7 +64,6 @@ export class Cart {
     })
       .then(async (res) => {
         const data = await res.json();
-        console.log(data);
       })
       .catch((error) => {
         window.location.href = "/500";
