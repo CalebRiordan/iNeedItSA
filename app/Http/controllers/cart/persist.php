@@ -1,13 +1,19 @@
 <?php
 
+use Core\Repositories\CartRepository;
 use Core\Session;
 
-response(["persist"]);
 $input = json_decode(file_get_contents('php://input'), true);
-if (!isset($input['items']) || !is_array($input['items'])) {
+$cart = $input['items'] ?? null;
+if (!$cart || !is_array($cart)) {
     response(['error' => 'Invalid cart data'], 400);
 }
 
-Session::put('cart', $input['items']);
+Session::put('cart', $cart);
+$userId = Session::get('user')['id'];
+
+// Save cart to database
+(new CartRepository())->persist($userId, $cart);
+// dd("After cart repo persist");
 
 response(['message' => 'Cart saved successfully']);
