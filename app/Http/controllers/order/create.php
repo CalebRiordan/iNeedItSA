@@ -3,11 +3,14 @@
 use Core\Repositories\UserRepository;
 use Core\Session;
 
+
 $cart = Session::get('cart');
 
 if (!$cart) {
     redirect("/order");
 }
+
+// dd("order create");
 
 $total = 0;
 $itemsCount = 0;

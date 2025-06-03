@@ -2,8 +2,8 @@
 
 use Core\DTOs\CreateOrderDTO;
 use Core\DTOs\CreateOrderItemDTO;
+use Core\Repositories\CartRepository;
 use Core\Repositories\OrderRepository;
-use Core\Repositories\UserRepository;
 use Http\Forms\CheckoutForm;
 use Core\Session;
 
@@ -56,5 +56,6 @@ Session::put('last_order_processed', [
 ]);
 
 // Clear cart & redirect
+(new CartRepository())->deleteByUser($userId);
 Session::remove('cart');
 redirect("/success");

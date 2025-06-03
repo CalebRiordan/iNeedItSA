@@ -2,8 +2,8 @@
 
 namespace Core;
 
-use Core\DTOs\LoginDTO;
 use Core\DTOs\UserDTO;
+use Core\Repositories\CartRepository;
 use Core\Repositories\UserRepository;
 use Core\Session;
 
@@ -54,6 +54,10 @@ class Authenticator
             Session::put('csrf_token', bin2hex(random_bytes(32)));
         }
 
+        // Retrieve cart from database
+        $cart = (new CartRepository())->findByUser($user->id);
+        Session::put('cart', $cart);
+
         // Sync cart after login
         Session::flash('sync_cart', true);
 
@@ -62,6 +66,20 @@ class Authenticator
 
     public static function logout()
     {
+        // Save cart state to database
+        if (Session::has('cart')) {
+            try {
+                (new CartRepository)->persist(
+                    Session::get('user')['id'],
+                    Session::get('cart')['cart']
+                );
+            } catch (\Throwable $th) {
+                Session::toast("Error occurred while trying to save cart. Unable to log out");
+                return;
+            }
+        }
+
+        // Clear session 
         Session::clear();
 
         static::expireCookie('PHPSESSID');
