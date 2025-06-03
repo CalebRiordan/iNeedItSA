@@ -47,7 +47,7 @@ class OrderRepository extends BaseRepository
             INSERT INTO `order` ({$fields}) VALUES
             ({$placeholders});
         SQL;
-
+        
         $orderId = $this->db->query($sql, $order->getMappedValues())->newId();
         
         // Insert order items

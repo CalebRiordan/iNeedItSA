@@ -68,7 +68,7 @@ CREATE TABLE product_image_url (
 CREATE TABLE review (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    product_ID INT NOT NULL,
+    product_id INT NOT NULL,
     comment VARCHAR(300),
     rating INT NOT NULL,
     date DATE NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE employee (
     role VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE cart (
+CREATE TABLE cart_item (
     cart_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     product_id INT NOT NULL,

@@ -40,7 +40,6 @@ require partial('navbar');
         </button>
 
         <input type="hidden" name="csrf_token" value="<?= Session::get('csrf_token') ?>">
-        <input type="hidden" id="toast" value="<?= Session::get('toast') ?>">
     </form>
     
 

@@ -22,7 +22,6 @@ $router->post("/checkout", "order/store.php")->only('auth');
 $router->get("/cart", "cart/get.php")->only('auth');
 $router->post("/cart", "cart/persist.php")->only('auth');
 
-
 $router->get("/500", "500.php");
 
 $router->partial("/products-display");

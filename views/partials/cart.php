@@ -34,18 +34,18 @@
             </div>
 
         </div>
-        </a>
+    </div>
 
-    <?php endforeach; ?>
+<?php endforeach; ?>
 
-    <script>
-        // Redirect to item's corresponding product on click. 
-        // Cannot wrap item in <a> or make the cart-item container an <a> without affecting
-        // functionality of internal buttons
-        const items = document.querySelectorAll(".item .cart-item");
-        items.forEach((item) => {
-            item.addEventListener("click", (e) => {
-                window.location.hred = `/product/${item.dataset.id}`;
-            })
+<script>
+    // Redirect to item's corresponding product on click. 
+    // Cannot wrap item in <a> or make the cart-item container an <a> without affecting
+    // functionality of internal buttons
+    const items = document.querySelectorAll(".item .cart-item");
+    items.forEach((item) => {
+        item.addEventListener("click", (e) => {
+            window.location.hred = `/product/${item.dataset.id}`;
         })
-    </script>
+    })
+</script>

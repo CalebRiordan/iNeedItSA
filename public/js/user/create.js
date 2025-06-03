@@ -1,4 +1,4 @@
-import { sanitise, anySpecialChars } from "/js/utils/sanitisation.js";
+import { anySpecialChars } from "/js/utils/sanitisation.js";
 
 const phoneNumInput = document.querySelector(".input-group .phone-no");
 const checkbox = document.getElementById("same-address");

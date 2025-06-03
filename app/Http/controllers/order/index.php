@@ -1,10 +1,10 @@
 <?php
 
-// Use query string to differentiate purpose of request
 
 use Core\Repositories\OrderRepository;
 use Core\Session;
 
+// Use query string to differentiate purpose of request
 $view = $params['view'] ?? null;
 if ($view === "cart") {
     redirect("/order#cart");

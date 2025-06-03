@@ -63,7 +63,7 @@ form.addEventListener("submit", (e) => {
     modal.setButtons("confirm", "cancel");
     modal.show("Are you sure you want to place order?", (confirmed) => {
         if (confirmed) {
-            form.click();
+            form.submit();
         }
     });
 });
