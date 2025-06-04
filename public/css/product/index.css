@@ -33,7 +33,7 @@ button {
     height: 2.2em;
     min-height: 2.2em;
     flex-shrink: 0;
-    border: 2px solid black;
+    border: 2px solid;
     display: grid;
     grid-template-columns: 1fr 40px;
     margin-top: 0;
@@ -117,8 +117,8 @@ button {
 .apply-filter-btn:active {
     background-color: var(--primary-colour);
     opacity: 0.3;
-    color: black;
-    border: 2px solid black;
+    color: var(--text-colour-dark);
+    border: 2px solid;
 }
 
 /* ==================== SELECT PRICE OPTIONS ====================  */
@@ -166,7 +166,7 @@ button {
 
 .category-list .option {
     display: block;
-    color: black;
+    color: var(--text-colour-dark);
     background-color: var(--background-colour);
     padding: 0.3em 0.8em;
     text-decoration: none;

@@ -14,8 +14,9 @@ if ($csrfToken && !hash_equals($csrfToken, $_POST['csrf_token'] ?? '')) {
 
 $address = $_POST['address'];
 $cardNumber = $_POST['card_num'];
+$csvCode = $_POST['csv_code'];
 
-CheckoutForm::validate(['address' => $address, 'card_num' => $cardNumber]);
+CheckoutForm::validate(['address' => $address, 'card_num' => $cardNumber, 'csv_code' => $csvCode]);
 
 $cart = Session::get('cart');
 

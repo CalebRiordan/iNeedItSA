@@ -40,6 +40,10 @@
     </div>
 
     <div class="sidebar-item">
+        <a href="/seller/register">Become a seller</a>
+    </div>
+
+    <div class="sidebar-item">
         <a href="/logout">Logout</a>
     </div>
 </div>

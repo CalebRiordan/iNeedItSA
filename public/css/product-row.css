@@ -17,7 +17,7 @@
     gap: 1rem;
     overflow-x: auto;
     overflow: hidden;
-    padding: 0.5em 0;
+    padding: 0.5em 2px;
 }
 
 .scroll-btn {
@@ -37,7 +37,7 @@
 
 .scroll-btn svg {
     font-size: 36px;
-    fill: black;
+    fill: var(--text-colour-dark);
     width: 28px;
     opacity: 0.7;
 }

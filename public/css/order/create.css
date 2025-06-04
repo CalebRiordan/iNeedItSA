@@ -5,6 +5,7 @@
     border-radius: 8px;
     font-size: 18px;
     box-sizing: border-box;
+    color: var(--text-colour-dark);
 }
 
 .checkout-container form > h1 {
@@ -17,6 +18,7 @@
 
 .checkout-container section {
     margin-bottom: 2em;
+    color: var(--text-colour-dark);
 }
 
 .section-heading {
