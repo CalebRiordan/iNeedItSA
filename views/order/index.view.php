@@ -11,12 +11,16 @@ require partial('navbar');
 <main>
     <div class="content-column">
 
+        <!-- Cart -->
         <div class="cart-wrapper" hidden>
             <h1>Shopping Cart</h1>
             <div class="cart-section">
+                <!-- Cart partial loads in here -->
                 <div class="cart">
 
                 </div>
+
+                <!-- Checkout card -->
                 <div class="checkout-card">
                     <div class="checkout-details">
                         <span><strong>TOTAL:</strong> <span id="total-qty"></span></span>
@@ -36,6 +40,7 @@ require partial('navbar');
             <a href="/" class="btn">Browse Products</a>
         </div>
 
+        <!-- Order history -->
         <?php if (!empty($orders)): ?>
             <div class="orders-wrapper">
                 <h1>Order History</h1>
@@ -47,7 +52,7 @@ require partial('navbar');
                                     <div class="left">
                                         <span class="status">Collected</span>
                                         <span><?= date('j F Y', strtotime($order->date)) ?></span>
-                                        <span class="light-text"><?= $order->shipAddress . ', ' .$order->location  ?></span>
+                                        <span class="light-text"><?= $order->shipAddress . ', ' . $order->location  ?></span>
                                     </div>
                                     <div>Total: <strong>R<?= $order->totalCost ?></strong></div>
                                 </div>
@@ -60,7 +65,7 @@ require partial('navbar');
                             </div>
 
                             <div class="order-items" hidden data-loaded=false>
-                                
+
                             </div>
                         </div>
                     <?php endforeach; ?>

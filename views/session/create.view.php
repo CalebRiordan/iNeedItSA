@@ -65,4 +65,4 @@ require partial('navbar');
 </script>
 
 
-<?php require partial('header') ?>
+<?php require partial('footer') ?>

@@ -26,6 +26,18 @@
     <?php else: ?>
       <h4 class="price">R<?= number_format($product->price, 0) ?></h4>
     <?php endif; ?>
+
+    <?php if ($product->rating): ?>
+      <div class="rating">
+        <h4><?= $product->rating ?></h4>
+        <svg class="star" data-value="<?= $i ?>" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="25">
+          <path d="M12 .587l3.668 7.429L23.334 9.26l-5.667 5.528L18.5 23.41 12 19.577 5.5 23.41 6.333 14.788.667 9.26l7.666-1.244L12 .587z"
+            stroke="black"
+            stroke-width="0.7" />
+        </svg>
+      </div>
+    <?php endif; ?>
+
   </div>
 
 </a>

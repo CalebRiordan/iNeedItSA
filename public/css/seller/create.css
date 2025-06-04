@@ -1,0 +1,59 @@
+.form-container {
+    width: 25%;
+    margin-top: -100px;
+}
+
+.seller-reg-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.form-container .seller-reg-form > h1 {
+    color: var(--primary-colour);
+    margin: 0.5em 0;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: var(--text-colour-dark);
+}
+
+.form-group input[type="file"] {
+    padding: 0.5rem;
+    border-radius: 5px;
+    background: var(--background-colour);
+    border: 1px solid var(--text-colour-dark);
+    cursor: pointer;
+}
+
+.form-group input[type="file"]:hover {
+    border-color: var(--primary-colour);
+}
+
+.form-group small {
+    color: var(--disabled-colour);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.submit-btn {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    filter: brightness(85%);
+}

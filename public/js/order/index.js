@@ -25,7 +25,6 @@ async function fetchCartPartial() {
             const data = await res.json();
             return data;
         } catch (err) {
-            console.error("Fetch error:", err);
             return null;
         }
     } else {
@@ -92,7 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         emptyCartDisplay.hidden = false;
     } else if (partial === null) {
         cartDisplay.hidden = false;
-        document.querySelector(".cart").innerHTML =
+        cartDisplay.innerHTML =
             "<h1 class='centre-content'>Error Loading Cart</h1>";
     } else {
         cartDisplay.hidden = false;
@@ -115,8 +114,8 @@ document.querySelectorAll(".order").forEach((order) => {
         } else {
             panel.hidden = false;
             chevron.classList.add("down");
-            
-            if (!panel.loaded) {                
+
+            if (!panel.loaded) {
                 panel.innerHTML = "<p>Loading order items...</p>";
                 const orderItems = await fetchOrder(
                     parseInt(this.dataset.orderId)

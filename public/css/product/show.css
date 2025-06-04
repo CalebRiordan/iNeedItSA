@@ -30,6 +30,10 @@ main {
     margin-bottom: 5px;
 }
 
+.heading h1 {
+    color: var(--text-colour-dark);
+}
+
 .heading .pricing {
     position: relative;
     width: auto;
@@ -73,7 +77,7 @@ main {
 .main-grid img {
     width: 100%;
     object-fit: cover;
-    border: 2px solid black;
+    border: 2px solid var(--text-colour-dark);
     aspect-ratio: 4 / 3;
 }
 
@@ -123,7 +127,7 @@ main {
     overflow: hidden;
     font-family: inherit;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border: 2px solid black;
+    border: 2px solid var(--text-colour-dark);
 }
 
 .seller-card .header {
@@ -187,7 +191,7 @@ main {
 .seller-card .location svg {
     width: 25px;
     height: 16px;
-    fill: black;
+    fill: var(--text-colour-dark);
 }
 
 .seller-card .seller-products-link {
@@ -213,6 +217,7 @@ main {
     display: grid;
     grid-template-columns: 2fr 1fr;
     border-radius: 8px;
+    color: var(--text-colour-dark);
 }
 
 .product-description {
