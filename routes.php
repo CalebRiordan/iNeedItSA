@@ -1,5 +1,6 @@
 <?php
 
+// Pages
 $router->get("/", "index.php");
 $router->get("/home", "index.php");
 
@@ -27,6 +28,14 @@ $router->post("/seller/register", "seller/store.php")->only('auth');
 
 $router->get("/500", "500.php");
 
+// Admin dashboard
+$router->get("/admin", "admin/index.php")->only('staff');
+$router->get("/admin/login", "admin/session/create.php");
+$router->post("/admin/login", "admin/session/store.php")->only('staff');
+$router->get("/admin/enrol", "admin/staff/create.php")->only('staff');
+$router->post("/admin/login", "admin/staff/store.php")->only('staff');
+
+// Partials
 $router->partial("/products-display");
 $router->partial("/cart", "POST")->only('auth');
 $router->partial("/order/{id}")->only('auth');

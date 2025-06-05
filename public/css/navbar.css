@@ -114,3 +114,17 @@
 .nav-link.user-profile:hover {
     filter: brightness(105%);
 }
+
+
+/* Staff navbar */
+
+.navbar-staff {
+    filter: grayscale(20%);
+}
+
+.navbar-logo h3 {
+    position: absolute;
+    display: inline-block;
+    margin: 0.1rem;
+    left: 100%;
+}

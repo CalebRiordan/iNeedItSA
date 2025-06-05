@@ -1,2 +1,2 @@
-mysql -u root < reset_schema.sql
-php hash_passwords.php
+mysql -u root < sql/reset_schema.sql
+php sql/hash_passwords.php

@@ -44,7 +44,7 @@ CREATE TABLE seller_docs_url (
     poa_url VARCHAR(255) NOT NULL,
     accepted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -113,7 +113,8 @@ CREATE TABLE employee (
     date_registered DATE NOT NULL,
     address VARCHAR(255) NOT NULL,
     phone_no VARCHAR(20) NOT NULL,
-    role VARCHAR(50) NOT NULL
+    role VARCHAR(50) NOT NULL,
+    last_seen DATETIME
 );
 
 CREATE TABLE cart_item (

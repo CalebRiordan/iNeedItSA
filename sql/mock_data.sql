@@ -193,27 +193,27 @@ INSERT INTO product (product_id, name, description, price, quant_in_stock, produ
 
 DROP TRIGGER temp_disable_trigger;
 
-INSERT INTO employee (emp_id, first_name, last_name, email, password, date_registered, address, phone_no, role) VALUES
-(1,'Zola', 'Nkosi', 'zola.nkosi@example.com', 'password123', '2024-01-15', '12 Protea Road, Claremont, Cape Town', '+27 21 671 0001', 'admin'),
-(2,'Sipho', 'Mthembu', 'sipho.mthembu@example.com', 'securepass', '2023-11-20', '45 Acacia Avenue, Durban North, Durban', '+27 31 563 0002', 'mod'),
-(3,'Fatima', 'Khan', 'fatima.khan@example.com', 'mysecret', '2024-03-01', '78 Rose Street, Fordsburg, Johannesburg', '+27 11 839 0003', 'pm'),
-(4,'Pieter', 'Van der Merwe', 'pieter.vm@example.com', 'strongpwd', '2024-02-10', '33 Oak Lane, Stellenbosch, Western Cape', '+27 21 880 0004', 'mod'),
-(5,'Nomusa', 'Zulu', 'nomusa.zulu@example.com', 'safe123', '2023-12-05', '101 Palm Drive, Umhlanga Rocks, Durban', '+27 31 561 0005', 'mod'),
-(6,'Lerato', 'Moloi', 'lerato.moloi@example.com', 'passcode', '2024-04-01', '22 Lily Avenue, Soweto, Johannesburg', '+27 11 936 0006', 'pm'),
-(7,'Thabo', 'Dlamini', 'thabo.d@example.com', 'hiddenkey', '2024-01-25', '5 Berg Street, Pretoria East, Pretoria', '+27 12 807 0007', 'mod'),
-(8,'Aisha', 'Coetzee', 'aisha.c@example.com', 'topsecret', '2023-10-30', '67 Beach Road, Sea Point, Cape Town', '+27 21 434 0008', 'admin'),
-(9,'Bongani', 'Sibisi', 'bongani.s@example.com', 'keyphrase', '2024-03-15', '14 Dolphin Crescent, Ballito, KwaZulu-Natal', '+27 32 946 0009', 'mod'),
-(10,'Nadia', 'Reddy', 'nadia.r@example.com', 'supersecure', '2024-02-20', '8 Jasmine Court, Lenasia, Johannesburg', '+27 11 852 0010', 'pm'),
-(11,'Kabelo', 'Mokone', 'kabelo.m@example.com', 'secretcode', '2023-11-10', '29 Bushwillow Street, Centurion, Pretoria', '+27 12 663 0011', 'mod'),
-(12,'Samantha', 'Brown', 'samantha.b@example.com', 'mypassword', '2024-04-15', '9 Ocean View Drive, Bloubergstrand, Cape Town', '+27 21 554 0012', 'mod'),
-(13,'Jabu', 'Ndlovu', 'jabu.n@example.com', 'strongpass', '2024-03-25', '37 Kingfisher Road, Westville, Durban', '+27 31 266 0013', 'pm'),
-(14,'Megan', 'Smith', 'megan.s@example.com', 'privatekey', '2024-01-05', '51 Main Street, Parktown North, Johannesburg', '+27 11 447 0014', 'mod'),
-(15,'Siyanda', 'Khumalo', 'siyanda.k@example.com', 'secureit', '2023-12-20', '18 River Lane, Irene, Pretoria', '+27 12 667 0015', 'mod'),
-(16,'Leah', 'Johnson', 'leah.j@example.com', 'donttell', '2024-02-28', '77 High Street, Observatory, Cape Town', '+27 21 448 0016', 'admin'),
-(17,'Gift', 'Chauke', 'gift.c@example.com', 'thisisprivate', '2024-04-25', '11 Springbok Road, Randburg, Johannesburg', '+27 11 791 0017', 'pm'),
-(18,'Thandiwe', 'Nkosi', 'thandiwe.n@example.com', 'verysecret', '2024-03-05', '25 Aloe Avenue, Richards Bay, KwaZulu-Natal', '+27 35 789 0018', 'mod'),
-(19,'Andre', 'Du Plessis', 'andre.dp@example.com', 'keepsafe', '2024-01-30', '49 School Road, Somerset West, Western Cape', '+27 21 851 0019', 'mod'),
-(20,'Palesa', 'Nkosi', 'palesa.n@example.com', 'confidential', '2024-04-05', '9 Zebra Street, Midrand, Gauteng', '+27 11 315 0020', 'admin');
+INSERT INTO employee (emp_id, first_name, last_name, email, password, date_registered, address, phone_no, role, last_seen) VALUES
+(1,'Zola', 'Nkosi', 'zola.nkosi@example.com', 'password123', '2024-01-15', '12 Protea Road, Claremont, Cape Town', '+27 21 671 0001', 'admin', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(2,'Sipho', 'Mthembu', 'sipho.mthembu@example.com', 'securepass', '2023-11-20', '45 Acacia Avenue, Durban North, Durban', '+27 31 563 0002', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(3,'Fatima', 'Khan', 'fatima.khan@example.com', 'mysecret', '2024-03-01', '78 Rose Street, Fordsburg, Johannesburg', '+27 11 839 0003', 'pm', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(4,'Pieter', 'Van der Merwe', 'pieter.vm@example.com', 'strongpwd', '2024-02-10', '33 Oak Lane, Stellenbosch, Western Cape', '+27 21 880 0004', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(5,'Nomusa', 'Zulu', 'nomusa.zulu@example.com', 'safe123', '2023-12-05', '101 Palm Drive, Umhlanga Rocks, Durban', '+27 31 561 0005', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(6,'Lerato', 'Moloi', 'lerato.moloi@example.com', 'passcode', '2024-04-01', '22 Lily Avenue, Soweto, Johannesburg', '+27 11 936 0006', 'pm', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(7,'Thabo', 'Dlamini', 'thabo.d@example.com', 'hiddenkey', '2024-01-25', '5 Berg Street, Pretoria East, Pretoria', '+27 12 807 0007', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(8,'Aisha', 'Coetzee', 'aisha.c@example.com', 'topsecret', '2023-10-30', '67 Beach Road, Sea Point, Cape Town', '+27 21 434 0008', 'admin', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(9,'Bongani', 'Sibisi', 'bongani.s@example.com', 'keyphrase', '2024-03-15', '14 Dolphin Crescent, Ballito, KwaZulu-Natal', '+27 32 946 0009', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(10,'Nadia', 'Reddy', 'nadia.r@example.com', 'supersecure', '2024-02-20', '8 Jasmine Court, Lenasia, Johannesburg', '+27 11 852 0010', 'pm', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(11,'Kabelo', 'Mokone', 'kabelo.m@example.com', 'secretcode', '2023-11-10', '29 Bushwillow Street, Centurion, Pretoria', '+27 12 663 0011', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(12,'Samantha', 'Brown', 'samantha.b@example.com', 'mypassword', '2024-04-15', '9 Ocean View Drive, Bloubergstrand, Cape Town', '+27 21 554 0012', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(13,'Jabu', 'Ndlovu', 'jabu.n@example.com', 'strongpass', '2024-03-25', '37 Kingfisher Road, Westville, Durban', '+27 31 266 0013', 'pm', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(14,'Megan', 'Smith', 'megan.s@example.com', 'privatekey', '2024-01-05', '51 Main Street, Parktown North, Johannesburg', '+27 11 447 0014', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(15,'Siyanda', 'Khumalo', 'siyanda.k@example.com', 'secureit', '2023-12-20', '18 River Lane, Irene, Pretoria', '+27 12 667 0015', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(16,'Leah', 'Johnson', 'leah.j@example.com', 'donttell', '2024-02-28', '77 High Street, Observatory, Cape Town', '+27 21 448 0016', 'admin', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(17,'Gift', 'Chauke', 'gift.c@example.com', 'thisisprivate', '2024-04-25', '11 Springbok Road, Randburg, Johannesburg', '+27 11 791 0017', 'pm', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(18,'Thandiwe', 'Nkosi', 'thandiwe.n@example.com', 'verysecret', '2024-03-05', '25 Aloe Avenue, Richards Bay, KwaZulu-Natal', '+27 35 789 0018', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(19,'Andre', 'Du Plessis', 'andre.dp@example.com', 'keepsafe', '2024-01-30', '49 School Road, Somerset West, Western Cape', '+27 21 851 0019', 'mod', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),
+(20,'Palesa', 'Nkosi', 'palesa.n@example.com', 'confidential', '2024-04-05', '9 Zebra Street, Midrand, Gauteng', '+27 11 315 0020', 'admin', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY));
 
 INSERT INTO review (review_id, user_id, product_id, comment, rating, date) VALUES
 (1, 2, 1, 'Absolutely love this vintage messenger bag! The leather is beautiful and it has so much character. Perfect for my daily commute.', 5, '2024-11-10'),
