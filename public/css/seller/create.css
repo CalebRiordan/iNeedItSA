@@ -18,12 +18,13 @@
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    margin-bottom: 0.5rem;
 }
 
 .form-group label {
     font-weight: bold;
     color: var(--text-colour-dark);
+    margin: 0.5em 0;
 }
 
 .form-group input[type="file"] {
@@ -44,7 +45,7 @@
     text-align: center;
 }
 
-.submit-btn {
+.seller-reg-form button {
     padding: 0.75rem 1rem;
     font-size: 1rem;
     background-color: var(--primary-colour);
@@ -54,6 +55,12 @@
     cursor: pointer;
 }
 
-.submit-btn:hover {
+.seller-reg-form button:hover {
     filter: brightness(85%);
+}
+
+.seller-reg-form button.disabled {
+    background-color: var(--disabled-colour);
+    cursor: default;
+    pointer-events: none;
 }

@@ -40,5 +40,6 @@ require base_path("views/partials/category-bar.php");
     </div>
 
 </main>
-
+    
+<?php require_once partial('toast') ?>
 <?php require base_path("views/partials/footer.php"); ?>

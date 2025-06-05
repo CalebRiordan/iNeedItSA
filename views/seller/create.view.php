@@ -1,6 +1,7 @@
 <?php
 
 $stylesheets = ['form.css', 'seller/create.css'];
+$scripts = ['seller/create.js'];
 
 require partial('header');
 require partial('navbar');
@@ -8,7 +9,7 @@ require partial('navbar');
 
 <main>
     <div class="form-container">
-        <form class="seller-reg-form" action="/seller/register" method="POST">
+        <form class="seller-reg-form" action="/seller/register" method="POST" enctype="multipart/form-data">
             <h1>Seller Registration</h1>
 
             <div class="form-group">
@@ -17,13 +18,13 @@ require partial('navbar');
             </div>
 
             <div class="form-group">
-                <label for="proof-address">Upload proof of address</label>
-                <input type="file" id="proof-address" name="proof_address" accept=".pdf,image/*" required>
+                <label for="poa">Upload proof of address</label>
+                <input type="file" id="poa" name="poa" accept=".pdf,image/*" required>
+                <p class="error"><?= $errors['files'] ?? "" ?></p>
+                <small>Accepted formats: PDF, JPG, PNG</small>
             </div>
-            
-            <small>Accepted formats: PDF, JPG, PNG</small>
 
-            <button type="submit" class="submit-btn">Submit Documents</button>
+            <button type="submit">Submit Documents</button>
 
         </form>
     </div>
