@@ -7,7 +7,6 @@ use Core\DTOs\BuyerProfileDTO;
 use Core\DTOs\CreateUserDTO;
 use Core\DTOs\LoginDTO;
 use Core\DTOs\Role;
-use Core\DTOs\SellerProfileDTO;
 use Core\DTOs\UpdateUserDTO;
 use Core\DTOs\UserDTO;
 use Core\DTOs\UserPreviewDTO;
@@ -248,5 +247,16 @@ class UserRepository extends BaseRepository
         }
 
         return false;
+    }
+
+    public function saveSellerDocs(string $userId, string $copyIdFilename, string $poaFilename): bool
+    {
+        return $this->db->query("INSERT INTO seller_docs_url (user_id, copy_id_url, poa_url) VALUES (?, ?, ?)", [$userId, $copyIdFilename, $poaFilename])->wasSuccessful();
+    }
+
+    public function pendingSeller(string $userId): bool
+    {
+        $result = $this->db->query("SELECT user_id from seller_docs_url WHERE user_id = ?", [$userId])->find();
+        return !empty($result);
     }
 }

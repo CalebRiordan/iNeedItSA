@@ -38,6 +38,14 @@ CREATE TABLE seller (
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
+CREATE TABLE seller_docs_url (
+    user_id INT PRIMARY KEY,
+    copy_id_url VARCHAR(255) NOT NULL,
+    poa_url VARCHAR(255) NOT NULL,
+    accepted BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
+)
+
 CREATE TABLE product (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,

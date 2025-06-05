@@ -26,7 +26,7 @@ require partial('navbar');
             <label for="card-num">Enter card number</label>
             <input id="card-num" name="card_num" type="text" placeholder="Card number" />
             <p class="error error-card-num"><?= $errors['email'] ?? "" ?></p>
-            
+
             <label for="csv-code">CSV Code</label>
             <input id="csv-code" name="csv_code" type="text" placeholder="3-digit CSV" maxlength="3" />
             <p class="error error-csv"></p>
@@ -46,10 +46,8 @@ require partial('navbar');
         <input type="hidden" name="csrf_token" value="<?= Session::get('csrf_token') ?>">
     </form>
 
-
-    <?php require_once partial('toast') ?>
-    <?php require_once partial('confirmation-modal') ?>
-
 </main>
 
+<?php require_once partial('toast') ?>
+<?php require_once partial('confirmation-modal') ?>
 <?php require partial('footer') ?>
