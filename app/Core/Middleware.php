@@ -4,7 +4,7 @@ namespace Core;
 
 class Middleware
 {
-    public const middleware = ['guest', 'auth'];
+    public const middleware = ['guest', 'auth', 'staff'];
 
     public static function resolve($middleware)
     {
@@ -22,7 +22,7 @@ class Middleware
     private static function guest()
     {
         if ($_SESSION['user'] ?? false) {
-           redirect('/');
+            redirect('/');
         }
     }
 
@@ -30,6 +30,13 @@ class Middleware
     {
         if (!($_SESSION['user'] ?? false)) {
             redirect('/login');
+        }
+    }
+
+    private static function staff()
+    {
+        if (!($_SESSION['staff'] ?? false)) {
+            redirect('/admin/login');
         }
     }
 }
