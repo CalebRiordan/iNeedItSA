@@ -2,8 +2,9 @@
 
 use Core\Authenticator;
 use Core\Router;
+use Core\Session;
 
-if (isset($_SESSION['user'])){
+if (Session::has('user')){
     Authenticator::logout();
 }
 

@@ -1,3 +1,5 @@
 <?php
 
-view('admin/session/create');
+use Core\Session;
+
+view('admin/session/create', ['errors' => Session::get('errors')]);

@@ -14,7 +14,7 @@ class EmployeeDTO extends BaseDTO
         "phone_no" => "phoneNumber",
         "reg_date" => "registrationDate",
         "role" => "role",
-        "last_seen" => "role",
+        "last_seen" => "lastSeen",
     ];
 
     public function __construct(
@@ -27,6 +27,6 @@ class EmployeeDTO extends BaseDTO
         public string $phoneNumber,
         public string $registrationDate,
         public string $role,
-        public string $lastSeen,
+        public ?string $lastSeen,
     ) {}
 }

@@ -7,7 +7,7 @@ use Core\ValidationException;
 $userId = Session::get('user')['id'];
 $users = new UserRepository();
 
-if ($users->pendingSeller($userId)){
+if ($users->isPendingSeller($userId)){
     Session::toast("You have already registered to become a seller. Your application is being reviewed!");
     redirect('/');
 }

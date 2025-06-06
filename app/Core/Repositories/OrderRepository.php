@@ -6,6 +6,8 @@ use Core\DTOs\CreateOrderDTO;
 use Core\DTOs\CreateOrderItemDTO;
 use Core\DTOs\OrderDTO;
 use Core\DTOs\OrderItemDTO;
+use DateTime;
+use Exception;
 
 class OrderRepository extends BaseRepository
 {
@@ -34,7 +36,7 @@ class OrderRepository extends BaseRepository
         SQL;
 
         $rows = $this->db->query($sql, [$id])->findAll();
-        
+
         return $rows ? OrderItemDTO::fromRowsAdditional($rows) : [];
     }
 
@@ -47,9 +49,9 @@ class OrderRepository extends BaseRepository
             INSERT INTO `order` ({$fields}) VALUES
             ({$placeholders});
         SQL;
-        
+
         $orderId = $this->db->query($sql, $order->getMappedValues())->newId();
-        
+
         // Insert order items
         $fields = CreateOrderItemDTO::toFields();
         $placeholderSets = $order->itemsPlaceholderSets();
@@ -63,7 +65,82 @@ class OrderRepository extends BaseRepository
         return $orderId;
     }
 
-    public function toProducts(): array{
+    public function toProducts(): array
+    {
         return [];
+    }
+
+    public function volume(string $period): array
+    {
+        $daysMap = [
+            'week' => 7,
+            'month' => 30,
+            'year' => 365,
+        ];
+
+        if (!isset($daysMap[$period])) {
+            throw new Exception("'{$period}' is not a recognized period for filtering. Must be week, month, or year.");
+        }
+
+        $days = $daysMap[$period];
+
+        $sql = <<<SQL
+            SELECT date FROM `order`
+            WHERE date > (NOW() - INTERVAL {$days} DAY)
+        SQL;
+
+        $rows = $this->db->query($sql)->findAll();
+
+        return $rows;
+    }
+
+    public function sales(string $period)
+    {
+        $daysMap = [
+            'week' => 7,
+            'month' => 30,
+            'year' => 365,
+        ];
+
+        if (!isset($daysMap[$period])) {
+            throw new Exception("'{$period}' is not a recognized period for filtering. Must be week, month, or year.");
+        }
+
+        $days = $daysMap[$period];
+
+        $sql = <<<SQL
+            SELECT quantity, date FROM order_item 
+            LEFT JOIN `order` 
+            ON order_item.order_id = `order`.order_id 
+            WHERE date > (NOW() - INTERVAL {$days} DAY)
+        SQL;
+        $rows = $this->db->query($sql)->findAll();
+        
+        return $rows;
+    }
+
+    public function revenue(string $period): array
+    {
+        // Map period to number of days
+        $daysMap = [
+            'week' => 7,
+            'month' => 30,
+            'year' => 365,
+        ];
+
+        if (!isset($daysMap[$period])) {
+            throw new Exception("'{$period}' is not a recognized period for filtering. Must be week, month, or year.");
+        }
+
+        $days = $daysMap[$period];
+
+        $sql = <<<SQL
+            SELECT date, total FROM `order` 
+            WHERE date > (NOW() - INTERVAL {$days} DAY)
+        SQL;
+
+        $rows = $this->db->query($sql)->findAll();
+
+        return $rows;
     }
 }

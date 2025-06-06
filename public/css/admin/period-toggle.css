@@ -1,0 +1,56 @@
+.switch {
+    position: relative;
+    width: 12em;
+    height: 1.8em;
+    background: rgba(var(--primary-colour-rgb), 0.2);
+    border-radius: 1.8em;
+}
+
+.switch label {
+    font-weight: bold;
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 33.3%;
+    height: 100%;
+    line-height: 1.8em;
+    color: var(--text-colour-dark);
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.8em;
+}
+
+.switch-btn {
+    display: none;
+}
+
+.switch-btn:checked + label {
+    color: var(--text-colour-light);
+    transition: 0.15s ease-out;
+    transition-property: color, text-shadow;
+    border-radius: 1.8em;
+}
+
+.switch-btn:checked + .label-w ~ .switch-selector {
+    transform: translateX(0%);
+}
+.switch-btn:checked + .label-m ~ .switch-selector {
+    transform: translateX(100%);
+}
+.switch-btn:checked + .label-y ~ .switch-selector {
+    transform: translateX(200%);
+}
+
+.switch-selector {
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    left: 0px;
+    display: block;
+    width: 33.3%;
+    height: 1.8em;
+    border-radius: 1.8em;
+    background-color: var(--primary-colour);
+    transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}

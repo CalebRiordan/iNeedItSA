@@ -11,6 +11,7 @@ use Core\DTOs\UpdateUserDTO;
 use Core\DTOs\UserDTO;
 use Core\DTOs\UserPreviewDTO;
 use Core\Filters\UserFilter;
+use Exception;
 
 class UserRepository extends BaseRepository
 {
@@ -251,12 +252,51 @@ class UserRepository extends BaseRepository
 
     public function saveSellerDocs(string $userId, string $copyIdFilename, string $poaFilename): bool
     {
-        return $this->db->query("INSERT INTO seller_docs_url (user_id, copy_id_url, poa_url) VALUES (?, ?, ?)", [$userId, $copyIdFilename, $poaFilename])->wasSuccessful();
+        return $this->db->query(
+            "INSERT INTO seller_docs_url (user_id, copy_id_url, poa_url, date_submitted) VALUES (?, ?, ?, ?)",
+            [$userId, $copyIdFilename, $poaFilename, date('Y-m-d')],
+        )->wasSuccessful();
     }
 
-    public function pendingSeller(string $userId): bool
+    public function isPendingSeller(string $userId): bool
     {
         $result = $this->db->query("SELECT user_id from seller_docs_url WHERE user_id = ?", [$userId])->find();
         return !empty($result);
+    }
+
+    public function new(string $period)
+    {
+        $daysMap = [
+            'week' => 7,
+            'month' => 30,
+            'year' => 365,
+        ];
+
+        if (!isset($daysMap[$period])) {
+            throw new Exception("'{$period}' is not a recognized period for filtering. Must be week, month, or year.");
+        }
+
+        $days = $daysMap[$period];
+
+        $sql = <<<SQL
+            SELECT date_joined FROM user  
+            WHERE date_joined > (NOW() - INTERVAL {$days} DAY)
+        SQL;
+
+        return $this->db->query($sql)->findAll();
+    }
+
+    public function pendingSellers(): array
+    {
+        $fields = UserPreviewDTO::toFields('u');
+        $sql = <<<SQL
+        SELECT {$fields}, sdu.date_submitted FROM user u
+        INNER JOIN seller_docs_url sdu ON u.user_id = sdu.user_id
+        WHERE sdu.accepted = FALSE
+        SQL;
+
+        $rows = $this->db->query($sql)->findAll();
+
+        return UserPreviewDTO::fromRows($rows);
     }
 }

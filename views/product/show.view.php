@@ -155,7 +155,7 @@ require partial('category-bar');
         </div>
 
         <!-- Reviews -->
-        <?php if (isset($_SESSION['user'])): ?>
+        <?php if (Session::has('user')): ?>
             <div class="create-comment"></div>
         <?php endif; ?>
 

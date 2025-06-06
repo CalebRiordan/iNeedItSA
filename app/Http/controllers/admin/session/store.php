@@ -1,6 +1,6 @@
 <?php
 
-use Core\Authenticator;
+use Core\StaffAuthenticator;
 use Http\Forms\LoginForm;
 
 $email = $_POST['email'];
@@ -13,7 +13,8 @@ $form = LoginForm::validate([
 ]);
 
 // Staff Authentication
-$auth = new Authenticator();
+// Critical: Use of user Authenticator will allow users to access the admin dashboard! 
+$auth = new StaffAuthenticator();
 $signedIn = $auth->attempt($email, $password);
 if (!$signedIn) {
     $form->error(

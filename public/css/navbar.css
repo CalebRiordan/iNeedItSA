@@ -17,6 +17,7 @@
     display: inline-block;
     margin: 10px 15px;
     width: 140px;
+    position: relative;
 }
 
 .navbar-logo img {
@@ -33,15 +34,12 @@
 }
 
 .nav-link {
-    display: inline-block;
     text-decoration: none;
+    color: var(--off-bg-colour);
+    display: inline-block;
     cursor: pointer;
     font-family: inherit;
     font-size: 20px;
-}
-
-.nav-link .logout {
-    color: var(--off-bg-colour);
 }
 
 .nav-link.nav-btn {
@@ -59,11 +57,11 @@
     transform: translateY(20%);
 }
 
-.cart-nav-link{
+.cart-nav-link {
     position: relative;
 }
 
-.cart-nav-link .cart-count{
+.cart-nav-link .cart-count {
     width: 0.9em;
     height: 0.9em;
     font-size: 0.8em;
@@ -103,7 +101,7 @@
     transform: translateY(5%);
 }
 
-.user-profile img{
+.user-profile img {
     display: inline-block;
     width: 100%;
     height: 100%;
@@ -115,16 +113,35 @@
     filter: brightness(105%);
 }
 
-
 /* Staff navbar */
 
-.navbar-staff {
+.navbar {
     filter: grayscale(20%);
 }
 
-.navbar-logo h3 {
+.navbar .navbar-logo h3 {
     position: absolute;
     display: inline-block;
     margin: 0.1rem;
     left: 100%;
+    top: 40%;
+    color: var(--highlight-colour);
+    white-space: nowrap;
+}
+
+.navbar .staff-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.navbar .staff-name {
+    color: var(--off-bg-colour);
+    margin-left: 1rem;
+}
+.navbar .staff-icon {
+    fill: var(--off-bg-colour);
+    width: 1.8rem;
+    height: 1.8rem;
 }

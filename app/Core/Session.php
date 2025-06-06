@@ -41,6 +41,10 @@ class Session
         session_destroy();
     }
 
+    public static function empty() : bool{
+        return empty($_SESSION);
+    }
+
     public static function toast($message, $type="success"){
         static::flash('toast', ['message' => $message, 'type' => $type]);
     }
