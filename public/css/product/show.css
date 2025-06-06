@@ -13,7 +13,7 @@ main {
 }
 
 .content-column {
-    margin: 20px 17%;
+    margin: 20px 19%;
 }
 
 /* =============== Heading =============== */
@@ -69,9 +69,9 @@ main {
 
 .main-grid {
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 350px;
     grid-template-rows: auto auto;
-    column-gap: 3%;
+    column-gap: 4%;
 }
 
 .main-grid img {

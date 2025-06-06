@@ -37,7 +37,7 @@ main {
     filter: brightness(85%);
 }
 
-/* Media Queries */
+/* MEDIA QUERIES */
 
 @media (max-width: 1200px) {
     .order-success-card {
@@ -46,7 +46,7 @@ main {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .order-success-card {
         width: 90%;
         font-size: 12px;

@@ -297,7 +297,7 @@
     margin: auto 0;
 }
 
-/* Media Queries */
+/* MEDIA QUERIES */
 
 @media (max-width: 1200px) {
     .content-column {
@@ -316,7 +316,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .content-column {
         margin: 10px 8%;
         font-size: 8px;
