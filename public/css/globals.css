@@ -2,6 +2,7 @@
 
 :root {
   --primary-colour: #27671C;
+  --primary-colour-rgb: 39, 103, 28;
   --highlight-colour: #EBB435;
   --background-colour: white;
   --text-colour: white;
@@ -93,7 +94,7 @@ main {
   width: 1em;
   height: 1em;
   border: 2px solid transparent;
-  border-top: 2px solid var(--text-colour-light);
+  border-top: 2px solid var(--primary-colour);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   display: inline-block;

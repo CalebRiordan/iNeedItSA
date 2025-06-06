@@ -1,5 +1,8 @@
 <?php
 
-// Get employees from database
+use Core\Repositories\EmployeeRespository;
 
-view("admin/index");
+// Send all employee DTOs to the client - feasible for small table of employees
+$employees = (new EmployeeRespository())->findAll();
+
+view("admin/index", ['employees' => $employees]);

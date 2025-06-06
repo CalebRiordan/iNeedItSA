@@ -62,6 +62,13 @@ class Router
         return $this;
     }
 
+    public function deny($key)
+    {
+        $this->routes[array_key_last($this->routes)]['middleware'] = $key . 'Deny';
+
+        return $this;
+    }
+
     public function route($uri, $method)
     {
         $isPartial = str_starts_with($uri, '/partial');

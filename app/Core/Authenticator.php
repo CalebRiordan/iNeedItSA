@@ -74,10 +74,16 @@ class Authenticator
             Session::toast("Error occurred while trying to save cart. Unable to log out", "error");
         }
 
-        // Clear session 
-        Session::clear();
+        
+        // Clear user session data 
+        Session::remove('user');
+        Session::remove('cart');
 
-        static::expireCookie('PHPSESSID');
+        // Destroy session if compeltely empty
+        if (Session::empty()){
+            Session::clear();
+            static::expireCookie('PHPSESSID');
+        }
     }
 
     private static function expireCookie($name)
@@ -100,7 +106,7 @@ class Authenticator
 
     public function updateLoginState()
     {
-        if (isset($_SESSION['user'])) {
+        if (Session::has('user')) {
 
             // 1. User session exists but is expired
             if (!isset($_COOKIE['remember_login']) && (time() - $_SESSION['last_activity']) > $this->userSessionTimeout) {

@@ -1,0 +1,98 @@
+main {
+    font-size: 18px;
+    margin: 0 15%;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, minmax(80px, 200px));
+    gap: 1em;
+}
+
+main > h1 {
+    font-size: 4em;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--highlight-colour);
+}
+
+.card {
+    position: relative;
+    background: var(--off-bg-colour);
+    width: 100%;
+    border-radius: 1em;
+    padding: 0.5em;
+    box-sizing: border-box;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8em;
+    user-select: none;
+}
+
+.card .switch-container {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    bottom: 0.5em;
+    right: 0.5em;
+}
+
+.card h2 {
+    margin: 0;
+    margin-top: -20px;
+    margin-left: -10px;
+    font-size: 2em;
+    font-weight: 400;
+}
+
+.card h2 span {
+    font-size: inherit;
+}
+
+.revenue-card {
+    grid-column: 1 / span 2;
+}
+
+.revenue-card h2 {
+    font-size: 2.5em;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card .loading-overlay {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--off-bg-colour);
+    border-radius: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    pointer-events: none;
+}
+
+.chart-container {
+    width: 100%;
+    aspect-ratio: 2/1;
+    padding: 3em;
+    box-sizing: border-box;
+    margin-top: 4em;
+}
+
+.chart-container .chart {
+    width: 100%;
+    height: 100%;
+}

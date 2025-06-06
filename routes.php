@@ -30,10 +30,12 @@ $router->get("/500", "500.php");
 
 // Admin dashboard
 $router->get("/admin", "admin/index.php")->only('staff');
-$router->get("/admin/login", "admin/session/create.php");
-$router->post("/admin/login", "admin/session/store.php")->only('staff');
+$router->get("/admin/login", "admin/session/create.php")->deny('staff');
+$router->post("/admin/login", "admin/session/store.php")->deny('staff');
+$router->get("/admin/logout", "admin/session/destroy.php")->only('staff');
 $router->get("/admin/enrol", "admin/staff/create.php")->only('staff');
 $router->post("/admin/login", "admin/staff/store.php")->only('staff');
+$router->get("/admin/reports", "admin/reports/index.php")->only('staff');
 
 // Partials
 $router->partial("/products-display");

@@ -47,10 +47,15 @@ class StaffAuthenticator
 
     public static function logout()
     {
-        // Clear session 
-        Session::clear();
+        // Clear staff session data 
+        Session::remove('emp');
 
-        $params = session_get_cookie_params();
-        setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain']);
+        // Destroy session if compeltely empty
+        if (Session::empty()) {
+            Session::clear();
+
+            $params = session_get_cookie_params();
+            setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain']);
+        }
     }
 }

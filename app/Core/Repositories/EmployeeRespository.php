@@ -3,7 +3,7 @@
 namespace Core\Repositories;
 
 use Core\DTOs\EmployeeDTO;
-use Core\DTOs\LoginDTO;
+use Core\DTOs\EmployeeLoginDTO;
 
 class EmployeeRespository extends BaseRepository
 {
@@ -21,13 +21,20 @@ class EmployeeRespository extends BaseRepository
         return $user;
     }
 
-    public function findByEmail($email): ?LoginDTO
+    public function findByEmail($email): ?EmployeeLoginDTO
     {
-        $fields = LoginDTO::toFields();
-        $sql = "SELECT {$fields} FROM user WHERE email = ?";
+        $fields = EmployeeLoginDTO::toFields();
+        $sql = "SELECT {$fields} FROM employee WHERE email = ?";
 
-        return LoginDTO::fromRow(
+        return EmployeeLoginDTO::fromRow(
             $this->db->query($sql, [$email])->find()
         );
+    }
+
+    public function findAll(): array
+    {
+        $rows = $this->db->query("SELECT * FROM employee")->findAll();
+
+        return EmployeeLoginDTO::fromRows($rows);
     }
 }
