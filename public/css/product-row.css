@@ -49,3 +49,34 @@
 .scroll-btn.right {
     right: 1em;
 }
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 768px) {
+    .product-row {
+        width: 92%;
+    }
+
+    .scroll-btn {
+        padding: 0.5em;
+    }
+
+    .scroll-btn svg {
+        width: 22px;
+    }
+
+    .scroll-btn.left {
+        left: 0.6em;
+    }
+
+    .scroll-btn.right {
+        right: 0.6em;
+    }
+
+    .product-row-inner {
+        gap: 0.7rem;
+    }
+}

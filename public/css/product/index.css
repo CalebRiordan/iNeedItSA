@@ -311,7 +311,7 @@ button {
     border-color: var(--highlight-colour);
 }
 
-/* Media Queries */
+/* MEDIA QUERIES */
 
 @media (max-width: 1200px) {
     .products-content-wrapper {
@@ -337,7 +337,7 @@ button {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .products-content-wrapper {
         grid-template-columns: 1fr;
     }
