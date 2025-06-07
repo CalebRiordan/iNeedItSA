@@ -44,3 +44,13 @@
         font-size: 0.8rem;
     }
 }
+
+@media (max-width: 480px) {
+    .category-bar ul {
+        gap: 3%;
+    }
+
+    .category-link {
+        font-size: 0.6rem;
+    }
+}

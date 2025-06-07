@@ -61,19 +61,7 @@
     }
 
     .scroll-btn {
-        padding: 0.5em;
-    }
-
-    .scroll-btn svg {
-        width: 22px;
-    }
-
-    .scroll-btn.left {
-        left: 0.6em;
-    }
-
-    .scroll-btn.right {
-        right: 0.6em;
+        display: none !important;
     }
 
     .product-row-inner {

@@ -16,7 +16,7 @@
 
 .navbar-logo {
     display: inline-block;
-    margin: 10px 15px;
+    margin: 10px 20px;
     width: 140px;
     position: relative;
 }
@@ -41,6 +41,7 @@
     cursor: pointer;
     font-family: inherit;
     font-size: 20px;
+    position: relative;
 }
 
 .nav-link.nav-btn {
@@ -60,10 +61,6 @@
 
 .nav-text.alternative{
     display: none;
-}
-
-.cart-nav-link {
-    position: relative;
 }
 
 .cart-nav-link .cart-count {
@@ -184,7 +181,7 @@
         display: flex;
     }
 
-    .navbar .right {
+    .navbar .show-mobile-sidebar {
         position: fixed;
         top: var(--navbar-height);
         right: 0;
@@ -197,30 +194,40 @@
         z-index: 10;
     }
 
+    .navbar ul {
+        gap: 1rem;
+        margin-right: 0.8rem;
+    }
+
+    .nav-link.nav-btn {
+        padding: 5px 10px;
+        font-size: 1rem;
+    }
+
     .nav-text.alternative {
         display: inline-block;
         margin-left: 0.8rem;
     }
 
-    .right.active {
+    .show-mobile-sidebar.active {
         transform: translateX(0);
     }
 
-    .right ul {
+    .navbar .show-mobile-sidebar ul {
         flex-direction: column;
         align-items: flex-start;
-        padding: 1.5rem;
+        padding: 1.2rem;
         padding-top: 0;
-        gap: 1.5rem;
+        gap: 1rem;
         margin: 0;
     }
 
     .nav-link {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         padding: 0.5rem 0;
     }
 
     .nav-link svg {
-        width: 2.4rem;
+        width: 2rem;
     }
 }

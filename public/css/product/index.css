@@ -200,7 +200,9 @@ button {
 
 .star-rating .star-wrapper {
     position: relative;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .star-rating .star {
@@ -210,15 +212,15 @@ button {
     fill: gold;
 }
 
-.star-rating .star-wrapper.excluded .star {
+.star-rating .excluded .star {
     fill: var(--disabled-colour);
 }
 
-.star-rating .star-wrapper.excluded::after {
+.star-rating .excluded::after {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 15%;
+    top: 1em;
+    left: 12%;
     right: 10%;
     height: 2px;
     background-color: rgb(49, 49, 49);

@@ -91,6 +91,7 @@ require partial('category-bar');
                                     stroke="black"
                                     stroke-width="0.7" />
                             </svg>
+                            <div><?= $i ?></div>
                         </div>
                     <?php endfor; ?>
                 </div>

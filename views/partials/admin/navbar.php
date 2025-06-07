@@ -7,7 +7,7 @@ $emp = Session::get('emp'); ?>
 <nav class="navbar navbar">
 
     <div class="left">
-        <a class="navbar-logo" href="/">
+        <a class="navbar-logo" href="/admin">
             <img src="/assets/logo-main.png" alt="Store Logo">
             <h3>Admin Dashboard</h3>
         </a>
