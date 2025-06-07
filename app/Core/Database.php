@@ -64,7 +64,9 @@ class Database
 
     public function wasSuccessful(): bool
     {
-        return $this->statement->affected_rows > 0;
+        $affected = $this->statement->affected_rows > 0;
+        $this->close();
+        return $affected;
     }
 
     public function close()

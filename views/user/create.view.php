@@ -125,8 +125,9 @@ if (!isset($user) || !$user) {
                 </div>
 
                 <div class="input-group">
-                    <input id="ship-address" type="text" placeholder="Shipping Address" name="ship_address" required value="<?= $user->shipAddress ?? '' ?>" readonly>
-
+                    <div class="sa-tooltip">
+                        <input id="ship-address" type="text" placeholder="Shipping Address" name="ship_address" required value="<?= $user->shipAddress ?? '' ?>" readonly>
+                    </div>
                     <div class="checkbox">
                         <input id="same-address" name="same-address" type="checkbox" checked>
                         <label for="same-address">Use home address</label>

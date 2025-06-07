@@ -10,6 +10,7 @@ const image = document.getElementById("img-container");
 const register = document.querySelector(".form-container #btn-submit");
 const removeImageBtn = document.querySelector(".image-input .remove-btn");
 const imageChanged = document.getElementById("image-changed");
+let formValid = true;
 
 function previewProfilePic(event) {
   const input = event.target;
@@ -71,6 +72,7 @@ function setSameAddressCheckbox() {
 }
 
 function showError(field, message) {
+  formValid = false;
   const error = field.closest(".input-group").querySelector(".error");
   error.textContent = message;
 
@@ -118,7 +120,11 @@ phoneNumInput.addEventListener("blur", function () {
 checkbox.addEventListener("change", setSameAddressCheckbox);
 
 register.addEventListener("click", (e) => {
+  formValid = true;
+
   document.querySelectorAll("[required]").forEach((field) => {
+    if (!formValid) return;
+    
     const val = field.value.trim();
     if (val === "") {
       showError(field, "Please fill out this field.");
