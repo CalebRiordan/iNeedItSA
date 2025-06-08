@@ -17,12 +17,13 @@ async function fetchCartPartial() {
                 body: JSON.stringify({ items: cart }),
             });
 
+            
             if (!res.ok) {
                 const error = await res.text();
                 return null;
             }
-
-            const data = await res.json();
+            
+            const data = await res.json();         
             return data;
         } catch (err) {
             return null;

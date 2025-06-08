@@ -45,8 +45,8 @@ class PartialController
         $currentPage = $validParams['page'] ?? 1;
 
         return [
-            "products-display" => self::renderPartial("products-display.php", ['products' => $products]),
-            "page-selector" => self::renderPartial("page-selector.php", [
+            "products-display" => self::renderPartial("products-display", ['products' => $products]),
+            "page-selector" => self::renderPartial("page-selector", [
                 'productCount' => $productCount,
                 'currentPage' => $currentPage
             ]),
@@ -88,7 +88,7 @@ class PartialController
             }
         }
 
-        return self::renderPartial("cart.php", ['products' => $products]);
+        return self::renderPartial("cart", ['products' => $products]);
     }
 
     public static function renderOrderItemList($params): string
@@ -105,7 +105,7 @@ class PartialController
             response(["error" => "Error retrieving order"], 500);
         }
 
-        return self::renderPartial("order-items-list.php", ["items" => $items]);
+        return self::renderPartial("order-items-list", ["items" => $items]);
     }
 
     private static function renderPartial($path, $data = [])
@@ -114,7 +114,7 @@ class PartialController
 
         // Return HTML as text using output buffering (ob)
         ob_start();
-        require base_path("views/partials/{$path}");
+        require partial("{$path}");
         return ob_get_clean();
     }
 }

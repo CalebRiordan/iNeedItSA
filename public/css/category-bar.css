@@ -40,8 +40,12 @@
         gap: 4%;
     }
 
+    .category-item {
+        line-height: 0.8em;
+    }
     .category-link {
         font-size: 0.8rem;
+        line-height: 0.8em;
     }
 }
 
