@@ -38,6 +38,6 @@ $router->post("/admin/login", "admin/staff/store.php")->only('staff');
 $router->get("/admin/reports", "admin/reports/index.php")->only('staff');
 
 // Partials
-$router->partial("/products-display");
-$router->partial("/cart", "POST")->only('auth');
-$router->partial("/order/{id}")->only('auth');
+$router->partial('/products-display');
+$router->partial('/cart', 'POST')->only('auth');
+$router->partial('/order/{id}')->only('auth');

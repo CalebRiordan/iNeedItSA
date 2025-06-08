@@ -25,7 +25,7 @@
     margin-bottom: 0.5em;
 }
 
-.section-heading.heading-3{
+.section-heading.heading-3 {
     margin-top: 0.1em;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .checkout-container #csv-code {
-    width: 14%;
+    width: 15%;
     min-width: 4em;
     display: block;
 }
@@ -65,4 +65,28 @@
 
 .checkout-container .date-expected {
     margin-bottom: 0;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1200px) {
+    .checkout-container {
+        margin: 1.5rem 15%;
+        font-size: 16px;
+    }
+
+    .checkout-container #csv-code {
+        width: 17%;
+    }
+}
+
+@media (max-width: 768px) {
+    .checkout-container {
+        margin: 1.2rem 8%;
+        font-size: 14px;
+    }
+
+    .checkout-container #csv-code {
+        width: 20%;
+    }
 }

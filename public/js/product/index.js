@@ -17,6 +17,11 @@ const maxInput = document.getElementById("input-max");
 const productsCatalogue = document.querySelector(".products-catalogue");
 const productsGrid = document.querySelector(".products-grid");
 
+// Mobile Sidebar
+const openFilterBtn = document.getElementById("filter-btn-mobile");
+const closeFilterBtn = document.getElementById("close-filter-btn-mobile");
+const filterPanel = document.querySelector(".filter-panel");
+
 let minPrice = params["maxPrice"] ?? null;
 let maxPrice = params["maxPrice"] ?? null;
 let category = params["category"] ?? null;
@@ -25,6 +30,15 @@ let rating = params["rating"] ?? null;
 const getValue = (input) => parseInt(input.value) || 0;
 
 // EVENT LISTENERS
+
+// Mobile filter panel
+openFilterBtn.addEventListener("click", () => {
+    filterPanel.classList.add("active");
+});
+
+closeFilterBtn.addEventListener("click", () => {
+    filterPanel.classList.remove("active");
+});
 
 // Category List
 document.querySelectorAll(".category-list .option").forEach((option) => {

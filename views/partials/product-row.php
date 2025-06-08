@@ -1,4 +1,4 @@
-<div class="product-row" style="width: <?= isset($rowWidth) ? $rowWidth : '85%' ?>;">
+<div class="product-row">
   <h2><?= htmlspecialchars($sectionTitle) ?></h2>
   <div class="product-row-container">
     <button class="scroll-btn left">

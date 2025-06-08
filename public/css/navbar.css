@@ -1,7 +1,6 @@
 @import url("sidebar.css");
 
 .navbar {
-    background-color: var(--primary-colour);
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -12,6 +11,13 @@
     position: fixed;
     z-index: 10;
     box-sizing: border-box;
+
+    background: linear-gradient(
+        to bottom right,
+        var(--primary-colour) 40%,
+        rgba(var(--highlight-colour-rgb), 0.3)
+    );
+    background-color: var(--primary-colour);
 }
 
 .navbar-logo {
@@ -35,13 +41,16 @@
 }
 
 .nav-link {
-    text-decoration: none;
-    color: var(--off-bg-colour);
     display: inline-block;
     cursor: pointer;
     font-family: inherit;
     font-size: 20px;
     position: relative;
+}
+
+.nav-text {
+    text-decoration: none;
+    color: var(--text-colour-light);
 }
 
 .nav-link.nav-btn {
@@ -53,13 +62,18 @@
     text-align: center;
 }
 
+.nav-link a {
+    position: relative;
+}
+
 .nav-link svg {
     fill: var(--off-bg-colour);
     width: 2rem;
     transform: translateY(20%);
+    position: relative;
 }
 
-.nav-text.alternative{
+.nav-link-mobile {
     display: none;
 }
 
@@ -72,8 +86,8 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 0;
-    right: -10%;
+    top: -30%;
+    right: -5%;
     background-color: var(--highlight-colour);
     color: var(--text-colour-dark);
     border-radius: 50%;
@@ -187,16 +201,32 @@
         right: 0;
         height: calc(100vh - var(--navbar-height));
         width: 250px;
-        background-color: var(--primary-colour);
         flex-direction: column-reverse;
         transform: translateX(100%);
         transition: transform 0.3s ease-in-out;
         z-index: 10;
+
+        background: linear-gradient(
+            30deg,
+            var(--primary-colour) 70%,
+            rgba(var(--highlight-colour-rgb), 0.3)
+        );
+        background-color: var(--primary-colour);
     }
 
-    .navbar ul {
+    .show-mobile-sidebar .navbar ul {
         gap: 1rem;
         margin-right: 0.8rem;
+    }
+
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 0.5rem 0;
+        height: 1.4em;
+    }
+
+    .nav-text {
+        margin-left: 0.6em;
     }
 
     .nav-link.nav-btn {
@@ -204,9 +234,12 @@
         font-size: 1rem;
     }
 
-    .nav-text.alternative {
+    .nav-link svg {
+        width: 2rem;
+    }
+
+    .nav-link-mobile {
         display: inline-block;
-        margin-left: 0.8rem;
     }
 
     .show-mobile-sidebar.active {
@@ -214,20 +247,37 @@
     }
 
     .navbar .show-mobile-sidebar ul {
+        display: flex;
         flex-direction: column;
         align-items: flex-start;
         padding: 1.2rem;
         padding-top: 0;
-        gap: 1rem;
+        gap: 0.7rem;
         margin: 0;
     }
 
-    .nav-link {
-        font-size: 1.2rem;
-        padding: 0.5rem 0;
+    .user-profile {
+        pointer-events: none;
     }
 
-    .nav-link svg {
-        width: 2rem;
+    /* Order nav links for mobile layout */
+    .show-mobile-sidebar li:nth-child(1) {
+        order: 5;
+    }
+
+    .show-mobile-sidebar li:nth-child(2) {
+        order: 4;
+    }
+
+    .show-mobile-sidebar li:nth-child(3) {
+        order: 3;
+    }
+
+    .show-mobile-sidebar li:nth-child(4) {
+        order: 2;
+    }
+
+    .show-mobile-sidebar li:nth-child(5) {
+        order: 1;
     }
 }

@@ -4,6 +4,27 @@
     grid-template-columns: clamp(220px, 18vw, 320px) 1fr;
 }
 
+#filter-btn-mobile {
+    display: none;
+    position: fixed;
+    box-sizing: border-box;
+    padding: 0.8em;
+    top: 140px;
+    left: 1em;
+    width: 3em;
+    height: 3em;
+    background-color: var(--off-bg-colour);
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.4) 2px 2px 2.6px;
+    cursor: pointer;
+    z-index: 9;
+}
+
+#filter-btn-mobile svg {
+    width: 100%;
+    transform: translate(5%);
+}
+
 .filter-panel {
     padding: 1em;
     background-color: var(--background-colour);
@@ -13,18 +34,12 @@
     font-size: 16px;
 }
 
-.filter-panel > div,
-button {
-    margin: 10px 0;
+.filter-panel #close-filter-btn-mobile {
+    display: none;
 }
 
 .filter-panel > div {
     width: 92%;
-}
-
-.filter-panel > div h1 {
-    text-align: left;
-    margin: 10px 0;
 }
 
 /* ==================== SEARCH BAR ====================  */
@@ -36,7 +51,7 @@ button {
     border: 2px solid;
     display: grid;
     grid-template-columns: 1fr 40px;
-    margin-top: 0;
+    margin-bottom: 1em;
 }
 
 .search-bar .search-field {
@@ -167,7 +182,6 @@ button {
 .category-list .option {
     display: block;
     color: var(--text-colour-dark);
-    background-color: var(--background-colour);
     padding: 0.3em 0.8em;
     text-decoration: none;
     cursor: pointer;
@@ -298,6 +312,8 @@ button {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-bottom: 0.5em;
+    font-size: 1.8em;
 }
 
 .page-selector .page-btn {
@@ -329,11 +345,6 @@ button {
         font-size: 12px;
     }
 
-    .filter-panel > div,
-    button {
-        margin: 5px 0;
-    }
-
     .category-list .option {
         padding: 0.2em 0.6em;
     }
@@ -344,17 +355,57 @@ button {
         grid-template-columns: 1fr;
     }
 
-    .filter-panel {
-        display: none;
-        font-size: 8px;
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        margin: 0 0 20px 0;
+        gap: 1.4em;
     }
 
-    .filter-panel > div,
-    button {
-        margin: 2px 0;
+    #filter-btn-mobile {
+        display: inline-block;
+    }
+
+    .filter-panel {
+        position: fixed;
+        padding: 1em 0.8em 2em 0.8em;
+        box-shadow: rgba(0, 0, 0, 0.4) 2px 2px 2.6px;
+        background-color: var(--off-bg-colour);
+        font-size: 14px;
+        z-index: 10;
+        width: 250px;
+        transform: translate(-100%, -32px);
+        border: 1px solid var(--dark-bg-colour);
+        border-radius: 2em;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .filter-panel.active {
+        transform: translate(1em, -32px);
+    }
+
+    .filter-panel #close-filter-btn-mobile {
+        display: inline-block;
+        margin-right: 0.8em;
+        width: fit-content;
+        margin-left: auto;
+        cursor: pointer;
+    }
+
+    .filter-panel #close-filter-btn-mobile svg {
+        width: 1.5em;
+        stroke-width: 1em;
+        fill: var(--dark-bg-colour);
+    }
+
+    .search-bar {
+        margin: 1em 0;
     }
 
     .category-list .option {
         padding: 0.15em 0.6em;
+    }
+
+    .page-selector {
+        font-size: 1.2em;
     }
 }

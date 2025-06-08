@@ -169,7 +169,7 @@
 @media (max-width: 768px) {
     .search-bar {
         grid-template-columns: 32% 1fr 40px;
-        width: 410px;
+        width: 430px;
         height: 40px;
         font-size: 12px;
     }

@@ -1,5 +1,6 @@
 main {
     background-color: var(--background-colour);
+    font-size: 18px;
 }
 
 /* ============= Search bar ============= */
@@ -14,6 +15,7 @@ main {
 
 .content-column {
     margin: 20px 19%;
+    font-size: inherit;
 }
 
 /* =============== Heading =============== */
@@ -32,13 +34,14 @@ main {
 
 .heading h1 {
     color: var(--text-colour-dark);
+    margin: 0.6em 0;
 }
 
 .heading .pricing {
     position: relative;
     width: auto;
     height: 2em;
-    margin: 26px 0;
+    margin: 0.6em 0;
     font-size: 1.2em;
     color: var(--primary-colour);
     display: flex;
@@ -48,7 +51,7 @@ main {
 }
 
 .discount-badge {
-    padding: 2px 8px;
+    padding: 0.1em 0.4em;
     font-size: 1em;
     font-weight: bold;
     height: fit-content;
@@ -81,7 +84,7 @@ main {
     aspect-ratio: 4 / 3;
 }
 
-.main-grid .col-right {
+.seller-card-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -89,28 +92,32 @@ main {
     gap: 2em;
 }
 
-.main-grid .add-cart-btn {
+.seller-card-wrapper.card-mobile {
+    display: none;
+}
+
+.seller-card-wrapper .add-cart-btn {
     width: 100%;
     color: var(--text-colour-light);
     border-radius: 24px;
     cursor: pointer;
-    padding: 8px;
+    padding: 0.6em;
     font-size: 1.4em;
 }
 
-.main-grid .add-cart-btn .content {
+.seller-card-wrapper .add-cart-btn .content {
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 3%;
 }
 
-.main-grid .add-cart-btn svg {
+.seller-card-wrapper .add-cart-btn svg {
     width: 30px;
     fill: var(--text-colour-light);
 }
 
-.main-grid .add-cart-btn.product-added {
+.seller-card-wrapper .add-cart-btn.product-added {
     background-color: var(--background-colour);
     border: 2px solid var(--salient-colour);
     color: var(--primary-colour);
@@ -133,13 +140,13 @@ main {
 .seller-card .header {
     background-color: var(--primary-colour);
     color: var(--text-colour-light);
-    padding: 15px;
+    padding: 0.8em;
     text-align: center;
 }
 
 .seller-card .header h1 {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 0.5em;
 }
 
 .seller-card .header .verified {
@@ -153,11 +160,11 @@ main {
 }
 
 .seller-card .details {
-    padding: 16px;
+    padding: 0.9em;
 }
 
 .seller-card .details p {
-    margin: 0 0 15px 0;
+    margin: 0 0 1.8em 0;
     font-size: 1.2em;
 }
 
@@ -227,7 +234,7 @@ main {
 
 .product-description .top-row {
     width: 100%;
-    padding: 16px;
+    padding: 0.9em;
     box-sizing: border-box;
     font-size: inherit;
     display: flex;
@@ -243,16 +250,16 @@ main {
 }
 
 .product-description h3 {
-    padding: 16px;
+    padding: 0.9em;
     margin: 0;
     box-sizing: border-box;
 }
 
 .product-description p {
     width: 100%;
-    margin: 0 0 10px 0;
+    margin: 0 0 0.5em 0;
     line-height: 1.6;
-    padding: 16px;
+    padding: 0.9em;
     box-sizing: border-box;
 }
 
@@ -276,5 +283,68 @@ main {
 }
 
 .product-details td {
-    padding: 8px;
+    padding: 0.5em;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1200px) {
+    .content-column {
+        margin: 15px 10%;
+    }
+
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 250px;
+        grid-template-rows: auto auto;
+        column-gap: 3%;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        font-size: 10px;
+    }
+
+    .search-bar-area {
+        width: 100%;
+        margin: 0.9em 0;
+        transform: translateX(0px);
+    }
+
+    .content-column {
+        margin: 12px 5%;
+    }
+
+    .seller-card-wrapper {
+        display: none;
+    }
+
+    .main-grid {
+        display: inline-block;
+    }
+
+    .seller-card-wrapper.card-mobile {
+        display: flex;
+        margin: 15px 5%;
+    }
+
+    .seller-card-wrapper .add-cart-btn {
+        font-size: 1.8em;
+    }
+
+    .seller-card-wrapper.card-mobile .seller-card {
+        width: 60%;
+    }
+
+    .product-info-table {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-details {
+        border-left: 2px solid var(--dark-bg-colour);
+        border-top: none;
+    }
 }
