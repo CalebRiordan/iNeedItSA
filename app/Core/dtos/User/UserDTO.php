@@ -25,8 +25,8 @@ class UserDTO extends BaseDTO
         "location" => "location",
         "province" => "province",
         "address" => "address",
-        "profile_pic_url" => "profilePicUrl",
         "date_joined" => "dateJoined",
+        "profile_pic_url" => "profilePicUrl",
         "is_buyer" => "",
         "is_seller" => "",
     ];

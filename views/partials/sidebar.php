@@ -4,9 +4,9 @@
     <div class="user-info">
 
         <div class="user-profile">
-            <?php if ($SessionUser['profilePicUrl']): ?>
+            <?php if ($userSession['profilePicUrl']): ?>
                 <div class="img-container">
-                    <img src="<?= $SessionUser['profilePicUrl'] ?>" alt="Profile Picture">
+                    <img src="<?= $userSession['profilePicUrl'] ?>" alt="Profile Picture">
                 </div>
             <?php else: ?>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -16,8 +16,8 @@
         </div>
 
         <div class="name-email-container">
-            <p class="name"><?= "{$SessionUser['firstName']} {$SessionUser['lastName']}" ?></p>
-            <p class="email"><?= $SessionUser['email'] ?? "" ?></p>
+            <p class="name"><?= "{$userSession['firstName']} {$userSession['lastName']}" ?></p>
+            <p class="email"><?= $userSession['email'] ?? "" ?></p>
         </div>
 
         <div class="close-button">

@@ -5,7 +5,6 @@ namespace Core\DTOs;
 class UpdateUserDTO extends BaseDTO
 {
     protected static array $sqlMapping = [
-        "user_id" => "id",
         "first_name" => "firstName",
         "last_name" => "lastName",
         "phone_no" => "phoneNo",
@@ -27,12 +26,22 @@ class UpdateUserDTO extends BaseDTO
         public string $shipAddress,
         public bool $imageChanged,
         public ?array $profilePicFile = null,
-    ){}
+    ) {}
 
-    public function setProfilePicUrl($url){
-        if ($url){
-            $this->profilePicUrl = $url;
-            $this->instanceSqlMapping["profile_pic_url"] = "profilePicUrl"; 
+    public function setProfilePicUrl(?string $url)
+    {
+        // null = do nothing
+        // populated string = set new URL
+        // 'delete' = set URL to null
+
+        if ($url) {
+            if ($url === 'delete') {
+                $this->profilePicUrl = null;
+                $this->instanceSqlMapping["profile_pic_url"] = "profilePicUrl";
+            } else {
+                $this->profilePicUrl = $url;
+                $this->instanceSqlMapping["profile_pic_url"] = "profilePicUrl";
+            }
         }
     }
 }

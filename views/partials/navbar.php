@@ -2,7 +2,7 @@
 
 use Core\Session;
 
-$SessionUser = Session::get('user'); ?>
+$userSession = Session::get('user');?>
 
 <nav class="navbar">
 
@@ -12,7 +12,7 @@ $SessionUser = Session::get('user'); ?>
         </a>
     </div>
 
-    <?php if ($SessionUser): ?>
+    <?php if ($userSession): ?>
         <div id="hamburger">
             <span></span>
             <span></span>
@@ -21,10 +21,10 @@ $SessionUser = Session::get('user'); ?>
     <?php endif; ?>
 
 
-    <div class="right <?= $SessionUser ? 'show-mobile-sidebar' : '' ?>">
+    <div class="right <?= $userSession ? 'show-mobile-sidebar' : '' ?>">
         <ul>
-            <?php if ($SessionUser): ?>
-                <?php $SessionUser ?>
+            <?php if ($userSession): ?>
+                <?php $userSession ?>
 
                 <li class="nav-link">
                     <a class="nav-text" href="/logout">Logout</a>
@@ -50,8 +50,8 @@ $SessionUser = Session::get('user'); ?>
 
                 <li class="nav-link">
                     <div class="user-profile">
-                        <?php $imgUrl = $SessionUser['profilePicUrl'] ?? null ?>
-                        <?php if ($imgUrl && file_exists($imgUrl)): ?>
+                        <?php $imgUrl = $userSession['profilePicUrl'] ?? null ?>
+                        <?php if ($imgUrl && file_exists(base_path("/public{$imgUrl}"))): ?>
                             <div class="img-container">
                                 <img src="<?= $imgUrl ?>" alt="Profile Picture">
                             </div>
@@ -61,8 +61,8 @@ $SessionUser = Session::get('user'); ?>
                                 <path d="M399 384.2C376.9 345.8 335.4 320 288 320l-64 0c-47.4 0-88.9 25.8-111 64.2c35.2 39.2 86.2 63.8 143 63.8s107.8-24.7 143-63.8zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm256 16a72 72 0 1 0 0-144 72 72 0 1 0 0 144z" />
                             </svg>
                         <?php endif; ?>
-                        <a class="nav-link nav-link-mobile" href="/profile/edit"><span class="nav-text">Edit Profile</span></a>
                     </div>
+                    <a class="nav-link nav-link-mobile" href="/profile/edit"><span class="nav-text">Edit Profile</span></a>
                 </li>
 
             <?php else: ?>
