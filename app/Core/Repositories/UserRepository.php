@@ -85,8 +85,10 @@ class UserRepository extends BaseRepository
 
     public function create(CreateUserDTO $user): ?UserDTO
     {
+        // Check if user exists
         if ($this->findByEmail($user->email)) return null;
 
+        // Verify password
         $user->password = password_hash($user->password, PASSWORD_BCRYPT);
 
         $user->setProfilePicUrl($user->profilePicFile ?
@@ -102,12 +104,8 @@ class UserRepository extends BaseRepository
             ({$fields}, date_joined)
             VALUES ({$placeholders}, ?)
         SQL;
-        $userValues = [
-            ...$user->getMappedValues(),
-            date("Y-m-d")
-        ];
 
-        $newId = $this->db->query($sql, $userValues)->newId();
+        $newId = $this->db->query($sql, ...$user->getMappedValues())->newId();
 
         // Insert corresponding Buyer record
         $buyerRole = new BuyerProfileDTO($user->shipAddress, 0);
@@ -117,7 +115,7 @@ class UserRepository extends BaseRepository
         $userValues[] = $buyerRole;
         return new UserDTO(
             $newId,
-            ...$userValues,
+            ...$user->getMappedValues(),
         );
     }
 
@@ -157,7 +155,8 @@ class UserRepository extends BaseRepository
     public function update(UpdateUserDTO $user): bool
     {
         // Check existing user
-        $existingUser = $this->findById($user->id);
+        $id = $user->id;
+        $existingUser = $this->findById($id);
 
         if (!$existingUser) {
             return false;
@@ -166,7 +165,7 @@ class UserRepository extends BaseRepository
         if ($user->imageChanged) {
             $user->setProfilePicUrl($user->profilePicFile ?
                 $this->saveProfilePicture($user->profilePicFile) :
-                null);
+                'delete');
         }
 
         // Prepare UPDATE query
@@ -177,12 +176,19 @@ class UserRepository extends BaseRepository
             SET {$sets}
             WHERE user_id = ?
         SQL;
-
+        
         // Update user
-        if (!($this->db->query($sql, [$user->id])->wasSuccessful())) return false;
-        $this->changeShippingAddress($user->id, $user->shipAddress);
+        if (!($this->db->query($sql, [$id])->wasSuccessful())) return false;
 
-        return true;
+        // Update shipping address in Buyer table
+        if ($this->exists($id) && $user->shipAddress) {
+            return $this->db->query(
+                "UPDATE buyer SET ship_address = ? WHERE user_id = ?",
+                [$user->shipAddress, $id]
+            )->wasSuccessful();
+        }
+
+        return false;
     }
 
     public function addRole(string $id, string $role, array $mapping)
@@ -236,18 +242,6 @@ class UserRepository extends BaseRepository
         $result = $this->db->query("SELECT 1 FROM user WHERE user_id = ? LIMIT 1", [$id])->find();
 
         return !empty($result);
-    }
-
-    public function changeShippingAddress(string $id, string $address)
-    {
-        if ($this->exists($id) && $address) {
-            return $this->db->query(
-                "UPDATE buyer SET ship_address = ? WHERE user_id = ?",
-                [$address, $id]
-            )->wasSuccessful();
-        }
-
-        return false;
     }
 
     public function saveSellerDocs(string $userId, string $copyIdFilename, string $poaFilename): bool

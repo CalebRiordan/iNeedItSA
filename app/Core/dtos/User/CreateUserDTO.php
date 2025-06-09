@@ -13,9 +13,11 @@ class CreateUserDTO extends BaseDTO
         "location" => "location",
         "province" => "province",
         "address" => "address",
+        "date_joined" => "date",
     ];
 
     public ?string $profilePicUrl = null;
+    public string $date;
 
     public function __construct(
         public string $firstName,
@@ -28,7 +30,9 @@ class CreateUserDTO extends BaseDTO
         public string $address,
         public ?array $profilePicFile = null,
         public ?string $shipAddress = null,
-    ) {}
+    ) {
+        $this->date = date("Y-m-d");
+    }
 
     public function setProfilePicUrl($url)
     {

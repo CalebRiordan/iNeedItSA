@@ -46,6 +46,7 @@
     font-family: inherit;
     font-size: 20px;
     position: relative;
+    text-decoration: none;
 }
 
 .nav-text {
@@ -220,13 +221,16 @@
     }
 
     .nav-link {
+        display: flex;
+        align-items: center;
         font-size: 1.2rem;
-        padding: 0.5rem 0;
-        height: 1.4em;
+        padding: 0;
+        line-height: 1.4em;
     }
 
     .nav-text {
         margin-left: 0.6em;
+        text-decoration: none;
     }
 
     .nav-link.nav-btn {
@@ -236,6 +240,7 @@
 
     .nav-link svg {
         width: 2rem;
+        transform: translateY(0);
     }
 
     .nav-link-mobile {
@@ -251,13 +256,13 @@
         flex-direction: column;
         align-items: flex-start;
         padding: 1.2rem;
-        padding-top: 0;
-        gap: 0.7rem;
-        margin: 0;
+        padding-top: 0.4rem;
+        gap: 1rem;
     }
 
     .user-profile {
         pointer-events: none;
+        height: 2rem;
     }
 
     /* Order nav links for mobile layout */

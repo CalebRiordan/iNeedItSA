@@ -25,8 +25,6 @@ addToCartBtns.forEach((btn) => {
 
 // Functions
 function updateProduct(state) {
-    console.log(state);
-
     const notAdded = document.querySelectorAll(".item-not-added");
     const added = document.querySelectorAll(".item-added");
     const isAdded = state === "add";

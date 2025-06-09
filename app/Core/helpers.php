@@ -1,7 +1,5 @@
 <?php
 
-use Core\Session;
-
 function base_path($path)
 {
     return __DIR__ . '/../../' . $path;
