@@ -40,7 +40,6 @@ class CartRepository extends BaseRepository
 
         $placeholders = implode(', ', $placeholders);
 
-        // response(["INSERT INTO cart_item ({$this->sqlFields}) VALUES {$placeholders}"]);
         return $this->db->query(
             "INSERT INTO cart_item ({$this->sqlFields}) VALUES {$placeholders}",
             $values

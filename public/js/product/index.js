@@ -1,7 +1,7 @@
 import { buildQueryString } from "/js/utils/queryBuilder.js";
 import {
-  validatePrice,
-  highlightBorderError,
+    validatePrice,
+    highlightBorderError,
 } from "/js/utils/priceValidator.js";
 import { resizeProductCardTitles } from "/js/utils/scaleProductCardFont.js";
 
@@ -42,187 +42,189 @@ closeFilterBtn.addEventListener("click", () => {
 
 // Category List
 document.querySelectorAll(".category-list .option").forEach((option) => {
-  option.addEventListener("click", function () {
-    document.querySelectorAll(".category-list .option").forEach((opt) => {
-      opt.classList.remove("active");
+    option.addEventListener("click", function () {
+        document.querySelectorAll(".category-list .option").forEach((opt) => {
+            opt.classList.remove("active");
+        });
+
+        const selected = this.dataset.value;
+        if (selected === category) {
+            category = null;
+        } else {
+            category = selected;
+            this.classList.add("active");
+        }
+
+        updateFilterBtnState();
     });
-
-    const selected = this.dataset.value;
-    if (selected === category){
-      category = null;
-    } else {
-      category = selected;
-      this.classList.add("active");
-    }
-
-    updateFilterBtnState();
-  });
 });
 
 // Rating Stars
 stars.forEach((star) => {
-  star.addEventListener("click", () => {
-    setRating(star.dataset.value);
-  });
+    star.addEventListener("click", () => {
+        setRating(star.dataset.value);
+    });
 });
 
 // Min- and max price inputs
 [minInput, maxInput].forEach((input) => {
-  input.addEventListener("beforeinput", (e) => {
-    validatePrice(input, minInput, maxInput, e);
-    setTimeout(updateFilterBtnState, 0);
-  });
+    input.addEventListener("beforeinput", (e) => {
+        validatePrice(input, minInput, maxInput, e);
+        setTimeout(updateFilterBtnState, 0);
+    });
 });
 
 maxInput?.addEventListener("blur", function () {
-  minPrice = getValue(minInput);
-  maxPrice = getValue(maxInput);
+    minPrice = getValue(minInput);
+    maxPrice = getValue(maxInput);
 
-  if (maxPrice < minPrice && maxPrice !== 0) {
-    highlightBorderError(maxInput);
-  }
+    if (maxPrice < minPrice && maxPrice !== 0) {
+        highlightBorderError(maxInput);
+    }
 });
 
 // Process Search
 searchButton.addEventListener("click", applyFilter);
 searchField.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") applyFilter();
+    if (event.key === "Enter") applyFilter();
 });
 searchField.addEventListener("input", () => {
-  updateSearchButtonState(true);
+    updateSearchButtonState(true);
 });
 
 function setRating(number) {
-  rating = number;
-  number ??= 1;
-  stars.forEach((star, index) => {
-    const starWrapper = star.parentElement;
-    starWrapper.classList.toggle("excluded", index < number - 1);
-  });
+    rating = number;
+    number ??= 1;
+    stars.forEach((star, index) => {
+        const starWrapper = star.parentElement;
+        starWrapper.classList.toggle("excluded", index < number - 1);
+    });
 
-  let label = "";
+    let label = "";
 
-  switch (Number(number)) {
-    case 1:
-      label = `Any rating`;
-      break;
-    case 5:
-      label = `5 stars only`;
-      break;
-    default:
-      label = `${number} stars and up`;
-      break;
-  }
+    switch (Number(number)) {
+        case 1:
+            label = `Any rating`;
+            break;
+        case 5:
+            label = `5 stars only`;
+            break;
+        default:
+            label = `${number} stars and up`;
+            break;
+    }
 
-  document.getElementById("rating-label").textContent = label;
-  updateFilterBtnState();
+    document.getElementById("rating-label").textContent = label;
+    updateFilterBtnState();
 }
 
 function applyFilter() {
-  minPrice = getValue(minInput);
-  maxPrice = getValue(maxInput);
+    minPrice = getValue(minInput);
+    maxPrice = getValue(maxInput);
 
-  Object.assign(params, {
-    minPrice,
-    maxPrice,
-    category,
-    rating,
-  });
-  
-  let queryString = getQueryString();
-  refreshPartials(queryString);
-  updateFilterBtnState(false);
-  updateResultsLabel();
-  searchButton.classList.add("disabled");
-  history.replaceState(null, "", `/products${queryString}`);
+    // Update global params variable
+    Object.assign(params, {
+        minPrice,
+        maxPrice,
+        category,
+        rating,
+    });
+
+    let queryString = getQueryString();
+    refreshPartials(queryString);
+    updateFilterBtnState(false);
+    updateResultsLabel();
+    searchButton.classList.add("disabled");
+    history.replaceState(null, "", `/products${queryString}`);
 }
 
 function setPageEventListeners() {
-  document.querySelectorAll(".page-btn").forEach((button) => {
-    button.addEventListener("click", function () {
-      const page = this.getAttribute("data-page");
-      if (page !== params["page"]) {
-        setPage(page);
-        refreshPartials(getQueryString());
-      }
+    document.querySelectorAll(".page-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+            const page = this.getAttribute("data-page");
+            if (page !== params["page"]) {
+                setPage(page);
+                refreshPartials(getQueryString());
+            }
+        });
     });
-  });
 }
 
 function setPage(page = 1) {
-  params["page"] = page;
+    params["page"] = page;
 }
 
 function getQueryString() {
-  // use params
-  let queryParams = {
-    search: encodeURIComponent(searchField.value).trim(),
-    category: params["category"] ?? null,
-    minPrice: params["minPrice"] ?? null,
-    maxPrice: params["maxPrice"] ?? null,
-    rating: params["rating"] ?? null,
-    page: params["page"] ?? null,
-  };
+    // use params
+    let queryParams = {
+        search: encodeURIComponent(searchField.value).trim(),
+        category: params["category"] ?? null,
+        minPrice: params["minPrice"] ?? null,
+        maxPrice: params["maxPrice"] ?? null,
+        rating: params["rating"] ?? null,
+        page: params["page"] ?? null,
+    };
 
-  return buildQueryString(queryParams);
+    return buildQueryString(queryParams);
 }
 
 function refreshPartials(queryString) {
-  
-  fetch(`/partial/products-display${queryString}`)
-  .then((res) => res.json())
-  .then((data) => {
+    // Fetch whole product display HTML
+    fetch(`/partial/products-display${queryString}`)
+        .then((res) => res.json())
+        .then((data) => {
+            // Replace product display HTML with new HTML
+            if (data["products-display"] !== "") {
+                productsCatalogue.classList.remove("empty");
+                // Replace existing HTML
+                productsGrid.innerHTML = data["products-display"];
+                document.querySelector(".page-selector").innerHTML =
+                    data["page-selector"];
+            } else {
+                // Replace page selector HTML with new HTML
+                productsCatalogue.classList.add("empty");
+                document.querySelector(".page-selector").innerHTML = "";
+            }
 
-      if (data["products-display"] !== "") {
-        productsCatalogue.classList.remove("empty");
-        // Replace existing HTML
-        productsGrid.innerHTML = data["products-display"];
-        document.querySelector(".page-selector").innerHTML =
-          data["page-selector"];
-      } else {
-        productsCatalogue.classList.add("empty");
-        document.querySelector(".page-selector").innerHTML = "";
-      }
+            window.scrollTo(0, 0);
+            resizeProductCardTitles();
 
-      window.scrollTo(0, 0);
-      resizeProductCardTitles();
-
-      // Update page-selector
-      setPageEventListeners();
-    });
+            // Update page-selector
+            setPageEventListeners();
+        });
 }
 
 function updateResultsLabel() {
-  let search = encodeURIComponent(searchField.value).trim();
-  let header = document.getElementById("results-header");
+    let search = encodeURIComponent(searchField.value).trim();
+    let header = document.getElementById("results-header");
 
-  if (search) {
-    header.innerHTML = `Results for <span>"${search}"</span>`;
-    header.style.display = "block";
-  } else {
-    header.style.display = "none";
-  }
+    if (search) {
+        header.innerHTML = `Results for <span>"${search}"</span>`;
+        header.style.display = "block";
+    } else {
+        header.style.display = "none";
+    }
 }
 
-function updateSearchButtonState(){
-  if (searchField.value.trim() !== ""){
-    searchButton.classList.remove("disabled");
-  } else {
-    searchButton.classList.add("disabled");
-  }
+function updateSearchButtonState() {
+    if (searchField.value.trim() !== "") {
+        searchButton.classList.remove("disabled");
+    } else {
+        searchButton.classList.add("disabled");
+    }
 }
 
 function updateFilterBtnState(enable = true) {
-  let minPrice = getValue(minInput);
-  let maxPrice = getValue(maxInput);
+    let minPrice = getValue(minInput);
+    let maxPrice = getValue(maxInput);
 
-  if ((maxPrice > 0 && minPrice > maxPrice) || !enable) {
-    filterButton.classList.add("disabled");
-    filterButton.removeEventListener("click", applyFilter);
-  } else {
-    filterButton.classList.remove("disabled");
-    filterButton.addEventListener('click', applyFilter);
-  }
+    if ((maxPrice > 0 && minPrice > maxPrice) || !enable) {
+        filterButton.classList.add("disabled");
+        filterButton.removeEventListener("click", applyFilter);
+    } else {
+        filterButton.classList.remove("disabled");
+        filterButton.addEventListener("click", applyFilter);
+    }
 }
 
 // Initial setup
@@ -233,6 +235,6 @@ updateResultsLabel();
 updateFilterBtnState(false);
 
 if (params["products-display"] === "") {
-  productsCatalogue.classList.add("empty");
-  document.querySelector(".page-selector").innerHTML = "";
+    productsCatalogue.classList.add("empty");
+    document.querySelector(".page-selector").innerHTML = "";
 }
