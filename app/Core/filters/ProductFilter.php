@@ -70,10 +70,10 @@ class ProductFilter extends BaseFilter
                     $conditions[] = "category = ?";
                     break;
                 case 'minPrice':
-                    $conditions[] = "price >= ?";
+                    $conditions[] = "price * (1 - COALESCE(pct_discount, 0) / 100) >= ?";
                     break;
                 case 'maxPrice':
-                    $conditions[] = "price <= ?";
+                    $conditions[] = "price * (1 - COALESCE(pct_discount, 0) / 100) <= ?";
                     break;
                 case 'rating':
                     $conditions[] = "avg_rating >= ?";
@@ -110,7 +110,7 @@ class ProductFilter extends BaseFilter
                     case 'maxPrice':
                         $this->setMaxPrice($value);
                         break;
-                    case 'minRating':
+                    case 'rating':
                         $this->rating($value);
                         break;
                     case 'page':

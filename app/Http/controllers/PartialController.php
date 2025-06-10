@@ -31,7 +31,6 @@ class PartialController
     {
         $validParams = ProductFilter::validParams($params);
         if (!$validParams) return [];
-
         $filter = new ProductFilter();
         $filter->build($validParams);
 
