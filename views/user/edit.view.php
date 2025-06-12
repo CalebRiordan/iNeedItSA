@@ -109,7 +109,7 @@ require partial('navbar');
             </div>
 
 
-            <button id="btn-submit" type="submit">Update Profile</button>
+            <button id="btn-submit" type="submit">Save Changes</button>
         </form>
     </div>
 </main>

@@ -10,7 +10,7 @@ main {
     gap: 1em;
 }
 
-main > h1 {
+.page-heading {
     font-size: 4em;
     width: 100%;
     text-align: center;
@@ -84,6 +84,8 @@ main > h1 {
     pointer-events: none;
 }
 
+/* =============== Chart =============== */
+
 .chart-container {
     width: 100%;
     aspect-ratio: 2/1;
@@ -95,4 +97,51 @@ main > h1 {
 .chart-container .chart {
     width: 100%;
     height: 100%;
+}
+
+/* =============== Pending Sellers =============== */
+
+.seller-cards {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6em;
+}
+
+.seller-card {
+    border: 1px solid var(--dark-bg-colour);
+    padding: 1em;
+    margin-bottom: 1em;
+    font-size: inherit;
+    border-radius: 1em;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.seller-card h2 {
+    margin: 0.2em 0;
+}
+
+.seller-card .email {
+    color: var(--disabled-colour);
+    font-size: 0.7em;
+}
+
+.seller-card .doc-previews {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+
+}
+
+.doc-item {
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    padding: 0.5em;
+    border-radius: 0.5em;
+    font-size: 0.8em;
+    text-decoration: none;
+}
+
+.seller-card form {
+    margin-top: 1.2em;
 }

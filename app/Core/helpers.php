@@ -19,7 +19,7 @@ function env($key, $default = null)
 function redirect($path)
 {
     header("location: {$path}");
-    die();
+    exit();
 }
 
 function view($path, $attributes = [])
@@ -40,14 +40,14 @@ function dd($value)
     var_dump($value);
     echo "</pre>";
 
-    die();
+    exit();
 }
 
 function abort($code = 404)
 {
     http_response_code($code);
     require base_path("views/StatusCodes/{$code}.view.php");
-    die();
+    exit();
 }
 
 function elapsedTimeString(DateTime $date): string

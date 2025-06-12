@@ -1,19 +1,21 @@
-const chartElement = document.querySelector(".chart");
+const chartElement = document.querySelector('.chart');
+const showDocsBtn = document.getElementById('showDocsBtn');
+const docs = document.querySelectorAll('.doc-previews .doc');
 let chart;
 
 function setChart(data, type, period) {
     // Make label
     const validChartType = {
-        "orders-volume": "Order volume",
-        revenue: "Revenue",
-        "new-users": "New users",
-        sales: "Sales",
+        'orders-volume': 'Order volume',
+        revenue: 'Revenue',
+        'new-users': 'New users',
+        sales: 'Sales',
     };
 
     const duration = {
-        week: "7 days",
-        month: "30 days",
-        year: "12 months",
+        week: '7 days',
+        month: '30 days',
+        year: '12 months',
     };
 
     if (!validChartType[type]) return;
@@ -110,7 +112,7 @@ async function loadData(type, period, targetEl) {
 
 async function getStat(type, period, targetEl) {}
 
-// For each card:
+// Setup switches for changing periods on each card
 document.querySelectorAll(".dashboard-grid .card").forEach((card) => {
     let loading = false;
     const statType = card.dataset.type;

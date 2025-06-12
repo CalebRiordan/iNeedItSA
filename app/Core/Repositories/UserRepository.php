@@ -6,6 +6,7 @@ use Core\DTOs\BaseDTO;
 use Core\DTOs\BuyerProfileDTO;
 use Core\DTOs\CreateUserDTO;
 use Core\DTOs\LoginDTO;
+use Core\DTOs\PendingSellerDTO;
 use Core\DTOs\Role;
 use Core\DTOs\UpdateUserDTO;
 use Core\DTOs\UserDTO;
@@ -176,7 +177,7 @@ class UserRepository extends BaseRepository
             SET {$sets}
             WHERE user_id = ?
         SQL;
-        
+
         // Update user
         if (!($this->db->query($sql, [$id])->wasSuccessful())) return false;
 
@@ -193,17 +194,12 @@ class UserRepository extends BaseRepository
 
     public function addRole(string $id, string $role, array $mapping)
     {
-        $dtoClass = UserDTO::$roleClasses[$role];
-
-        $fields = array_keys($mapping);
+        $fields = implode(', ', array_keys($mapping));
         $values = array_values($mapping);
         $placeholders = BaseDTO::placeholders(count($mapping));
-
+        
         // Add role in in corresponding role table
-        $this->db->query(
-            "INSERT INTO {$role} ({$fields}) VALUES ({$placeholders})",
-            [$id, ...$values]
-        );
+        $this->db->query("INSERT INTO {$role} ({$fields}) VALUES ({$placeholders})", $values);
 
         // Set subtype discriminator in User table
         $this->db->query(
@@ -282,15 +278,23 @@ class UserRepository extends BaseRepository
 
     public function pendingSellers(): array
     {
-        $fields = UserPreviewDTO::toFields('u');
+        $fields = PendingSellerDTO::toFields('u');
         $sql = <<<SQL
-        SELECT {$fields}, sdu.date_submitted FROM user u
+        SELECT {$fields}, sdu.copy_id_url, sdu.poa_url, sdu.date_submitted FROM user u
         INNER JOIN seller_docs_url sdu ON u.user_id = sdu.user_id
         WHERE sdu.accepted = FALSE
         SQL;
 
         $rows = $this->db->query($sql)->findAll();
 
-        return UserPreviewDTO::fromRows($rows);
+        return PendingSellerDTO::fromRows($rows);
+    }
+
+    public function deleteSellerReg(string $userId)
+    {
+        $this->db->query(
+            "DELETE FROM seller_docs_url WHERE user_id = ?",
+            [$userId]
+        )->wasSuccessful();
     }
 }

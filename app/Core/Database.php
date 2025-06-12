@@ -17,7 +17,7 @@ class Database
         $this->connection->set_charset($charset);
 
         if ($this->connection->connect_error) {
-            die('Connection failed: ' . $this->connection->connect_error);
+            exit('Connection failed: ' . $this->connection->connect_error);
         }
     }
 
@@ -26,7 +26,7 @@ class Database
         $this->statement = $this->connection->prepare($query);
 
         if ($this->statement === false) {
-            die('Query preparation failed: ' . $this->connection->error);
+            exit('Query preparation failed: ' . $this->connection->error);
         }
 
 
