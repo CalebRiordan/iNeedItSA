@@ -6,7 +6,7 @@ use Core\Session;
 $user = Session::get("user");
 
 if (!$user){ 
-    die();
+    exit();
 }
 
 $user = (new UserRepository())->findById($user['id']);

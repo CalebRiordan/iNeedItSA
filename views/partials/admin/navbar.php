@@ -12,19 +12,19 @@ $emp = Session::get('emp'); ?>
             <h3>Admin Dashboard</h3>
         </a>
     </div>
-    <?php if (Session::has('emp')): ?>
+    <?php if ($emp): ?>
         <div class="right">
             <ul>
-                <li>
-                    <a class="nav-link" href="/admin/logout"><span class="logout">Logout</span></a>
+                <li class="nav-link">
+                    <a class="nav-text" href="/admin/logout"><span class="logout">Logout</span></a>
                 </li>
 
-                <li>
-                    <a class="nav-link" href="/admin#staff"><span>Staff</span></a>
+                <li class="nav-link">
+                    <a class="nav-text" href="/admin#staff"><span>Staff</span></a>
                 </li>
 
-                <li>
-                    <a class="nav-link" href="/admin#reports"><span>Reports</span></a>
+                <li class="nav-link">
+                    <a class="nav-text" href="/admin#sellers"><span>Pending Sellers</span></a>
                 </li>
 
                 <li class="staff-item">

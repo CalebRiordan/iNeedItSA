@@ -36,6 +36,8 @@ $router->get("/admin/logout", "admin/session/destroy.php")->only('staff');
 $router->get("/admin/enrol", "admin/staff/create.php")->only('staff');
 $router->post("/admin/login", "admin/staff/store.php")->only('staff');
 $router->get("/admin/reports", "admin/reports/index.php")->only('staff');
+$router->get("/admin/sellers/pending", "admin/seller_reg/show.php")->only('staff');
+$router->post("/admin/sellers/registration", "admin/seller_reg/edit.php")->only('staff');
 
 // Partials
 $router->partial('/products-display');

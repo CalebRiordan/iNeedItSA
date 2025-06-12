@@ -67,10 +67,10 @@ $userSession = Session::get('user');?>
 
             <?php else: ?>
                 <li class="nav-link">
-                    <a class="nav-btn log-in" aria-current="page" href="/login">Log in</a>
+                    <a class="nav-btn" aria-current="page" href="/login">Login</a>
                 </li>
                 <li class="nav-link">
-                    <a class="nav-btn sign-up salient" href="/register">Sign up</a>
+                    <a class="nav-btn salient" href="/register">Sign up</a>
                 </li>
             <?php endif; ?>
         </ul>

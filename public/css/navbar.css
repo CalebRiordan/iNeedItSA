@@ -37,7 +37,7 @@
     align-items: center;
     list-style: none;
     margin-right: 2rem;
-    gap: 2rem;
+    gap: 1.6rem;
 }
 
 .nav-link {
@@ -54,15 +54,14 @@
     color: var(--text-colour-light);
 }
 
-.nav-link.nav-btn {
-    background-color: var(--primary-colour);
+.nav-link .nav-btn {
     color: var(--text-colour-light);
     padding: 6px 16px 8px 16px;
-    border: 2px solid var(--highlight-colour);
     border-radius: 20px;
     text-align: center;
+    text-decoration: none;
+    font-size: 1.5rem;
 }
-
 .nav-link a {
     position: relative;
 }

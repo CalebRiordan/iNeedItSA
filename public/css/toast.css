@@ -1,13 +1,13 @@
 #toast {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
     z-index: 9999;
     background-color: #333;
-    color: var(--text-colour-light); 
+    color: var(--text-colour-light);
     padding: 1rem 2rem;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(var(--text-colour-dark-rgb),0.2);
+    box-shadow: 0 4px 8px rgba(var(--text-colour-dark-rgb), 0.2);
     max-width: 300px;
     text-align: center;
     opacity: 0;
@@ -30,4 +30,12 @@
 }
 #toast.info {
     background-color: var(--primary-colour);
+}
+
+/* @MEDIA QUERIES */
+
+@media (max-width: 768px) {
+    #toast {
+        font-size: 12px;
+    }
 }
