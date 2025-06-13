@@ -11,7 +11,7 @@ abstract class BaseFilter
     protected ?string $orderBy = null;
     protected array $prefix = [];
 
-    abstract public function getWhereClause(): string;
+    abstract public function getWhereClause(string $prefix = ''): string;
 
     abstract public function build(array $params);
 

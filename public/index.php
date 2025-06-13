@@ -12,14 +12,15 @@ try {
 
   // Set Error Logging
   error_reporting(E_ALL);
-  ini_set('log_errors', '1');
   ini_set('display_errors', '0');
   
   // Services
   require base_path('app/core/services.php');
 
   // Automatic login
-  (new Authenticator)->updateLoginState();
+  $auth = new Authenticator();
+  $loggedIn = $auth->updateLoginState();
+  if ($loggedIn) $auth->checkSellerState();
 
   // Router
   $router = new Router();

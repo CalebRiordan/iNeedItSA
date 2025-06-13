@@ -18,6 +18,11 @@ main {
     color: var(--highlight-colour);
 }
 
+.section-heading{
+    font-size: 2em;
+    color: var(--text-colour-dark);
+}
+
 .card {
     position: relative;
     background: var(--off-bg-colour);
@@ -86,7 +91,7 @@ main {
 
 /* =============== Chart =============== */
 
-.chart-container {
+.chart-section {
     width: 100%;
     aspect-ratio: 2/1;
     padding: 3em;
@@ -94,12 +99,17 @@ main {
     margin-top: 4em;
 }
 
-.chart-container .chart {
+.chart-section .chart {
     width: 100%;
     height: 100%;
 }
 
 /* =============== Pending Sellers =============== */
+
+.pending-sellers-section{
+    margin: 2em 0 4em 0;
+    font-size: inherit;
+}
 
 .seller-cards {
     width: 100%;

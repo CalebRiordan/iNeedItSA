@@ -43,7 +43,7 @@ main {
     width: 100%;
     padding: 12px;
     background-color: var(--dark-bg-colour);
-    border-radius: 15px;
+    border-radius: 10px;
     border: none;
     outline: none;
     font-size: 1em;

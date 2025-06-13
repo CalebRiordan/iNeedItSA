@@ -31,7 +31,11 @@ $userSession = Session::get('user');?>
                 </li>
 
                 <li class="nav-link nav-link-mobile">
-                    <a class="nav-text" href="/seller/register">Become a seller</a>
+                    <?php if ($userSession['sellerProfile']): ?>
+                        <a class="nav-text" href="/seller/dashboard">Seller Dashboard</a>
+                    <?php else: ?>
+                        <a class="nav-text" href="/seller/register">Become a seller</a>
+                    <?php endif; ?>
                 </li>
 
                 <li class="nav-link nav-link-mobile">

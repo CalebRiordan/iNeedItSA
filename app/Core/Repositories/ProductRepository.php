@@ -49,19 +49,24 @@ class ProductRepository extends BaseRepository
     {
         $filter ??= new ProductFilter();
 
-        $where = $filter->getWhereClause();
+        $where = $filter->getWhereClause('p');
         $limit = $filter->getLimitClause();
         $offset = $filter->getOffsetClause();
 
         $sql = <<<SQL
-            SELECT * FROM product p
+            SELECT p.*, s.*, u.*, b.*, pi.img_url, COALESCE(SUM(oi.quantity), 0) AS sales FROM product p
             LEFT JOIN seller s
             ON p.seller_id = s.user_id 
-            LEFT JOIN user u 
-            ON u.user_id = s.user_id
+            LEFT JOIN user u
+            ON p.seller_id = u.user_id 
+            LEFT JOIN buyer b
+            ON p.seller_id = b.user_id 
             LEFT JOIN product_image_url pi 
-            ON p.product_id = pi.product_id
-            {$where}
+            ON p.product_id = pi.product_id AND pi.is_display_img = 1
+            LEFT JOIN order_item oi 
+            ON p.product_id = oi.product_id
+            {$where} 
+            GROUP BY p.product_id
             {$limit}
             {$offset}
             ORDER BY p.product_id;
@@ -77,11 +82,14 @@ class ProductRepository extends BaseRepository
                 // Add new ProductDTO
                 $products[$productId] = ProductDTO::fromRow($row);
 
+                // Add seller profile and sales attributes
                 $seller = UserDTO::fromRow($row);
                 $products[$productId]->seller = $seller;
+                $products[$productId]->sales = $row['sales'];
             }
 
-            if ($row['image_url']) {
+            // Add image urls
+            if ($row['img_url']) {
                 if ($row['is_display_img']) {
                     $products[$productId]->displayImageUrl = $row['image_url'];
                 } else {
@@ -105,14 +113,14 @@ class ProductRepository extends BaseRepository
     {
         $filter ??= new ProductFilter();
 
-        $fields = ProductPreviewDTO::toFields("p");
-        $where = $filter->getWhereClause();
+        $fields = ProductPreviewDTO::toFields('p');
+        $where = $filter->getWhereClause('p');
         $orderBy = $filter->getOrderByClause('p.product_id');
         $limit = $filter->getLimitClause();
         $offset = $filter->getOffsetClause();
 
         $sql = <<<SQL
-            SELECT {$fields}, COALESCE(pi.img_url, "") as img_url FROM product p
+            SELECT {$fields}, COALESCE(pi.img_url, '') as img_url FROM product p
             LEFT JOIN product_image_url pi
             ON p.product_id = pi.product_id AND pi.is_display_img = True
             {$where}
@@ -162,18 +170,21 @@ class ProductRepository extends BaseRepository
 
     public function create(CreateProductDTO $product): ?ProductPreviewDTO
     {
-        $alreadyExists = $this->db->query("SELECT product_id FROM product WHERE name = ?", [$product->name])->find();
+        $alreadyExists = $this->findByName($product->name);
         if ($alreadyExists) {
             return null;
         }
 
+        // Save new image and attach URL to product
+        $product->displayImageUrl = $this->saveProductImage($product->displayImageFile);
+
         $fields = CreateProductDTO::toFields();
-        $values = $product->getMappedValues();
+        $placeholders = $product->placeholders();
         // Insert Product record
         $sql = <<<SQL
             INSERT INTO Product 
             ({$fields})
-            VALUES ({$values})
+            VALUES ({$placeholders})
         SQL;
 
         $newId = $this->db->query($sql, $product->getMappedValues())->newId();
@@ -279,7 +290,7 @@ class ProductRepository extends BaseRepository
     public function updateImages($id, array $imageUrls, string $displayImageUrl)
     {
         // Get images
-        $rows = $this->db->query("SELECT * FROM product_image WHERE product_id = ?", [$id])->findAll();
+        $rows = $this->db->query("SELECT * FROM product_image_url WHERE product_id = ?", [$id])->findAll();
 
         $delete = [];
         $imageUrls[] = $displayImageUrl;
@@ -296,7 +307,7 @@ class ProductRepository extends BaseRepository
 
         // Delete images
         $this->db->query(
-            "DELETE FROM product_image WHERE img_id IN ({implode(', ', array_fill(0, count($delete), '?'))})",
+            "DELETE FROM product_image_url WHERE img_id IN ({implode(', ', array_fill(0, count($delete), '?'))})",
             $delete
         );
 
@@ -304,32 +315,41 @@ class ProductRepository extends BaseRepository
         $this->insertImages($id, $imageUrls);
 
         // Update display image
-        $this->db->query("UPDATE product_image SET is_display_image = False WHERE product_id = ?", [$id]);
-        $this->db->query("UPDATE product_image SET is_display_image = True WHERE img_url = ?", [$displayImageUrl]);
+        $this->db->query("UPDATE product_image_url SET is_display_image = False WHERE product_id = ?", [$id]);
+        $this->db->query("UPDATE product_image_url SET is_display_image = True WHERE img_url = ?", [$displayImageUrl]);
     }
 
     public function insertImages(string $id, array $imageUrls, ?string $displayImageUrl = null)
     {
         $sets = [];
-        for ($i = 0; $i < count($imageUrls); $i++) {
-            $sets[] = "({$id}, {?}, False)";
+        foreach ($imageUrls as $url) {
+            $sets[] = "(?, ?, False)";
         }
+        $params = [];
+        foreach ($imageUrls as $url) {
+            $params[] = $id;
+            $params[] = $url;
+        }
+
+        if ($displayImageUrl) {
+            $sets[] = "(?, ?, True)";
+            $params[] = $id;
+            $params[] = $displayImageUrl;
+        }
+
+        if (empty($sets)) {
+            return;
+        }
+
         $insertSetString = implode(", ", $sets);
 
-        $displayImageSet = "";
-        if ($displayImageUrl) {
-            $displayImageSet = "({$id}, ?, True)";
-            $imageUrls[] = $displayImageUrl;
-        }
-
         $sql = <<<SQL
-            INSERT INTO product_image
+            INSERT INTO product_image_url
             (product_id, img_url, is_display_img)
-            VALUES {$insertSetString},
-            $displayImageSet;
+            VALUES {$insertSetString};
         SQL;
 
-        $this->db->query($sql, $imageUrls);
+        $this->db->query($sql, $params);
     }
 
     private function previewFromRow(?array $row): ?ProductPreviewDTO
@@ -339,7 +359,7 @@ class ProductRepository extends BaseRepository
 
             $sql = <<<SQL
                 SELECT img_url 
-                FROM product_image 
+                FROM product_image_url 
                 WHERE product_id = ? 
                 AND is_display_img = True
             SQL;
@@ -376,5 +396,21 @@ class ProductRepository extends BaseRepository
 
         $result = $this->db->query($sql, $id)->find();
         return reset($result);
+    }
+
+    private function saveProductImage(array $file): ?string
+    {
+        if (validImage($file)) {
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $filename = uniqid('product_', true) . '.' . $extension;
+
+            $targetPath = "/uploads/product_imgs/{$filename}";
+
+            if (move_uploaded_file($file['tmp_name'], base_path('public/' . $targetPath))) {
+                return $targetPath;
+            }
+        }
+
+        return null;
     }
 }

@@ -1,0 +1,161 @@
+<?php
+
+use Core\DTOs\CreateProductDTO;
+use Core\Session;
+
+$stylesheets = ['form.css', 'product/create.css'];
+$scripts = ['product/create.js'];
+
+require partial('header');
+require partial('navbar');
+
+// Recreate CreateProductDTO from old form data so user doesn't have to fill out everything again
+$seller = Session::get('user');
+if (!isset($product) || $product === null) {
+    // $product = new CreateProductDTO(
+    //     existingFormData('name'),
+    //     existingFormData('description'),
+    //     (float) existingFormData('price'),
+    //     $seller['id'],
+    //     (int) existingFormData('stock'),
+    //     existingFormData('condition'),
+    //     existingFormData('condition_details'),
+    //     (int) existingFormData('discount'),
+    //     existingFormData('category'),
+    // );
+
+    $product = new CreateProductDTO(
+        'Test Product Name for Mock Form Testing Purposes',
+        'This is a mock description for testing the product form. It is intentionally long enough to meet the minimum character requirement.',
+        99.99,
+        $seller['id'],
+        10,
+        'New',
+        'Brand new, never used.',
+        5,
+        'Electronics',
+    );
+}
+
+
+?>
+
+<main>
+    <div class="form-container">
+        <form action="/products" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="previousPage" value="<?= previousPage() ?>">
+
+            <h1>Create a New Product Listing</h1>
+
+            <div class="section section-1">
+
+                <div class="text-inputs">
+                    <!-- Product name -->
+                    <div class="input-group">
+                        <label for="name">Product Name</label>
+                        <textarea id="name" placeholder="Product Name" name="name" required rows="3" maxlength="255"><?= $product->name ?></textarea>
+                        <p class="error error-name"><?= $errors['name'] ?? "" ?></p>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="input-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" placeholder="Description" name="description" required rows="5" maxlength="800"><?= $product->description ?></textarea>
+                        <p class="error error-name"><?= $errors['description'] ?? "" ?></p>
+                    </div>
+                </div>
+
+                <!-- Product Image -->
+                <div class="image-input">
+                    <div class="product-img-container">
+                        <input type="file" name="product_img" id="product-img" accept="image/*" required>
+                        <div id="img-container" onclick="document.getElementById('product-img').click();">
+                            <img
+                                id="product-img-preview"
+                                src="<?= $product->displayImageUrl ?? '' ?>"
+                                class="<?= $product && $product->displayImageUrl && !$_POST["product_img"] ? "" : "placeholder" ?>"
+                                alt="Product Image">
+                        </div>
+                        <div class="overlay"><span>+</span></div>
+                    </div>
+
+                    <button type="button" class="remove-btn" style="display:none;">&times;</button>
+                    <p class="error error-image"><?= $errors['product_img'] ?? "" ?></p>
+                </div>
+            </div>
+
+            <div class="section section-2">
+
+                <!-- Price -->
+                <div class="input-group">
+                    <label for="price">Price</label>
+                    <input id="price" inputmode="numeric" placeholder="R" name="price" required value="<?= $product->price ?? '' ?>">
+                    <p class="error error-price"><?= $errors['price'] ?? "" ?></p>
+                </div>
+
+                <!-- Category -->
+                <div class="input-group">
+                    <label for="category">Category</label>
+
+                    <select id="category" name="category" required>
+                        <option value="">Select Category</option>
+                        <?php
+                        $categories = ['Clothing', 'Electronics', 'Home & Garden', 'Books & Stationary', 'Toys', 'Beauty', 'Sports', 'Pets'];
+                        foreach ($categories as $category) {
+                            $selected = ($product->category && $product->category === $category) ? 'selected' : '';
+                            echo "<option value=\"$category\" $selected>$category</option>";
+                        } ?>
+                    </select>
+
+                    <p class="error"><?= $errors['category'] ?? "" ?></p>
+                </div>
+
+                <!-- Quantity in Stock -->
+                <div class="input-group">
+                    <label for="stock">Quantity in stock</label>
+                    <input id="stock" type="text" placeholder="qty" name="stock" required value="<?= $product->stock ?? '' ?>">
+                    <p class="error error-stock"><?= $errors['stock'] ?? "" ?></p>
+                </div>
+
+                <!-- Discount -->
+                <div class="input-group">
+                    <label for="discount">Discount (optional)</label>
+                    <input id="discount" type="text" name="discount" value="<?= $product->discount ?? '0' ?>">
+                    <p class="error error-discount"><?= $errors['discount'] ?? "" ?></p>
+                </div>
+            </div>
+
+
+            <div class="section section-3">
+                <!-- Condition -->
+                <div class="input-group">
+                    <label for="condition">Condition</label>
+
+                    <select id="condition" name="condition" required>
+                        <option value="">Select Condition</option>
+                        <?php
+                        $conditions = ['New', 'Used', 'Refurbished'];
+                        foreach ($conditions as $condition) {
+                            $selected = ($product->condition && $product->condition === $condition) ? 'selected' : '';
+                            echo "<option value=\"$condition\" $selected>$condition</option>";
+                        } ?>
+                    </select>
+
+                    <p class="error"><?= $errors['condition'] ?? "" ?></p>
+                </div>
+
+                <!-- Condition Details -->
+                <div class="input-group">
+                    <label for="condition-details">Condition Details</label>
+                    <input id="condition-details" name="condition_details" value="<?= $product->conditionDetails ?? '' ?>">
+                    <p class="error"><?= $errors['condition_details'] ?? "" ?></p>
+                </div>
+
+            </div>
+
+            <button id="btn-submit" type="submit">Submit Listing</button>
+        </form>
+    </div>
+</main>
+
+<?php require partial('footer') ?>

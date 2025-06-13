@@ -6,6 +6,9 @@ use Core\DTOs\UserDTO;
 use Core\Repositories\CartRepository;
 use Core\Repositories\UserRepository;
 use Core\Session;
+use Core\Container;
+use Core\Database;
+use Core\DTOs\SellerProfileDTO;
 
 class Authenticator
 {
@@ -21,6 +24,7 @@ class Authenticator
     {
         $user = $this->users->findByEmail($email);
 
+        
         if ($user && password_verify($password, $user->password)) {
             // LoginDTO -> UserDTO
             $user = $this->users->findById($user->id);
@@ -74,13 +78,13 @@ class Authenticator
             Session::toast("Error occurred while trying to save cart. Unable to log out", "error");
         }
 
-        
+
         // Clear user session data 
         Session::remove('user');
         Session::remove('cart');
 
         // Destroy session if compeltely empty
-        if (Session::empty()){
+        if (Session::empty()) {
             Session::clear();
             static::expireCookie('PHPSESSID');
         }
@@ -111,22 +115,63 @@ class Authenticator
             // 1. User session exists but is expired
             if (!isset($_COOKIE['remember_login']) && (time() - $_SESSION['last_activity']) > $this->userSessionTimeout) {
                 $this->logout();
-                return;
+                return False;
             }
 
             Session::put("last_activity", time());
             Session::flash('sync_cart', true);
+            return True;
         }
+
         // 2. No user session exists but persistent login is enabled
-        elseif (isset($_COOKIE['remember_login'])) {
+        if (isset($_COOKIE['remember_login'])) {
             $token = $_COOKIE['remember_login'];
             $user = $this->users->findByToken($token);
 
             if ($user) {
                 $this->login($user);
+                return True;
             } else {
                 static::expireCookie('remember_login');
+                return false;
             }
+        }
+
+        return false;
+    }
+
+    public function checkSellerState()
+    {
+        // Get user in session
+        $user = Session::get('user');
+        if ($user['sellerProfile'] !== null) return;
+
+        $id = $user['id'];
+
+        // Fetch seller registration data
+        $db = Container::resolve(Database::class);
+        $seller = $db->query("SELECT approved, rejected, has_seen_response FROM seller_reg_docs WHERE user_id = ?", [$id])->find();
+
+        if ($seller['has_seen_response']) return;
+
+        if ($seller['approved']) {
+            // Seller is approved
+            // Send Success toast message
+            Session::toast(
+                "Congratulations! You have been approved as a seller. You can access your Seller Dashboard from the options menu, 
+                just click your profile icon!"
+            );
+
+            // Add seller profile to user's session
+            $sellerData = $db->query("SELECT * FROM seller WHERE user_id = ?", [$id])->find();
+            $user['sellerProfile'] = SellerProfileDTO::fromRow($sellerData);
+            Session::put('user', $user);
+        } elseif ($seller['rejected']) {
+            // Seller is rejected: Send Info toast message
+            Session::toast(
+                "Unfortunately your registration to become a seller has been declined. Please review your documents before resubmitting. 
+                If you have queries, please contact ineeditsa@support.com"
+            );
         }
     }
 }

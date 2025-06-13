@@ -4,20 +4,18 @@ namespace Core\Filters;
 
 class ProductFilter extends BaseFilter
 {
-    public function setIds(array $ids, string $prefix = "")
+    public function setIds(array $ids)
     {
         if (!empty($ids)) {
             $this->criteria['ids'] = $ids;
             $this->numBindings['ids'] = count($ids);
-            $this->prefix['ids'] = $prefix;
         }
     }
 
-    public function setSearch(string $searchQuery, string $prefix = "")
+    public function setSearch(string $searchQuery)
     {
         $this->criteria['search'] = $searchQuery;
         $this->numBindings['search'] = 4;
-        $this->prefix['search'] = $prefix;
     }
 
     public function setCategory(int $index)
@@ -53,33 +51,42 @@ class ProductFilter extends BaseFilter
         $this->offset = ($page - 1) * $perPage;
     }
 
-    public function getWhereClause(): string
+    public function seller(string $userId)
     {
+        $this->criteria['seller'] = $userId;
+    }
+
+    public function getWhereClause(string $prefix = ''): string
+    {
+        $prefix .= $prefix ? '.' : '';
         $conditions = [];
 
         foreach ($this->criteria as $key => $value) {
             switch ($key) {
                 case 'ids':
                     $placeholders = implode(', ', array_fill(0, $this->numBindings['ids'], '?'));
-                    $conditions[] = "{$this->prefix('ids')}product_id IN ({$placeholders})";
+                    $conditions[] = "{$prefix('ids')}product_id IN ({$placeholders})";
                     break;
                 case 'search':
-                    $conditions[] = "({$this->sqlSearch('name', $this->prefix('search'))} OR {$this->sqlSearch('description', $this->prefix('search'))})";
+                    $conditions[] = "({$this->sqlSearch('name',$prefix)} OR {$this->sqlSearch('description',$prefix)})";
                     break;
                 case 'category':
-                    $conditions[] = "category = ?";
+                    $conditions[] = "{$prefix}category = ?";
                     break;
                 case 'minPrice':
-                    $conditions[] = "price * (1 - COALESCE(pct_discount, 0) / 100) >= ?";
+                    $conditions[] = "{$prefix}price * (1 - COALESCE({$prefix}pct_discount, 0) / 100) >= ?";
                     break;
                 case 'maxPrice':
-                    $conditions[] = "price * (1 - COALESCE(pct_discount, 0) / 100) <= ?";
+                    $conditions[] = "{$prefix}price * (1 - COALESCE({$prefix}pct_discount, 0) / 100) <= ?";
                     break;
                 case 'rating':
-                    $conditions[] = "avg_rating >= ?";
+                    $conditions[] = "{$prefix}avg_rating >= ?";
                     break;
                 case 'discount':
-                    $conditions[] = "pct_discount > 0";
+                    $conditions[] = "{$prefix}pct_discount > 0";
+                    break;
+                case 'seller':
+                    $conditions[] = "{$prefix}seller_id = ?";
                     break;
                 default:
                     throw new \Exception("Invalid filter criteria '{$key}'");
@@ -115,6 +122,9 @@ class ProductFilter extends BaseFilter
                         break;
                     case 'page':
                         $this->setPage($value, 16);
+                        break;
+                    case 'seller':
+                        $this->seller($value);
                         break;
                 }
             }

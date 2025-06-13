@@ -24,7 +24,7 @@ class ProductDTO extends BaseDTO
         public string $name,
         public string $description,
         public float $price,
-        public float $stock,
+        public int $stock,
         public string $condition,
         public ?string $conditionDetails,
         public string $dateCreated,
@@ -36,5 +36,6 @@ class ProductDTO extends BaseDTO
         public string $displayImageUrl = "",
         /** @var string[] */
         public array $imageUrls = [],
+        public ?int $sales = null,
         ) {}
 }
