@@ -65,10 +65,10 @@ class ProductFilter extends BaseFilter
             switch ($key) {
                 case 'ids':
                     $placeholders = implode(', ', array_fill(0, $this->numBindings['ids'], '?'));
-                    $conditions[] = "{$prefix('ids')}product_id IN ({$placeholders})";
+                    $conditions[] = "{$prefix}product_id IN ({$placeholders})";
                     break;
                 case 'search':
-                    $conditions[] = "({$this->sqlSearch('name',$prefix)} OR {$this->sqlSearch('description',$prefix)})";
+                    $conditions[] = "({$this->sqlSearch('name',$prefix)} OR {$this->sqlSearch('description', $prefix)})";
                     break;
                 case 'category':
                     $conditions[] = "{$prefix}category = ?";

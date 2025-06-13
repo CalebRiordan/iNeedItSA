@@ -58,6 +58,94 @@ main > h1 {
     transform: translateY(-4px);
 }
 
+.product-card .image-container {
+    width: auto;
+    aspect-ratio: 4/3;
+    background-color: var(--dark-bg-colour);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.product-card img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.product-card .discount-badge {
+    position: absolute;
+    padding: 2px 5px;
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    border: 1px solid var(--text-colour-dark);
+    border-radius: 5px;
+    left: 0.3em;
+    top: 0.3em;
+    font-size: 1.4em;
+}
+
+.product-card .name {
+    font-size: inherit;
+    font-weight: 600;
+}
+
+.product-card p {
+    margin: 0;
+    text-decoration: none;
+}
+
+.product-card .name p {
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-card .bottom-row {
+    font-size: inherit;
+    width: 100%;
+    height: 1.5em;
+    position: relative;
+    padding: 20px 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-card .original-price {
+    text-decoration: underline 0.1em;
+    text-underline-offset: -0.4em;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: 0.12em;
+    color: rgb(70, 70, 70);
+    position: absolute;
+    bottom: calc(1.8em);
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.product-card .price {
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    width: 50%;
+    font-size: inherit;
+}
+
+.product-card .rating {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.5em;
+    font-size: 1em;
+}
+
+.product-card .rating .star {
+    width: 1.6em;
+    height: 1.2em;
+    fill: gold;
+}
+
 
 .product-card.create-new-card {
     display: flex;
