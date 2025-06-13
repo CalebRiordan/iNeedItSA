@@ -38,12 +38,14 @@ CREATE TABLE seller (
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE seller_docs_url (
+CREATE TABLE seller_reg_docs (
     user_id INT PRIMARY KEY,
     copy_id_url VARCHAR(255) NOT NULL,
     poa_url VARCHAR(255) NOT NULL,
     date_submitted DATE NOT NULL,
-    accepted BOOLEAN DEFAULT FALSE,
+    approved BOOLEAN DEFAULT FALSE,
+    rejected BOOLEAN DEFAULT FALSE,
+    has_seen_response BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 

@@ -1,12 +1,15 @@
 <?php
 
-// Pages
 $router->get("/", "index.php");
 $router->get("/home", "index.php");
 
+// Products
 $router->get("/products", "product/index.php");
+$router->get("/products/new", "product/create.php")->only('seller');
+$router->post("/products", "product/store.php")->only('seller');
 $router->get("/products/{id}", "product/show.php");
 
+// User
 $router->get("/login", "session/create.php")->only('guest');
 $router->post("/login", "session/store.php")->only('guest');
 $router->get("/logout", "session/destroy.php")->only('auth');
@@ -15,17 +18,22 @@ $router->post("/register", "user/store.php")->only('guest');
 $router->get("/profile/edit", "user/edit.php")->only('auth');
 $router->put("/profile", "user/update.php")->only('auth');
 
+// Orders
 $router->get("/order", "order/index.php")->only('auth');
 $router->get("/order/success", "order/success.php")->only('auth');
 $router->get("/checkout", "order/create.php")->only('auth');
 $router->post("/checkout", "order/store.php")->only('auth');
 
+// Cart
 $router->get("/cart", "cart/get.php")->only('auth');
 $router->post("/cart", "cart/persist.php")->only('auth');
 
+// Seller
 $router->get("/seller/register", "seller/create.php")->only('auth');
 $router->post("/seller/register", "seller/store.php")->only('auth');
+$router->get("/seller/dashboard", "seller/index.php")->only('seller');
 
+// Status codes
 $router->get("/500", "500.php");
 
 // Admin dashboard

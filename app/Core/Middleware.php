@@ -4,7 +4,7 @@ namespace Core;
 
 class Middleware
 {
-    public const middleware = ['guest', 'auth', 'staff', 'staffDeny'];
+    public const middleware = ['guest', 'auth', 'seller', 'staff', 'staffDeny'];
 
     public static function resolve($middleware)
     {
@@ -30,6 +30,13 @@ class Middleware
     {
         if (!Session::has('user')) {
             redirect('/login');
+        }
+    }
+
+    private static function seller()
+    {
+        if (!Session::get('user')['sellerProfile'] ?? false) {
+            redirect('/seller/register');
         }
     }
 

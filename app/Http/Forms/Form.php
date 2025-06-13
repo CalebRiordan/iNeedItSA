@@ -82,11 +82,16 @@ class Form
         return preg_match('/^[a-zA-Z]+$/', $value) && strlen($value) >= $min && strlen($value) <= $max;
     }
 
-    protected static function numbersOnly($value, $min = 1, $max = 20)
+    protected static function numbersOnly($value, $min = 1, $max = 20, $minValue = null, $maxValue = null)
     {
         $value = str_replace(" ", "", $value);
 
-        return is_numeric($value) && strlen($value) >= $min && strlen($value) <= $max;
+        $isNumeric = is_numeric($value);
+        $lengthValid = strlen($value) >= $min && strlen($value) <= $max;
+        $minValid = $minValue !== null ? $value >= $minValue : true;
+        $maxValid = $maxValue !== null ? $value <= $maxValue : true;
+
+        return $isNumeric && $lengthValid && $minValid && $maxValid;
     }
 
     protected static function acceptableImage(array $image)

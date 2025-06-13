@@ -40,7 +40,11 @@
     </div>
 
     <div class="sidebar-item">
-        <a href="/seller/register">Become a seller</a>
+        <?php if ($userSession['sellerProfile']): ?>
+            <a href="/seller/dashboard">Seller Dashboard</a>
+        <?php else: ?>
+            <a href="/seller/register">Become a seller</a>
+        <?php endif; ?>
     </div>
 
     <div class="sidebar-item">

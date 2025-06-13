@@ -23,7 +23,7 @@ require partial('navbar');
             <div class="section section-1">
 
                 <div class="text-inputs">
-                    <div class="input-group first">
+                    <div class="input-group">
                         <input type="text" placeholder="First Name" name="first_name" required value="<?= $user->firstName ?>">
                         <p class="error"><?= $errors['first_name'] ?? "" ?></p>
                     </div>

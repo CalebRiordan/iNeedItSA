@@ -21,8 +21,7 @@ class UserRepository extends BaseRepository
     {
         $sql = <<<SQL
             SELECT u.*, b.*, s.*,
-            (SELECT COUNT(*) FROM product p WHERE p.seller_id = u.user_id) AS total_ads,
-            (SELECT SUM(views) FROM product p WHERE p.seller_id = u.user_id) AS total_views
+            (SELECT COUNT(*) FROM product p WHERE p.seller_id = u.user_id) AS total_ads
             FROM user u
             LEFT JOIN buyer b ON u.user_id = b.user_id
             LEFT JOIN seller s ON u.user_id = s.user_id
@@ -197,9 +196,10 @@ class UserRepository extends BaseRepository
         $fields = implode(', ', array_keys($mapping));
         $values = array_values($mapping);
         $placeholders = BaseDTO::placeholders(count($mapping));
-        
+
         // Add role in in corresponding role table
-        $this->db->query("INSERT INTO {$role} ({$fields}) VALUES ({$placeholders})", $values);
+        $this->db->query("INSERT INTO {$role} (user_id, {$fields}) VALUES (?, {$placeholders})", [$id, ...$values]);
+
 
         // Set subtype discriminator in User table
         $this->db->query(
@@ -243,14 +243,19 @@ class UserRepository extends BaseRepository
     public function saveSellerDocs(string $userId, string $copyIdFilename, string $poaFilename): bool
     {
         return $this->db->query(
-            "INSERT INTO seller_docs_url (user_id, copy_id_url, poa_url, date_submitted) VALUES (?, ?, ?, ?)",
-            [$userId, $copyIdFilename, $poaFilename, date('Y-m-d')],
+            "INSERT INTO seller_reg_docs (user_id, copy_id_url, poa_url, date_submitted)
+         VALUES (?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+            copy_id_url = VALUES(copy_id_url),
+            poa_url = VALUES(poa_url),
+            date_submitted = VALUES(date_submitted)",
+            [$userId, $copyIdFilename, $poaFilename, date('Y-m-d')]
         )->wasSuccessful();
     }
 
     public function isPendingSeller(string $userId): bool
     {
-        $result = $this->db->query("SELECT user_id from seller_docs_url WHERE user_id = ?", [$userId])->find();
+        $result = $this->db->query("SELECT user_id FROM seller_reg_docs WHERE user_id = ?", [$userId])->find();
         return !empty($result);
     }
 
@@ -281,8 +286,8 @@ class UserRepository extends BaseRepository
         $fields = PendingSellerDTO::toFields('u');
         $sql = <<<SQL
         SELECT {$fields}, sdu.copy_id_url, sdu.poa_url, sdu.date_submitted FROM user u
-        INNER JOIN seller_docs_url sdu ON u.user_id = sdu.user_id
-        WHERE sdu.accepted = FALSE
+        INNER JOIN seller_reg_docs sdu ON u.user_id = sdu.user_id
+        WHERE sdu.approved = FALSE AND sdu.rejected = FALSE
         SQL;
 
         $rows = $this->db->query($sql)->findAll();
@@ -290,11 +295,13 @@ class UserRepository extends BaseRepository
         return PendingSellerDTO::fromRows($rows);
     }
 
-    public function deleteSellerReg(string $userId)
+    public function approveSeller(string $userId, bool $approve = true)
     {
-        $this->db->query(
-            "DELETE FROM seller_docs_url WHERE user_id = ?",
-            [$userId]
-        )->wasSuccessful();
+        if ($approve) {
+            $this->db->query("UPDATE seller_reg_docs SET approved = TRUE, has_seen_response = FALSE WHERE user_id = ?", [$userId]);
+            $this->addRole($userId, Role::Seller->value, ['date_registered' => date('Y-m-d')]);
+        } else {
+            $this->db->query("UPDATE seller_reg_docs SET rejected = TRUE, has_seen_response = FALSE WHERE user_id = ?", [$userId]);
+        }
     }
 }

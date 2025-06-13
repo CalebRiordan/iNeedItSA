@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `order`;
 DROP TABLE IF EXISTS order_item;
 DROP TABLE IF EXISTS employee;
 DROP TABLE IF EXISTS product_image_url;
-DROP TABLE IF EXISTS seller_docs_url;
+DROP TABLE IF EXISTS seller_reg_docs;
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS cart_item;
 

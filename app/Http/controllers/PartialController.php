@@ -70,7 +70,7 @@ class PartialController
         }
 
         $filter = new ProductFilter();
-        $filter->setIds($ids, "p");
+        $filter->setIds($ids);
         $products = (new ProductRepository())->findAllPreviews($filter);
 
         // Set quantity for each product

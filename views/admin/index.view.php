@@ -65,56 +65,58 @@ require partial('admin/navbar');
     </section>
 
     <!-- Chart -->
-    <div class="chart-container">
+    <secition class="chart-section">
         <h1 id="chart-label"></h1>
         <canvas class="chart"></canvas>
-    </div>
+    </secition>
 
     <!-- Pending Sellers -->
-    <?php if ($emp['role'] === 'admin' || $emp['role'] === 'moderator'): ?>
+    <section class="pending-sellers-section">
+        <?php if ($emp['role'] === 'admin' || $emp['role'] === 'moderator'): ?>
 
-        <h1 class="section-heading">Pending Seller Registrations</h1>
+            <h1 class="section-heading">Pending Seller Registrations</h1>
 
-        <?php if (!empty($pendingSellers)): ?>
-            <div class="seller-cards">
-                <?php foreach ($pendingSellers as $seller): ?>
+            <?php if (!empty($pendingSellers)): ?>
+                <div class="seller-cards">
+                    <?php foreach ($pendingSellers as $seller): ?>
 
-                    <!-- Seller card -->
-                    <div class="seller-card">
-                        <h2><?= $seller->firstName . " " . $seller->lastName ?></h2>
-                        <p class="email"><?= $seller->email ?></p>
-                        <p><strong>Submitted:</strong> <?= $seller->dateSubmitted ?></p>
+                        <!-- Seller card -->
+                        <div class="seller-card">
+                            <h2><?= $seller->firstName . " " . $seller->lastName ?></h2>
+                            <p class="email"><?= $seller->email ?></p>
+                            <p><strong>Submitted:</strong> <?= $seller->dateSubmitted ?></p>
 
-                        <div class="doc-previews">
-                            <a class="doc-item doc-item-id" href="/admin/sellers/pending?file=<?= urlencode($seller->idDocUrl) ?>"
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                📄 View Copy of ID
-                            </a>
+                            <div class="doc-previews">
+                                <a class="doc-item doc-item-id" href="/admin/sellers/pending?file=<?= urlencode($seller->idDocUrl) ?>"
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    📄 View Copy of ID
+                                </a>
 
-                            <a class="doc-item doc-item-poa" href="/admin/sellers/pending?file=<?= urlencode($seller->poaDocUrl) ?>"
-                                target="_blank"
-                                rel="noopener noreferrer">
-                                📄 View Proof of Address
-                            </a>
+                                <a class="doc-item doc-item-poa" href="/admin/sellers/pending?file=<?= urlencode($seller->poaDocUrl) ?>"
+                                    target="_blank"
+                                    rel="noopener noreferrer">
+                                    📄 View Proof of Address
+                                </a>
+                            </div>
+
+                            <form method="POST" action="/admin/sellers/registration">
+                                <input type="hidden" name="user_id" value="<?= $seller->id ?>">
+                                <button type="submit" name="action" value="approve">✅ Approve</button>
+                                <button type="submit" name="action" value="reject">❌ Reject</button>
+                            </form>
                         </div>
 
-                        <form method="POST" action="/admin/sellers/registration">
-                            <input type="hidden" name="user_id" value="<?= $seller->id ?>">
-                            <button type="submit" name="action" value="approve">✅ Approve</button>
-                            <button type="submit" name="action" value="reject">❌ Reject</button>
-                        </form>
-                    </div>
+                    <?php endforeach; ?>
+                </div>
 
-                <?php endforeach; ?>
-            </div>
-
-        <?php else: ?>
-            <div class="no-sellers">
-                <h2>No sellers await registration currently</h2>
-            </div>
+            <?php else: ?>
+                <div class="no-sellers">
+                    <h4>No sellers await registration currently</h4>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
-    <?php endif; ?>
+    </section>
 
 </main>
 

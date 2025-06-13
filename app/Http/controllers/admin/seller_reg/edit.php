@@ -6,20 +6,15 @@ use Core\Repositories\UserRepository;
 $userId = $_POST['user_id'] ?? null;
 $action = $_POST['action'] ?? null;
 
-if ($userId && $action) {
-    $userRepo = new UserRepository();
+if (!($userId && $action)) {
+    redirect('/admin#sellers');
+}
 
-    try {
-        if ($action === 'approve') {
-            $userRepo->addRole($userId, Role::Seller->value, ['date_registered' => date('Y-m-d')]);
-        } elseif ($action === 'reject') {
-            $userRepo->deleteSellerReg($userId);
-        }
-    } catch (\Throwable $th) {
-        $message = $th->getMessage();
-        echo "<h1>{$message}<h1>";
-        exit;
-    }
+$users = new UserRepository();
+if ($action === 'approve') {
+    $users->approveSeller($userId);    
+} elseif ($action === 'reject') {
+    $users->approveSeller($userId, false);
 }
 
 redirect('/admin#sellers');
