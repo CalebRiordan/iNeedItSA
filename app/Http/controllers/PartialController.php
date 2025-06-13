@@ -55,20 +55,20 @@ class PartialController
     public static function renderCart()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') return abort(404);
-
+        
         // Read request body as a stream and json decode it
         $input = json_decode(file_get_contents('php://input'), true);
-
-
+        
+        
         if (!isset($input['items']) || !is_array($input['items'])) {
             response(['error' => "Invalid input. No 'items' key found for cart items."], 400);
         }
-
+        
         $ids = array_column($input['items'], 'product_id');
         if (empty($ids)) {
             response([]);
         }
-
+        
         $filter = new ProductFilter();
         $filter->setIds($ids);
         $products = (new ProductRepository())->findAllPreviews($filter);

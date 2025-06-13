@@ -112,7 +112,7 @@ class ProductRepository extends BaseRepository
     public function findAllPreviews(?ProductFilter $filter = null): array
     {
         $filter ??= new ProductFilter();
-
+        
         $fields = ProductPreviewDTO::toFields('p');
         $where = $filter->getWhereClause('p');
         $orderBy = $filter->getOrderByClause('p.product_id');
