@@ -18,6 +18,7 @@ class CreateProductDTO extends BaseDTO
 
     public ?string $displayImageUrl = null;
     public array $imageUrls = [];
+    public string $category;
 
     public function __construct(
         public string $name,
@@ -28,9 +29,24 @@ class CreateProductDTO extends BaseDTO
         public string $condition,
         public ?string $conditionDetails,
         public ?int $discount,
-        public string $category,
+        public int $categoryIndex,
         public ?array $displayImageFile = null,
         /** @var string[] */
         public array $imageFiles = [],
-    ) {}
+    ) {
+        $categories = [
+            'Clothing',
+            'Electronics',
+            'Home & Garden',
+            'Books & Stationary',
+            'Toys',
+            'Beauty',
+            'Sports',
+            'Pets'
+        ];
+        if (!isset($categories[$categoryIndex])) {
+            throw new \InvalidArgumentException("Invalid category index: $categoryIndex");
+        }
+        $this->category = $categories[$categoryIndex];
+    }
 }

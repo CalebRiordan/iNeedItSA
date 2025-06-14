@@ -12,7 +12,7 @@ if ($view === "cart") {
     redirect("/order#history");
 }
 
-$orders = (new OrderRepository())
-    ->findByUser(Session::get('user')['id']);
+$id = Session::get('user')['id'];
+$orders = (new OrderRepository())->findByUser($id);
 
 view("order/index", ['orders' => $orders]);

@@ -14,6 +14,7 @@ main > h1 {
 .section-heading {
     font-size: 2em;
     color: var(--text-colour-dark);
+    margin: 0.4em 0;
 }
 
 .product-row {
@@ -24,6 +25,7 @@ main > h1 {
     height: auto;
     overflow: hidden;
     z-index: 1;
+    font-size: inherit;
 }
 
 .product-row-inner {
@@ -35,25 +37,28 @@ main > h1 {
 }
 
 /* Seller Product Card */
-
 .product-card {
     width: 25%;
+    display: grid;
+    grid-template-rows: auto 1fr 1fr auto auto;
+    gap: 0.4em;
     flex-shrink: 0;
+    aspect-ratio: 3/5;
+    position: relative;
+
     background-color: var(--off-bg-colour);
     box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 2px;
     outline: 1px solid transparent;
     padding: 0.7em;
-    aspect-ratio: 2/3;
     color: var(--text-colour-dark);
-    display: grid;
-    grid-template-rows: auto 15% 1fr auto;
     text-decoration: none;
     box-sizing: border-box;
     font-size: 18px;
     border-radius: 0.5em;
+    cursor: pointer;
 }
-
-.product-card:hover{
+hover,
+.product-card:hover {
     box-shadow: rgba(0, 0, 0, 0.2) 2px 6px 8px;
     transform: translateY(-4px);
 }
@@ -69,6 +74,7 @@ main > h1 {
 
 .product-card img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -100,7 +106,12 @@ main > h1 {
     text-overflow: ellipsis;
 }
 
-.product-card .bottom-row {
+.sales-info {
+    font-size: 1em;
+    color: var(--text-colour-dark);
+}
+
+.bottom-row {
     font-size: inherit;
     width: 100%;
     height: 1.5em;
@@ -111,41 +122,25 @@ main > h1 {
     align-items: center;
 }
 
-.product-card .original-price {
+.bottom-row .original-price {
     text-decoration: underline 0.1em;
     text-underline-offset: -0.4em;
     text-decoration-skip-ink: none;
     text-decoration-thickness: 0.12em;
     color: rgb(70, 70, 70);
     position: absolute;
-    bottom: calc(1.8em);
+    bottom: 1.8em;
     margin-bottom: 5px;
     font-size: 0.9em;
 }
 
-.product-card .price {
+.bottom-row .price {
     margin: 0;
     position: relative;
     display: inline-block;
     width: 50%;
-    font-size: inherit;
+    font-size: 1.2em;
 }
-
-.product-card .rating {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 0.5em;
-    font-size: 1em;
-}
-
-.product-card .rating .star {
-    width: 1.6em;
-    height: 1.2em;
-    fill: gold;
-}
-
 
 .product-card.create-new-card {
     display: flex;
@@ -161,46 +156,110 @@ main > h1 {
     font-size: 8em;
 }
 
-.product-card.create-new-card p{
+.product-card.create-new-card p {
     font-size: 1em;
     font-weight: bold;
 }
 
-.sales-info {
-    font-size: 14px;
-    color: #555;
-    margin: 10px 0;
-}
-
 .action-buttons {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    width: 100%;
+    justify-content: space-around;
 }
 
 .edit-button,
 .delete-button {
-    padding: 8px 12px;
+    width: 45%;
+    text-align: center;
+    padding: 0.4em 0.8em;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.2em;
     text-decoration: none;
-    color: white;
+    color: var(--text-colour-light);
+    font-size: 1em;
     font-weight: bold;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
 .edit-button {
-    background-color: #4caf50; /* Green */
+    background-color: var(--salient-colour);
 }
 
 .delete-button {
-    background-color: #f44336; /* Red */
+    background-color: var(--error-colour);
 }
 
 .edit-button:hover {
-    background-color: #45a049; /* Darker green */
+    filter: brightness(90%);
 }
 
 .delete-button:hover {
-    background-color: #e53935; /* Darker red */
+    filter: brightness(90%);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-colour);
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1200px) {
+    main {
+        font-size: 16px;
+        margin: 0 12%;
+    }
+
+    .product-card {
+        width: 30%;
+        gap: 0.3em;
+    }
+
+    .product-card .bottom-row {
+        padding: 8px 0 6px 0;
+    }
+
+    .edit-button,
+    .delete-button {
+        padding: 0.3em 0.6em;
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        font-size: 12px;
+        margin: 0 5%;
+    }
+
+    .product-row-inner {
+        flex-wrap: wrap;
+    }
+
+    .product-card {
+        width: 48%;
+        gap: 0.1em;
+    }
+
+    .product-card .bottom-row {
+        padding: 4px 0 3px 0;
+    }
+
+    /* .edit-button,
+    .delete-button {
+        padding: 0.3em 0.6em;
+        font-size: 0.8em;
+        font-weight: bold;
+    } */
 }

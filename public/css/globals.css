@@ -90,8 +90,8 @@ main {
 }
 
 .loading {
-    width: 1em;
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
     border: 2px solid transparent;
     border-top: 2px solid var(--primary-colour);
     border-radius: 50%;
@@ -99,6 +99,7 @@ main {
     display: inline-block;
     margin-left: 0.5em;
     vertical-align: middle;
+    opacity: 1;
 }
 
 [hidden] {

@@ -1,4 +1,4 @@
-<a class="product-card" href="/products/<?= $product->id ?>">
+<div class="product-card" data-id=<?= $product->id ?>>
 
   <div class="image-container">
     <?php if ($product->discount > 0): ?>
@@ -14,8 +14,8 @@
   </div>
 
   <div class="sales-info">
-    <p>Sales: <?= number_format($product->salesCount) ?></p>
-    <p>Views: <?= number_format($product->viewsCount) ?></p>
+    <p>Sales: <?= number_format($product->sales) ?></p>
+    <p>Views: <?= number_format($product->views) ?></p>
   </div>
 
   <div class="bottom-row">
@@ -38,11 +38,13 @@
         </svg>
       </div>
     <?php endif; ?>
-
-    <div class="action-buttons">
-      <a href="/products/edit/<?= $product->id ?>" class="edit-button">Edit</a>
-      <a href="/products/delete/<?= $product->id ?>" class="delete-button">Delete</a>
-    </div>
   </div>
 
-</a>
+  <div class="action-buttons">
+    <a href="/products/edit<?= $product->id ?>" class="edit-button">Edit</a>
+    <div class="delete-button">Delete</div>
+  </div>
+
+  <div class="overlay" hidden><span class="loading"></span></div>
+
+</div>

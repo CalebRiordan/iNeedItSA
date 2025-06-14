@@ -79,9 +79,9 @@ main {
 
 .main-grid img {
     width: 100%;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     border: 2px solid var(--text-colour-dark);
-    aspect-ratio: 4 / 3;
 }
 
 .seller-card-wrapper {

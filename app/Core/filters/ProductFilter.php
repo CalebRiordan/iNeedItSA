@@ -20,6 +20,7 @@ class ProductFilter extends BaseFilter
 
     public function setCategory(int $index)
     {
+        // Index is zero-based
         $categories = ['Clothing', 'Electronics', 'Home & Garden', 'Books & Stationary', 'Toys', 'Beauty', 'Sports', 'Pets'];
         $this->criteria['category'] = $categories[$index];
     }
