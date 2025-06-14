@@ -46,6 +46,7 @@
         border: none;
         font-size: 1.2rem;
         padding: 0.4rem 0.8rem;
+        margin-right: 5px;
     }
 
     #confirm-modal button:hover{

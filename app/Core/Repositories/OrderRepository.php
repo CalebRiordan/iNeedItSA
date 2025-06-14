@@ -6,7 +6,6 @@ use Core\DTOs\CreateOrderDTO;
 use Core\DTOs\CreateOrderItemDTO;
 use Core\DTOs\OrderDTO;
 use Core\DTOs\OrderItemDTO;
-use DateTime;
 use Exception;
 
 class OrderRepository extends BaseRepository
@@ -15,7 +14,7 @@ class OrderRepository extends BaseRepository
     public function findByUser(string $user_id): array
     {
         $sql = <<<SQL
-            SELECT * FROM `order` WHERE user_id = ?
+            SELECT * FROM `order` WHERE user_id = ? ORDER BY date DESC
         SQL;
 
         $rows = $this->db->query($sql, [$user_id])->findAll();
@@ -33,6 +32,7 @@ class OrderRepository extends BaseRepository
             LEFT JOIN product_image_url pi
             ON i.product_id = pi.product_id AND pi.is_display_img = TRUE
             WHERE i.order_id = ?
+            ORDER BY 
         SQL;
 
         $rows = $this->db->query($sql, [$id])->findAll();

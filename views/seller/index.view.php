@@ -1,6 +1,7 @@
 <?php
 
 $stylesheets = ['seller/index.css'];
+$scripts = ['seller/index.js', 'utils/scaleProductCardFont.js'];
 
 require partial('header');
 require partial('navbar');
@@ -15,10 +16,11 @@ require partial('navbar');
             <!-- Row Content -->
             <div class="product-row-inner">
                 <?php foreach ($products as $product): ?>
+                    <?php require partial('product-card-seller'); ?>
                 <?php endforeach; ?>
 
                 <!-- Create New Listing Card -->
-                <a href="/products/new" class="product-card create-new-card">
+                <a class="product-card create-new-card" href="/products/new">
                     <span class="plus-icon">+</span>
                     <p>Create New Listing</p>
                 </a>
@@ -26,7 +28,8 @@ require partial('navbar');
         </div>
     </section>
 
-
 </main>
 
+<?php require_once partial('toast') ?>
+<?php require_once partial('confirmation-modal') ?>
 <?php require partial('footer') ?>

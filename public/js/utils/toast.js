@@ -1,4 +1,4 @@
-function showToast(message, type = 'info') {
+export function showToast(message, type = 'info') {
     const toast = document.getElementById('toast');
     const toastText = document.getElementById('toast-text');
 

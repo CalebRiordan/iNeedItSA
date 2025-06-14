@@ -100,7 +100,7 @@ class PartialController
 
         try {
             $items = (new OrderRepository())->findItemsById($id);
-        } catch (\Throwable $th) {
+        } catch (\Throwable) {
             response(["error" => "Error retrieving order"], 500);
         }
 

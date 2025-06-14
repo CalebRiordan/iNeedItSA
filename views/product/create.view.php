@@ -25,15 +25,15 @@ if (!isset($product) || $product === null) {
     // );
 
     $product = new CreateProductDTO(
-        'Test Product Name for Mock Form Testing Purposes',
-        'This is a mock description for testing the product form. It is intentionally long enough to meet the minimum character requirement.',
-        99.99,
+        'Weber Braai Master 3000 Outdoor Grill with Accessories',
+        'Brand new Weber Braai Master 3000. Perfect for outdoor grilling and entertaining. Includes all original accessories and packaging.',
+        24000,
         $seller['id'],
-        10,
-        'New',
-        'Brand new, never used.',
         5,
-        'Electronics',
+        'New',
+        'Brand new, unused, in original packaging.',
+        0,
+        '2',
     );
 }
 
@@ -101,9 +101,9 @@ if (!isset($product) || $product === null) {
                         <option value="">Select Category</option>
                         <?php
                         $categories = ['Clothing', 'Electronics', 'Home & Garden', 'Books & Stationary', 'Toys', 'Beauty', 'Sports', 'Pets'];
-                        foreach ($categories as $category) {
+                        foreach ($categories as $i => $category) {
                             $selected = ($product->category && $product->category === $category) ? 'selected' : '';
-                            echo "<option value=\"$category\" $selected>$category</option>";
+                            echo "<option value=\"$i\" $selected>$category</option>";
                         } ?>
                     </select>
 

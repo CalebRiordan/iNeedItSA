@@ -54,11 +54,12 @@ class ProductRepository extends BaseRepository
         $offset = $filter->getOffsetClause();
 
         $sql = <<<SQL
-            SELECT p.*, s.*, u.*, b.*, pi.img_url, COALESCE(SUM(oi.quantity), 0) AS sales FROM product p
-            LEFT JOIN seller s
-            ON p.seller_id = s.user_id 
+            SELECT p.*, u.*, s.*, b.*, pi.img_url, pi.is_display_img, COALESCE(SUM(oi.quantity), 0) AS sales 
+            FROM product p
             LEFT JOIN user u
             ON p.seller_id = u.user_id 
+            LEFT JOIN seller s
+            ON p.seller_id = s.user_id 
             LEFT JOIN buyer b
             ON p.seller_id = b.user_id 
             LEFT JOIN product_image_url pi 
@@ -91,9 +92,9 @@ class ProductRepository extends BaseRepository
             // Add image urls
             if ($row['img_url']) {
                 if ($row['is_display_img']) {
-                    $products[$productId]->displayImageUrl = $row['image_url'];
+                    $products[$productId]->displayImageUrl = $row['img_url'];
                 } else {
-                    $products[$productId]->imageUrls[] = $row['image_url'];
+                    $products[$productId]->imageUrls[] = $row['img_url'];
                 }
             }
         }
@@ -222,17 +223,16 @@ class ProductRepository extends BaseRepository
 
     public function delete(string $id): bool
     {
-        if ($this->exists($id)) {
+        if (!$this->exists($id)) {
             return false;
         }
 
-        return $this->db->query("DELETE * FROM product WHERE product_id = ?", [$id])->wasSuccessful();
+        return $this->db->query("DELETE FROM product WHERE product_id = ?", [$id])->wasSuccessful();
     }
 
     public function exists(string $id)
     {
-        $result = $this->db->query("SELECT 1 FROM product WHERE product_id = ? LIMIT 1")->find();
-
+        $result = $this->db->query("SELECT 1 FROM product WHERE product_id = ? LIMIT 1", [$id])->find();
         return !empty($result);
     }
 

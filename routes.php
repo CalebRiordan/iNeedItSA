@@ -7,7 +7,10 @@ $router->get("/home", "index.php");
 $router->get("/products", "product/index.php");
 $router->get("/products/new", "product/create.php")->only('seller');
 $router->post("/products", "product/store.php")->only('seller');
+$router->get("/products/edit", "product/edit.php")->only('seller');
+$router->put("/products", "product/update.php")->only('seller');
 $router->get("/products/{id}", "product/show.php");
+$router->delete("/products/{id}", "product/destroy.php");
 
 // User
 $router->get("/login", "session/create.php")->only('guest');

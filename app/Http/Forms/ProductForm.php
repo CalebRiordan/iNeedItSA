@@ -47,8 +47,7 @@ class ProductForm extends Form
         }
         $this->notEmpty('price', "Price");
 
-        $valideCategories = ['Clothing', 'Electronics', 'Home & Garden', 'Books & Stationary', 'Toys', 'Beauty', 'Sports', 'Pets'];
-        if (!in_array($attributes['category'], $valideCategories, true)) {
+        if (!self::numbersOnly($attributes['category'], 1, 1, 0, 8)) {
             $this->errors['category'] = "Category must be one of the provided options.";
         }
         $this->notEmpty('category', "Category");
