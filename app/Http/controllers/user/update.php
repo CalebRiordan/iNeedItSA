@@ -5,7 +5,7 @@ use Core\Repositories\UserRepository;
 use Core\Session;
 use Http\Forms\EditUserForm;
 
-$id = $_POST['user_id'] ?? null;
+$id = $params['id'] ?? null;
 $users = new UserRepository();
 
 if (!$id || !$users->exists($id)) {
@@ -19,7 +19,7 @@ $fields = [
     'location' => htmlspecialchars($_POST['location'], ENT_QUOTES),
     'province' => htmlspecialchars($_POST['province'], ENT_QUOTES),
     'address' => htmlspecialchars($_POST['address'], ENT_QUOTES),
-    'imageChanged' => htmlspecialchars($_POST['image_changed'], ENT_QUOTES),
+    'imageChanged' => htmlspecialchars($_POST["image_changed"], ENT_QUOTES) === 'true' ? true : false,
     'profilePic' => noImageUploaded($_FILES['profile_pic']) ? null : $_FILES['profile_pic'],
     'shipAddress' => htmlspecialchars($_POST['ship_address'], ENT_QUOTES)  ?? null,
 ];
@@ -48,7 +48,9 @@ if (!$users->update($user)) {
 $sessionUser = Session::get('user');
 $sessionUser['firstName'] = $user->firstName;
 $sessionUser['lastName'] = $user->lastName;
-$sessionUser['profilePicUrl'] = $user->profilePicUrl;
+if ($user->imageChanged) {
+    $sessionUser['profilePicUrl'] = $user->profilePicUrl;
+}
 Session::put('user', $sessionUser);
 
 $previousPage = $_POST['previousPage'] ?? "/";

@@ -9,14 +9,10 @@ require partial('navbar');
 
 <main>
     <div class="form-container">
-        <form action="/profile" method="POST" enctype="multipart/form-data">
+        <form action="/profile/<?= $user->id ?>" method="POST" enctype="multipart/form-data">
             <!-- Hidden attributes -->
             <input type="hidden" name="_method" value="PUT">
             <input type="hidden" name="previousPage" value="<?= previousPage(); ?>">
-
-            <!-- Missing attributes -->
-            <input type="hidden" name="user_id" value="<?= $user->id ?>">
-
 
             <h1>Edit account</h1>
 
@@ -53,7 +49,9 @@ require partial('navbar');
 
                 <div class="image-input">
                     <div class="profile-pic-container">
+                        <!-- Hidden input to track if user changes their profile picture -->
                         <input id="image-changed" type="hidden" name="image_changed" value=false>
+
                         <input type="file" name="profile_pic" id="profile-pic" accept="image/*">
                         <div id="img-container" onclick="document.getElementById('profile-pic').click();">
                             <img
@@ -62,6 +60,7 @@ require partial('navbar');
                                 class="<?= $user && $user->profilePicUrl ? "" : "placeholder" ?>"
                                 alt="Profile Preview">
                         </div>
+                        
                         <div class="overlay"><span>+</span></div>
                     </div>
 

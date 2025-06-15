@@ -41,7 +41,7 @@
   </div>
 
   <div class="action-buttons">
-    <a href="/products/edit<?= $product->id ?>" class="edit-button">Edit</a>
+    <a href="/products/edit/<?= $product->id ?>" class="edit-button">Edit</a>
     <div class="delete-button">Delete</div>
   </div>
 

@@ -7,10 +7,11 @@ $router->get("/home", "index.php");
 $router->get("/products", "product/index.php");
 $router->get("/products/new", "product/create.php")->only('seller');
 $router->post("/products", "product/store.php")->only('seller');
-$router->get("/products/edit", "product/edit.php")->only('seller');
 $router->put("/products", "product/update.php")->only('seller');
+$router->get("/products/edit/{id}", "product/edit.php")->only('seller');
 $router->get("/products/{id}", "product/show.php");
-$router->delete("/products/{id}", "product/destroy.php");
+$router->delete("/products/{id}", "product/destroy.php")->only('seller');
+$router->put("/products/{id}", "product/update.php")->only('seller');
 
 // User
 $router->get("/login", "session/create.php")->only('guest');
@@ -19,7 +20,7 @@ $router->get("/logout", "session/destroy.php")->only('auth');
 $router->get("/register", "user/create.php")->only('guest');
 $router->post("/register", "user/store.php")->only('guest');
 $router->get("/profile/edit", "user/edit.php")->only('auth');
-$router->put("/profile", "user/update.php")->only('auth');
+$router->put("/profile/{id}", "user/update.php")->only('auth');
 
 // Orders
 $router->get("/order", "order/index.php")->only('auth');

@@ -26,7 +26,8 @@ class UpdateUserDTO extends BaseDTO
         public string $shipAddress,
         public bool $imageChanged,
         public ?array $profilePicFile = null,
-    ) {}
+    ) {
+    }
 
     public function setProfilePicUrl(?string $url)
     {

@@ -91,9 +91,10 @@ class UserRepository extends BaseRepository
         // Verify password
         $user->password = password_hash($user->password, PASSWORD_BCRYPT);
 
-        $user->setProfilePicUrl($user->profilePicFile ?
-            $this->saveProfilePicture($user->profilePicFile) :
-            null);
+        $user->setProfilePicUrl(
+            $user->profilePicFile ?
+                saveImage($user->profilePicFile, 'pfp', '/uploads/profile_pics') : null
+        );
 
         $fields = $user->toFields();
         $placeholders = $user->placeholders();
@@ -117,22 +118,6 @@ class UserRepository extends BaseRepository
             $newId,
             ...$user->getMappedValues(),
         );
-    }
-
-    private function saveProfilePicture(array $file): ?string
-    {
-        if (validImage($file)) {
-            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-            $filename = uniqid('pfp_', true) . '.' . $extension;
-
-            $targetPath = "/uploads/profile_pics/{$filename}";
-
-            if (move_uploaded_file($file['tmp_name'], base_path('public/' . $targetPath))) {
-                return $targetPath;
-            }
-        }
-
-        return null;
     }
 
     public function saveToken(string $email, string $token)
@@ -163,9 +148,14 @@ class UserRepository extends BaseRepository
         }
 
         if ($user->imageChanged) {
-            $user->setProfilePicUrl($user->profilePicFile ?
-                $this->saveProfilePicture($user->profilePicFile) :
-                'delete');
+            $user->setProfilePicUrl(
+                $user->profilePicFile ? saveImage($user->profilePicFile, 'pfp', '/uploads/profile_pics') : 'delete'
+            );
+
+            // Remove file in file system if image has changed but there is no image file (which means user removed their profile pic)
+            if (!$user->profilePicFile){
+                removeImage($existingUser->profilePicUrl);
+            }
         }
 
         // Prepare UPDATE query

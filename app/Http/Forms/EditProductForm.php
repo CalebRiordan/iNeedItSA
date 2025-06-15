@@ -4,7 +4,7 @@ namespace Http\Forms;
 
 use InvalidArgumentException;
 
-class ProductForm extends Form
+class EditProductForm extends Form
 {
     protected $errors = [];
 
@@ -13,11 +13,12 @@ class ProductForm extends Form
         $required = [
             "name",
             "description",
-            "displayImageFile",
             "price",
             "category",
             "stock",
             "condition",
+            "displayImageFile",
+            "imageChanged",
         ];
 
         $missing = self::missingKeys($attributes, $required);
@@ -36,11 +37,6 @@ class ProductForm extends Form
             $this->errors['description'] = "Description can be between 50 and 1000 characters";
         }
         $this->notEmpty('description', "Description");
-
-        if (validImage($attributes['displayImageFile']) && !self::acceptableImage($attributes['displayImageFile'])) {
-            $this->errors['displayImageFile'] = "Image must be a JPG, JPEG, and PNG no larger than 4MB";
-        }
-        $this->notEmpty('displayImageFile', "A product image");
 
         if (!self::numbersOnly($attributes['price'], 2, 5, 20, 99999)) {
             $this->errors['price'] = "Price must be between R20 and R99 999";
@@ -65,6 +61,10 @@ class ProductForm extends Form
 
         if (isset($attributes['conditionDetails']) && !self::string($attributes['conditionDetails'], 0, 100)) {
             $this->errors['conditionDetails'] = "Condition details cannot exceed 100 characters";
+        }
+
+        if ($attributes['imageChanged'] && validImage($attributes['displayImageFile']) && !self::acceptableImage($attributes['displayImageFile'])) {
+            $this->errors['displayImageFile'] = "Image must be a JPG, JPEG, and PNG no larger than 4MB";
         }
     }
 }

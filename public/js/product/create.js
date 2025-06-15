@@ -6,13 +6,14 @@ const description = document.getElementById("description");
 const price = document.getElementById("price");
 const stock = document.getElementById("stock");
 const discount = document.getElementById("discount");
+const form = document.querySelector(".form-container form");
 
 // Image
 const preview = document.getElementById("product-img-preview");
 const productImgInput = document.getElementById("product-img");
 const image = document.getElementById("img-container");
 const removeImageBtn = document.querySelector(".image-input .remove-btn");
-const imageChanged = document.getElementById("image-changed");
+const imageChangedEl = document.getElementById("image-changed");
 
 // Submit button
 const submit = document.querySelector(".form-container #btn-submit");
@@ -36,8 +37,8 @@ function selectImage(src) {
     preview.src = src;
     preview.classList.remove("placeholder");
     removeImageBtn.style.display = "block";
-    if (imageChanged) {
-        imageChanged.value = true;
+    if (imageChangedEl) {
+        imageChangedEl.value = true;
     }
 }
 
@@ -46,8 +47,8 @@ function removeImage() {
     preview.src = "";
     removeImageBtn.style.display = "none";
     preview.classList.add("placeholder");
-    if (imageChanged) {
-        imageChanged.value = true;
+    if (imageChangedEl) {
+        imageChangedEl.value = true;
     }
 }
 
@@ -145,15 +146,18 @@ submit.addEventListener("click", () => {
     document.querySelectorAll("[required]").forEach((field) => {
         if (!formValid) return;
 
+        console.log(field.name);
         const val = field.value.trim();
         if (val === "") {
             // Product image error
             if (field.id === "product-img") {
-                showError(
-                    field,
-                    "Please choose a product thumbnail image",
-                    document.querySelector(".error-image")
-                );
+                if (imageChangedEl.value === true) {
+                    showError(
+                        field,
+                        "Please choose a product thumbnail image",
+                        document.querySelector(".error-image")
+                    );
+                }
             } else {
                 // Not product image:
                 showError(field, "Please fill out this field.");
@@ -161,21 +165,20 @@ submit.addEventListener("click", () => {
         } else if (field.id === "price" && parseInt(val) < 20) {
             // Price error
             showError(field, "Price must be at least R20");
+        } else if (
+            !(
+                field.id === "name" ||
+                field.id === "description" ||
+                field.id === "category"
+            ) &&
+            anySpecialChars(val)
+        ) {
+            // Reject special chars in all other fields
+            showError(field, "Please avoid using special characters.");
         } else {
-            if (
-                !(
-                    field.id === "name" ||
-                    field.id === "description" ||
-                    field.id === "category"
-                ) &&
-                anySpecialChars(val)
-            ) {
-                // Reject special chars in all other fields
-                showError(field, "Please avoid using special characters.");
-            }
-
             // sanitize input
             field.value = sanitise(field.value);
+            form.submit();
         }
     });
 });

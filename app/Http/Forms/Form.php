@@ -43,7 +43,7 @@ class Form
     {
         $missing = [];
         foreach ($keys as $key) {
-            if (!isset($attributes[$key]) || $attributes[$key] === null || $attributes[$key] === "") {
+            if (!array_key_exists($key, $attributes)) {
                 $missing[] = $key;
             }
         }

@@ -113,7 +113,7 @@ class ProductRepository extends BaseRepository
     public function findAllPreviews(?ProductFilter $filter = null): array
     {
         $filter ??= new ProductFilter();
-        
+
         $fields = ProductPreviewDTO::toFields('p');
         $where = $filter->getWhereClause('p');
         $orderBy = $filter->getOrderByClause('p.product_id');
@@ -177,7 +177,7 @@ class ProductRepository extends BaseRepository
         }
 
         // Save new image and attach URL to product
-        $product->displayImageUrl = $this->saveProductImage($product->displayImageFile);
+        $product->displayImageUrl = saveImage($product->displayImageFile, 'product', '/uploads/product_imgs');
 
         $fields = CreateProductDTO::toFields();
         $placeholders = $product->placeholders();
@@ -205,18 +205,30 @@ class ProductRepository extends BaseRepository
             return false;
         }
 
+        // If image changed, save new image and attach URL to product
+        if ($product->imageChanged) {
+            $product->displayImageUrl = saveImage($product->displayImageFile, 'product', '/uploads/product_imgs');
+
+            if (!$this->db->query(
+                "UPDATE product_img_url SET img_url = ? WHERE product_id = ?",
+                [$product->displayImageUrl, $id]
+            )->wasSuccessful()) {
+                return false; // if unsuccessful
+            }
+        }
+
         $sets = $product->getMappedUpdateSet();
         // Update Product table
         $sql = <<<SQL
-            UPDATE Product
+            UPDATE product
             SET {$sets}
             WHERE product_id = ?
         SQL;
 
         if (!$this->db->query($sql, [$id])->wasSuccessful()) return false;
 
-        // Update Images in ProductImage table
-        $this->updateImages($id, $product->imageUrls, $product->displayImageUrl);
+        // TODO: Update Images in ProductImage table
+        // $this->updateImages($id, $product->imageUrls, $product->displayImageUrl);
 
         return true;
     }
