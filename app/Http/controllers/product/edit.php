@@ -7,9 +7,11 @@ $id = $params['id'] ?? null;
 
 if (!$id) abort();
 
-$product = (new ProductRepository())->findById($id);
+$products = new ProductRepository();
+$product = $products->findById($id);
 
-if (!$product) abort();
+// Product doesn't belong to this seller -> 404 Not Found (obscurity)
+if (!$products->isFromSeller($id, Session::get('user')['id'])) abort();
 
 view("product/edit", [
     'errors' => Session::get('errors'),
