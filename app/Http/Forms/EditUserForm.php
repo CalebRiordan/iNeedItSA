@@ -18,12 +18,13 @@ class EditUserForm extends Form
             "province",
             "address",
             "shipAddress",
-            "imageChanged"
+            "imageChanged",
+            "profilePic"
         ];
 
         $missing = self::missingKeys($attributes, $required);
         if (!empty($missing)) {
-            throw new InvalidArgumentException("RegistrationForm requires a '{$missing[0]}' attribute to validate - none provided.");
+            throw new InvalidArgumentException("EditUserForm requires a '{$missing[0]}' attribute to validate - none provided.");
         }
 
         $this->attributes = $attributes;
@@ -76,7 +77,7 @@ class EditUserForm extends Form
         $this->notEmpty('shipAddress', "Shipping Address");
 
         if ($attributes['imageChanged'] && validImage($attributes['profilePic']) && !self::acceptableImage($attributes['profilePic'])) {
-            $this->errors['profilePic'] = "Image must be a JPG, JPEG, and PNG no greater in size than 4MB";
+            $this->errors['profilePic'] = "Image must be a JPG, JPEG, and PNG no larger than 4MB";
         }
     }
 }

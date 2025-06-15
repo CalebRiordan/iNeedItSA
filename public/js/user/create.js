@@ -1,15 +1,20 @@
 import { anySpecialChars } from "/js/utils/sanitisation.js";
 
+// Form inputs
 const phoneNumInput = document.querySelector(".input-group .phone-no");
 const checkbox = document.getElementById("same-address");
 const addressInput = document.getElementById("address");
 const shipAddressInput = document.getElementById("ship-address");
+
+// Image
 const preview = document.getElementById("profile-pic-preview");
 const profilePicInput = document.getElementById("profile-pic");
 const image = document.getElementById("img-container");
-const register = document.querySelector(".form-container #btn-submit");
 const removeImageBtn = document.querySelector(".image-input .remove-btn");
-const imageChanged = document.getElementById("image-changed");
+const imageChangedEl = document.getElementById("image-changed");
+
+// Submit button
+const register = document.querySelector(".form-container #btn-submit");
 let formValid = true;
 
 function previewProfilePic(event) {
@@ -30,8 +35,8 @@ function selectImage(src) {
   preview.src = src;
   preview.classList.remove("placeholder");
   removeImageBtn.style.display = "block";
-  if (imageChanged) {
-    imageChanged.value = true;
+  if (imageChangedEl) {
+    imageChangedEl.value = true;
   }
 }
 
@@ -40,8 +45,8 @@ function removeImage() {
   preview.src = "";
   removeImageBtn.style.display = "none";
   preview.classList.add("placeholder");
-  if (imageChanged) {
-    imageChanged.value = true;
+  if (imageChangedEl) {
+    imageChangedEl.value = true;
   }
 }
 

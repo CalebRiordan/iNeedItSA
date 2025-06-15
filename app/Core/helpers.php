@@ -84,6 +84,33 @@ function validImage(?array $file)
         && $file['error'] === UPLOAD_ERR_OK;
 }
 
+function saveImage($file, $filePrefix, $destinationDir)
+{
+    if (validImage($file)) {
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = uniqid("{$filePrefix}_", true) . '.' . $extension;
+
+        $targetPath = "{$destinationDir}/{$filename}";
+
+        if (move_uploaded_file($file['tmp_name'], base_path('public/' . $targetPath))) {
+            return $targetPath;
+        }
+    }
+
+    return null;
+}
+
+function removeImage($path)
+{
+    $fullPath = base_path('public' . $path);
+
+    if (file_exists($fullPath)) {
+        return unlink($fullPath);
+    }
+
+    return false;
+}
+
 function previousPage(string $default = "/")
 {
     return $_SERVER['HTTP_REFERER'] ?? $_GET['previous'] ?? $default;
