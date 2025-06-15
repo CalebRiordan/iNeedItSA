@@ -1,6 +1,5 @@
 <?php
 
-use Core\DTOs\CreateProductDTO;
 use Core\DTOs\UpdateProductDTO;
 use Core\Repositories\ProductRepository;
 use Core\Session;
@@ -8,8 +7,10 @@ use Http\Forms\EditProductForm;
 
 $id = $params['id'];
 $products = new ProductRepository();
+$userId = Session::get('user')['id'];
 
-if (!$products->exists($id)) abort();
+// Product doesn't belong to this seller -> 404 Not Found (obscurity)
+if (!$products->isFromSeller($id, $userId)) abort();
 
 $fields = [
     "name" => htmlspecialchars($_POST["name"], ENT_QUOTES),

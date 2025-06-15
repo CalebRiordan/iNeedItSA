@@ -102,7 +102,7 @@ class ProductRepository extends BaseRepository
         return array_values($products);
     }
 
-    public function findPreview(string $id): ?ProductPreviewDTO
+    public function findPreviewById(string $id): ?ProductPreviewDTO
     {
         $fields = ProductPreviewDTO::toFields();
         $row = $this->db->query("SELECT {$fields} FROM product WHERE product_id = ?", [$id])->find();
@@ -191,7 +191,7 @@ class ProductRepository extends BaseRepository
         $newId = $this->db->query($sql, $product->getMappedValues())->newId();
         $this->insertImages($newId, $product->imageUrls, $product->displayImageUrl);
 
-        return $this->findPreview($newId);
+        return $this->findPreviewById($newId);
     }
 
     public function update(UpdateProductDTO $product): bool
@@ -254,6 +254,13 @@ class ProductRepository extends BaseRepository
         $row = $this->db->query("SELECT {$fields} FROM product WHERE name = ?", [$productName])->find();
 
         return $this->previewFromRow($row);
+    }
+
+    public function isFromSeller(string $productId, string $sellerId): bool
+    {
+        $sql = "SELECT 1 FROM product WHERE product_id = ? AND seller_id = ? LIMIT 1";
+        $result = $this->db->query($sql, [$productId, $sellerId])->find();
+        return !empty($result);
     }
 
     private function executeIfExists($id, string $query, array $params = [])

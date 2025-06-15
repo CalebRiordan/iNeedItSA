@@ -16,7 +16,8 @@ class Router
             'controller' => $controller,
             'method' => $method,
             'type' => $this->nextType,
-            'middleware' => NULL
+            'middleware' => [],
+            'middleware_deny' => false
         ];
 
         $this->nextType = 'page';
@@ -55,16 +56,26 @@ class Router
         return $this->add('PUT', $uri, $controller);
     }
 
-    public function only($key)
+    public function only(...$keys)
     {
-        $this->routes[array_key_last($this->routes)]['middleware'] = $key;
+        // Flatten if the first argument is an array
+        if (count($keys) === 1 && is_array($keys[0])) {
+            $keys = $keys[0];
+        }
 
+        $this->routes[array_key_last($this->routes)]['middleware'] = $keys;
         return $this;
     }
 
-    public function deny($key)
+    public function deny(...$keys)
     {
-        $this->routes[array_key_last($this->routes)]['middleware'] = $key . 'Deny';
+        // Flatten if the first argument is an array
+        if (count($keys) === 1 && is_array($keys[0])) {
+            $keys = $keys[0];
+        }
+
+        $this->routes[array_key_last($this->routes)]['middleware'] = $keys;
+        $this->routes[array_key_last($this->routes)]['middleware_deny'] = True;
 
         return $this;
     }
@@ -83,7 +94,7 @@ class Router
             if ($route['type'] === 'page') {
                 $params = static::routeMatch($route, $uri, $method);
                 if ($params) {
-                    Middleware::resolve($route['middleware']);
+                    Middleware::resolve($route['middleware'], $route['middleware_deny']);
 
                     return $this->controller($route['controller'], $params);
                 }
@@ -98,7 +109,7 @@ class Router
             if ($route['type'] === 'partial') {
                 $params = static::routeMatch($route, $uri, $method);
                 if ($params) {
-                    Middleware::resolve($route['middleware']);
+                    Middleware::resolve($route['middleware'], $route['middleware_deny']);
 
                     // Require PartialController.php and call method on class
                     require_once base_path('app/http/controllers/' . $route['controller']);

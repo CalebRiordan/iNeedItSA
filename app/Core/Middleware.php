@@ -4,53 +4,71 @@ namespace Core;
 
 class Middleware
 {
-    public const middleware = ['guest', 'auth', 'seller', 'staff', 'staffDeny'];
+    private static $redirects = [
+        'guest' => '/',
+        'auth' => '/login',
+        'seller' => '/seller/register',
+        'staff' => '/admin/login',
+    ];
 
-    public static function resolve($middleware)
+    private static $redirectsDeny = [
+        'staff' => '/admin',
+    ];
+
+    public static function resolve(array $middlewares, $deny = false)
     {
-        if (!$middleware) {
+        if (empty($middlewares)) {
             return;
         }
 
-        if (!$middleware || !method_exists(static::class, $middleware)) {
-            throw new \Exception("No matching middleware found for key '{$middleware}'.");
+        $results = [];
+        $access = $deny;
+        $firstCulprit = null;
+
+        foreach ($middlewares as $mw) {
+            if (!$mw || !method_exists(static::class, $mw)) {
+                throw new \Exception("No matching middleware found for key '{$mw}'.");
+            }
+
+            $allowed = call_user_func([static::class, $mw]);
+            $results[$mw] = $allowed;
+
+            if ($allowed) {
+                if ($deny){
+                    $access = false;
+                    $firstCulprit = $mw;
+                } else {
+                    $access = true;
+                }
+            } elseif ($firstCulprit === null) {
+                $firstCulprit = $mw;
+            }
         }
 
-        call_user_func([static::class, $middleware]);
+        // If all middleware checks denied access, redirect to the first failed middleware's redirect
+        if (!$access) {
+            $paths = $deny ? self::$redirectsDeny : self::$redirectsDeny;
+            redirect($paths[$firstCulprit] ?? "/");
+        }
     }
 
     private static function guest()
     {
-        if (Session::has('user')) {
-            redirect('/');
-        }
+        return !Session::has('user');
     }
 
     private static function auth()
     {
-        if (!Session::has('user')) {
-            redirect('/login');
-        }
+        return Session::has('user');
     }
 
     private static function seller()
     {
-        if (!Session::get('user')['sellerProfile'] ?? false) {
-            redirect('/seller/register');
-        }
+        return (Session::get('user')['sellerProfile'] ?? false);
     }
 
     private static function staff()
     {
-        if (!Session::has('emp')) {
-            redirect('/admin/login');
-        }
-    }
-
-    private static function staffDeny()
-    {
-        if (Session::has('emp')) {
-            redirect('/admin');
-        }
+        return (Session::has('emp'));
     }
 }
