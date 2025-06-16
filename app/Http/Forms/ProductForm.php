@@ -38,7 +38,7 @@ class ProductForm extends Form
         $this->notEmpty('description', "Description");
 
         if (validImage($attributes['displayImageFile']) && !self::acceptableImage($attributes['displayImageFile'])) {
-            $this->errors['displayImageFile'] = "Image must be a JPG, JPEG, and PNG no larger than 4MB";
+            $this->errors['displayImageFile'] = "Image must be a JPG, JPEG, or PNG no larger than 4MB";
         }
         $this->notEmpty('displayImageFile', "A product image");
 

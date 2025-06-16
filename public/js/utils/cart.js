@@ -66,7 +66,7 @@ export class Cart {
         const data = await res.json();
       })
       .catch((error) => {
-        window.location.href = "/500";
+        window.location.href = "/status/500";
       });
   }
 

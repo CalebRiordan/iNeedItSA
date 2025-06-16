@@ -9,6 +9,9 @@ class Middleware
         'auth' => '/login',
         'seller' => '/seller/register',
         'staff' => '/admin/login',
+        'admin' => '/status/403',
+        'mod' => '/status/403',
+        'pm' => '/status/403',
     ];
 
     private static $redirectsDeny = [
@@ -17,7 +20,10 @@ class Middleware
 
     public static function resolve(array $middlewares, $deny = false)
     {
-        if (empty($middlewares)) {
+        // Do nothing if $middlewares is empty or user is admin IF admins are meant to be denied
+        $denyAdmin = $deny && array_key_exists('admin', $middlewares);
+        $onlyStaff = !$deny && array_key_exists('staff', $middlewares);
+        if (empty($middlewares) || ((self::admin() && !$denyAdmin && !$onlyStaff))) {
             return;
         }
 
@@ -25,6 +31,7 @@ class Middleware
         $access = $deny;
         $firstCulprit = null;
 
+        // Execute each middleware method and evaluate results - approve/deny
         foreach ($middlewares as $mw) {
             if (!$mw || !method_exists(static::class, $mw)) {
                 throw new \Exception("No matching middleware found for key '{$mw}'.");
@@ -34,7 +41,7 @@ class Middleware
             $results[$mw] = $allowed;
 
             if ($allowed) {
-                if ($deny){
+                if ($deny) {
                     $access = false;
                     $firstCulprit = $mw;
                 } else {
@@ -64,11 +71,27 @@ class Middleware
 
     private static function seller()
     {
-        return (Session::get('user')['sellerProfile'] ?? false);
+        // Anything a Seller can do, a Product manager can do
+        return (Session::get('user')['sellerProfile'] ?? Session::get('emp')['pm'] ?? false);
     }
 
     private static function staff()
     {
         return (Session::has('emp'));
+    }
+
+    private static function admin()
+    {
+        return Session::get('emp')['admin'] ?? false;
+    }
+
+    private static function mod()
+    {
+        return Session::get('emp')['mod'] ?? false;
+    }
+
+    private static function pm()
+    {
+        return Session::get('emp')['pm'] ?? false;
     }
 }

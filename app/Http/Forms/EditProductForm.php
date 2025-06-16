@@ -64,7 +64,7 @@ class EditProductForm extends Form
         }
 
         if ($attributes['imageChanged'] && validImage($attributes['displayImageFile']) && !self::acceptableImage($attributes['displayImageFile'])) {
-            $this->errors['displayImageFile'] = "Image must be a JPG, JPEG, and PNG no larger than 4MB";
+            $this->errors['displayImageFile'] = "Image must be a JPG, JPEG, or PNG no larger than 4MB";
         }
     }
 }

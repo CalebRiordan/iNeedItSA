@@ -18,9 +18,9 @@ $router->get("/login", "session/create.php")->only('guest');
 $router->post("/login", "session/store.php")->only('guest');
 $router->get("/logout", "session/destroy.php")->only('auth');
 $router->get("/register", "user/create.php")->only('guest');
-$router->post("/register", "user/store.php")->only('guest');
-$router->get("/profile/edit", "user/edit.php")->only('auth');
-$router->put("/profile/{id}", "user/update.php")->only('auth');
+$router->post("/register", "user/store.php")->only('guest', 'mod');
+$router->get("/profile/edit", "user/edit.php")->only('auth', 'mod');
+$router->put("/profile/{id}", "user/update.php")->only('auth', 'mod');
 
 // Orders
 $router->get("/order", "order/index.php")->only('auth');
@@ -34,11 +34,11 @@ $router->post("/cart", "cart/persist.php")->only('auth');
 
 // Seller
 $router->get("/seller/register", "seller/create.php")->only('auth');
-$router->post("/seller/register", "seller/store.php")->only('auth');
+$router->post("/seller/register", "seller/store.php")->only('auth', 'mod');
 $router->get("/seller/dashboard", "seller/index.php")->only('seller');
 
 // Status codes
-$router->get("/500", "500.php");
+$router->get("/status/{code}", "status-code.php");
 
 // Admin dashboard
 $router->get("/admin", "admin/index.php")->only('staff');

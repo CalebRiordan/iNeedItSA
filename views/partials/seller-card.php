@@ -19,6 +19,17 @@ use Core\Session; ?>
     </div>
 </a>
 
+<?php $emp = Session::get('emp'); ?>
+<?php $role = $emp['role'] ?? null; ?>
+<?php if ($emp && ($role === 'admin' || $role === 'pm')): ?>
+    <!-- Edit Product button for staff with appropriate permissions -->
+    <a class="edit-product-btn" href='/products/edit/'>
+        <div class="content item-not-added">
+            <span>Edit Product</span>
+        </div>
+    </a>
+<?php endif; ?>
+
 <div class="seller-card">
     <div class="header">
         <h1><?= $product->seller->firstName . " " . $product->seller->lastName ?></h1>
@@ -33,6 +44,7 @@ use Core\Session; ?>
             </div>
         <?php endif; ?>
     </div>
+
 
     <div class="details">
         <p>Seller Since <strong><?= date('Y', strtotime($product->seller->sellerProfile->dateRegistered)) ?></strong></p>
