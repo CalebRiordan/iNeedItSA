@@ -5,3 +5,4 @@ vendor/
 !/public/uploads/**/
 !/public/uploads/**/.gitkeep
 /public/uploads/product_imgs/*
+/public/uploads/profile_pics/*
