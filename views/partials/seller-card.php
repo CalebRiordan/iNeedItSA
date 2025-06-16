@@ -23,9 +23,9 @@ use Core\Session; ?>
 <?php $role = $emp['role'] ?? null; ?>
 <?php if ($emp && ($role === 'admin' || $role === 'pm')): ?>
     <!-- Edit Product button for staff with appropriate permissions -->
-    <a class="edit-product-btn" href='/products/edit/'>
+    <a class="edit-product-btn" href="/products/edit/<?= $product->id ?>">
         <div class="content item-not-added">
-            <span>Edit Product</span>
+            <span>Edit Product (staff)</span>
         </div>
     </a>
 <?php endif; ?>

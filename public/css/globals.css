@@ -1,6 +1,8 @@
 @import url("toast.css");
 
 :root {
+    /* Colour variables */
+    /* Hex format */
     --primary-colour: #27671c;
     --highlight-colour: #ebb435;
     --background-colour: white;
@@ -12,20 +14,16 @@
     --dark-bg-colour: #cdcdcd;
     --error-colour: #cc0000;
     --disabled-colour: rgb(128, 126, 126);
-    
+
+    /* RGB format */
     --primary-colour-rgb: 39, 103, 28;
     --highlight-colour-rgb: 235, 180, 53;
     --text-colour-dark-rgb: 0, 0, 0;
     --text-colour-light-rgb: 255, 255, 255;
+    --error-colour-rgb: 204, 0, 0;
 
+    /* Other constants */
     --navbar-height: 80px;
-
-    /* --primary-colour: #4CC152;
-    --highlight-colour: #FFD463;
-    --background-colour: #1A1A1A;
-    --off-bg-colour: #2A2A2A;
-    --text-colour: #F0F0F0;
-    --dark-bg-colour: #2C2C2C; */
 }
 
 html {

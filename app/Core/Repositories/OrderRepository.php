@@ -32,7 +32,6 @@ class OrderRepository extends BaseRepository
             LEFT JOIN product_image_url pi
             ON i.product_id = pi.product_id AND pi.is_display_img = TRUE
             WHERE i.order_id = ?
-            ORDER BY 
         SQL;
 
         $rows = $this->db->query($sql, [$id])->findAll();

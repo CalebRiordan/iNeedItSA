@@ -39,6 +39,7 @@ async function fetchOrder(id) {
     try {
         const res = await fetch(`partial/order/${id}`);
         const data = await res.json();
+        console.log(data);        
         return data;
     } catch (err) {
         return null;

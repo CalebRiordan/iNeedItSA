@@ -71,11 +71,6 @@ function elapsedTimeString(DateTime $date): string
     return $output;
 }
 
-function noImageUploaded(array $file): bool
-{
-    return $file['error'] === UPLOAD_ERR_NO_FILE;
-}
-
 function validImage(?array $file)
 {
     return $file

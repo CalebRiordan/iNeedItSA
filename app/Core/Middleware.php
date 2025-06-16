@@ -23,7 +23,7 @@ class Middleware
         // Do nothing if $middlewares is empty or user is admin IF admins are meant to be denied
         $denyAdmin = $deny && array_key_exists('admin', $middlewares);
         $onlyStaff = !$deny && array_key_exists('staff', $middlewares);
-        if (empty($middlewares) || ((self::admin() && !$denyAdmin && !$onlyStaff))) {
+        if (empty($middlewares) || ((Authorizor::admin() && !$denyAdmin && !$onlyStaff))) {
             return;
         }
 
@@ -33,14 +33,10 @@ class Middleware
 
         // Execute each middleware method and evaluate results - approve/deny
         foreach ($middlewares as $mw) {
-            if (!$mw || !method_exists(static::class, $mw)) {
-                throw new \Exception("No matching middleware found for key '{$mw}'.");
-            }
 
-            $allowed = call_user_func([static::class, $mw]);
-            $results[$mw] = $allowed;
+            $results[$mw] = static::resolveMiddlewareMethod($mw);
 
-            if ($allowed) {
+            if ($results[$mw]) {
                 if ($deny) {
                     $access = false;
                     $firstCulprit = $mw;
@@ -59,39 +55,17 @@ class Middleware
         }
     }
 
-    private static function guest()
+    private static function resolveMiddlewareMethod($methodName)
     {
-        return !Session::has('user');
-    }
-
-    private static function auth()
-    {
-        return Session::has('user');
-    }
-
-    private static function seller()
-    {
-        // Anything a Seller can do, a Product manager can do
-        return (Session::get('user')['sellerProfile'] ?? Session::get('emp')['pm'] ?? false);
-    }
-
-    private static function staff()
-    {
-        return (Session::has('emp'));
-    }
-
-    private static function admin()
-    {
-        return Session::get('emp')['admin'] ?? false;
-    }
-
-    private static function mod()
-    {
-        return Session::get('emp')['mod'] ?? false;
-    }
-
-    private static function pm()
-    {
-        return Session::get('emp')['pm'] ?? false;
+        // Check if the method exists in the Middleware class
+        if (method_exists(static::class, $methodName)) {
+            return call_user_func([static::class, $methodName]);
+        }
+        // Check if the method exists in the Authorizor class
+        elseif (method_exists(Authorizor::class, $methodName)) {
+            return call_user_func([Authorizor::class, $methodName]);
+        } else {
+            throw new \Exception("No matching middleware found for key '{$methodName}'.");
+        }
     }
 }

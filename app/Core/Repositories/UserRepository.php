@@ -152,10 +152,8 @@ class UserRepository extends BaseRepository
                 $user->profilePicFile ? saveImage($user->profilePicFile, 'pfp', '/uploads/profile_pics') : 'delete'
             );
 
-            // Remove file in file system if image has changed but there is no image file (which means user removed their profile pic)
-            if (!$user->profilePicFile){
-                removeImage($existingUser->profilePicUrl);
-            }
+            // Remove existing PFP in file system
+            removeImage($existingUser->profilePicUrl);
         }
 
         // Prepare UPDATE query

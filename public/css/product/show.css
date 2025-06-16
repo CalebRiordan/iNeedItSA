@@ -125,6 +125,24 @@ main {
     cursor: default;
 }
 
+.seller-card-wrapper .edit-product-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: var(--background-colour);
+    color: var(--error-colour);
+    border: 2px solid var(--error-colour);
+    border-radius: 24px;
+    cursor: pointer;
+    padding: 0.6em;
+    font-size: 1.4em;
+    text-decoration: none;
+}
+
+.seller-card-wrapper .edit-product-btn:hover {
+    background-color: rgba(var(--error-colour-rgb), 0.2);
+}
+
 /* =============== Seller Card =============== */
 
 .seller-card {

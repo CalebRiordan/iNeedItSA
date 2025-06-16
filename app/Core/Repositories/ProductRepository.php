@@ -208,13 +208,8 @@ class ProductRepository extends BaseRepository
         // If image changed, save new image and attach URL to product
         if ($product->imageChanged) {
             $product->displayImageUrl = saveImage($product->displayImageFile, 'product', '/uploads/product_imgs');
-
-            if (!$this->db->query(
-                "UPDATE product_img_url SET img_url = ? WHERE product_id = ?",
-                [$product->displayImageUrl, $id]
-            )->wasSuccessful()) {
-                return false; // if unsuccessful
-            }
+            removeImage($existingProduct->displayImageUrl);
+            $this->updateDisplayImage($product);
         }
 
         $sets = $product->getMappedUpdateSet();
@@ -227,7 +222,7 @@ class ProductRepository extends BaseRepository
 
         if (!$this->db->query($sql, [$id])->wasSuccessful()) return false;
 
-        // TODO: Update Images in ProductImage table
+        // FUTURE: Update list of images in product_image_url table
         // $this->updateImages($id, $product->imageUrls, $product->displayImageUrl);
 
         return true;
@@ -254,13 +249,6 @@ class ProductRepository extends BaseRepository
         $row = $this->db->query("SELECT {$fields} FROM product WHERE name = ?", [$productName])->find();
 
         return $this->previewFromRow($row);
-    }
-
-    public function isFromSeller(string $productId, string $sellerId): bool
-    {
-        $sql = "SELECT 1 FROM product WHERE product_id = ? AND seller_id = ? LIMIT 1";
-        $result = $this->db->query($sql, [$productId, $sellerId])->find();
-        return !empty($result);
     }
 
     private function executeIfExists($id, string $query, array $params = [])
@@ -338,7 +326,7 @@ class ProductRepository extends BaseRepository
         $this->db->query("UPDATE product_image_url SET is_display_image = True WHERE img_url = ?", [$displayImageUrl]);
     }
 
-    public function insertImages(string $id, array $imageUrls, ?string $displayImageUrl = null)
+    public function insertImages(string $productId, array $imageUrls, ?string $displayImageUrl = null)
     {
         $sets = [];
         foreach ($imageUrls as $url) {
@@ -346,13 +334,13 @@ class ProductRepository extends BaseRepository
         }
         $params = [];
         foreach ($imageUrls as $url) {
-            $params[] = $id;
+            $params[] = $productId;
             $params[] = $url;
         }
 
         if ($displayImageUrl) {
             $sets[] = "(?, ?, True)";
-            $params[] = $id;
+            $params[] = $productId;
             $params[] = $displayImageUrl;
         }
 
@@ -369,6 +357,28 @@ class ProductRepository extends BaseRepository
         SQL;
 
         $this->db->query($sql, $params);
+    }
+
+    private function updateDisplayImage($product)
+    {
+        // Check if a display image already exists for this product
+        $existing = $this->db->query(
+            "SELECT img_id FROM product_image_url WHERE product_id = ? AND is_display_img = 1",
+            [$product->id]
+        )->find();
+
+        if ($existing) {
+            // Update existing image url
+            if (!$this->db->query(
+                "UPDATE product_image_url SET img_url = ? WHERE img_id = ?",
+                [$product->displayImageUrl, $existing['img_id']]
+            )->wasSuccessful()) {
+                return false;
+            }
+        } else {
+            // Insert new image record as display image
+            $this->insertImages($product->id, $product->imageUrls, $product->displayImageUrl);
+        }
     }
 
     private function previewFromRow(?array $row): ?ProductPreviewDTO
@@ -415,21 +425,5 @@ class ProductRepository extends BaseRepository
 
         $result = $this->db->query($sql, $id)->find();
         return reset($result);
-    }
-
-    private function saveProductImage(array $file): ?string
-    {
-        if (validImage($file)) {
-            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-            $filename = uniqid('product_', true) . '.' . $extension;
-
-            $targetPath = "/uploads/product_imgs/{$filename}";
-
-            if (move_uploaded_file($file['tmp_name'], base_path('public/' . $targetPath))) {
-                return $targetPath;
-            }
-        }
-
-        return null;
     }
 }

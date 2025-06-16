@@ -4,6 +4,7 @@ use Core\DTOs\UpdateUserDTO;
 use Core\Repositories\UserRepository;
 use Core\Session;
 use Http\Forms\EditUserForm;
+use Http\Forms\Form;
 
 $id = $params['id'] ?? null;
 $users = new UserRepository();
@@ -13,15 +14,15 @@ if (!$id || !$users->exists($id)) {
 }
 
 $fields = [
-    'firstName' => htmlspecialchars($_POST['first_name'], ENT_QUOTES),
-    'lastName' => htmlspecialchars($_POST['last_name'], ENT_QUOTES),
-    'phoneNo' => htmlspecialchars($_POST['phone_no'], ENT_QUOTES),
-    'location' => htmlspecialchars($_POST['location'], ENT_QUOTES),
-    'province' => htmlspecialchars($_POST['province'], ENT_QUOTES),
-    'address' => htmlspecialchars($_POST['address'], ENT_QUOTES),
-    'imageChanged' => htmlspecialchars($_POST["image_changed"], ENT_QUOTES) === 'true' ? true : false,
-    'profilePic' => noImageUploaded($_FILES['profile_pic']) ? null : $_FILES['profile_pic'],
-    'shipAddress' => htmlspecialchars($_POST['ship_address'], ENT_QUOTES)  ?? null,
+    'firstName' => Form::getField('first_name'),
+    'lastName' => Form::getField('last_name'),
+    'phoneNo' => Form::getField('phone_no'),
+    'location' => Form::getField('location'),
+    'province' => Form::getField('province'),
+    'address' => Form::getField('address'),
+    'imageChanged' => Form::getBoolField('image_changed'),
+    'profilePic' => Form::getImageField('profile_pic'),
+    'shipAddress' => Form::getField('ship_address'),
 ];
 
 // Server-side form validation

@@ -3,18 +3,19 @@
 use Core\DTOs\CreateProductDTO;
 use Core\Repositories\ProductRepository;
 use Core\Session;
+use Http\Forms\Form;
 use Http\Forms\ProductForm;
 
 $fields = [
-    "name" => htmlspecialchars($_POST["name"], ENT_QUOTES),
-    "description" => htmlspecialchars($_POST["description"], ENT_QUOTES),
-    "price" => htmlspecialchars($_POST["price"], ENT_QUOTES),
-    "stock" => htmlspecialchars($_POST["stock"], ENT_QUOTES),
-    "condition" => htmlspecialchars($_POST["condition"], ENT_QUOTES),
-    "condition_details" => htmlspecialchars($_POST["condition_details"], ENT_QUOTES),
-    "discount" => htmlspecialchars($_POST["discount"], ENT_QUOTES),
-    "category" => htmlspecialchars($_POST["category"], ENT_QUOTES),
-    "product_img" => noImageUploaded($_FILES["product_img"]) ? null : $_FILES["product_img"],
+    'name' => Form::getField('name'),
+    'description' => Form::getField('description'),
+    'price' => Form::getNumericField('price'),
+    'stock' => Form::getNumericField('stock'),
+    'condition' => Form::getField('condition'),
+    'conditionDetails' => Form::getField('condition_details'),
+    'discount' => Form::getNumericField('discount'),
+    'category' => Form::getNumericField('category'),
+    'displayImageFile' => Form::getImageField('product_img'),
 ];
 
 // Server-side form validation
@@ -30,16 +31,16 @@ if ($existingProduct) {
 $sellerId = Session::get('user')['id'];
 
 $product = new CreateProductDTO(
-    $fields["name"],
-    $fields["description"],
-    $fields["price"],
+    $fields['name'],
+    $fields['description'],
+    $fields['price'],
     $sellerId,
-    $fields["stock"],
-    $fields["condition"],
-    $fields["condition_details"],
-    $fields["discount"],
-    $fields["category"],
-    $fields["product_img"]
+    $fields['stock'],
+    $fields['condition'],
+    $fields['conditionDetails'],
+    $fields['discount'],
+    $fields['category'],
+    $fields['displayImageFile']
 );
 
 $newProduct = $products->create($product);
@@ -47,4 +48,5 @@ $newProduct = $products->create($product);
 if (!$newProduct) abort(500);
 
 Session::toast("Your new product has been listed!");
-redirect('/seller/dashboard');
+$path = $auth->pm() ? '/' : '/seller/dashboard';
+redirect($path);

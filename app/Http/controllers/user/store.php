@@ -3,6 +3,7 @@
 use Core\Authenticator;
 use Core\DTOs\CreateUserDTO;
 use Core\Repositories\UserRepository;
+use Http\Forms\Form;
 use Http\Forms\RegistrationForm;
 
 $email = $_POST['email'];
@@ -14,16 +15,16 @@ if ($user) {
     redirect("/login?email={$email}");
 } else {
     $fields = [
-        "firstName" => htmlspecialchars($_POST["first_name"], ENT_QUOTES),
-        "lastName" => htmlspecialchars($_POST["last_name"], ENT_QUOTES),
-        "email" => htmlspecialchars($_POST["email"], ENT_QUOTES),
-        "password" => htmlspecialchars($_POST["password"], ENT_QUOTES),
-        "phoneNo" => htmlspecialchars($_POST["phone_no"], ENT_QUOTES),
-        "location" => htmlspecialchars($_POST["location"], ENT_QUOTES),
-        "province" => htmlspecialchars($_POST["province"], ENT_QUOTES),
-        "address" => htmlspecialchars($_POST["address"], ENT_QUOTES),
-        "profilePic" => noImageUploaded($_FILES["profile_pic"]) ? null : $_FILES["profile_pic"],
-        "shipAddress" => htmlspecialchars($_POST["ship_address"], ENT_QUOTES),
+        "firstName" => Form::getField('first_name'),
+        "lastName" => Form::getField('last_name'),
+        "email" => Form::getField('email'),
+        "password" => Form::getField('password'),
+        "phoneNo" => Form::getField('phone_no'),
+        "location" => Form::getField('location'),
+        "province" => Form::getField('province'),
+        "address" => Form::getField('address'),
+        "profilePic" => Form::getImageField('profile_pic') ? null : $_FILES["profile_pic"],
+        "shipAddress" => Form::getField('ship_address'),
     ];
 
     // Server-side form validation

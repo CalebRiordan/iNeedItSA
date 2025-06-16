@@ -96,7 +96,7 @@ class Form
 
     protected static function acceptableImage(array $image)
     {
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         $fileName = $image['name'];
         $fileSize = $image['size'];
         $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
@@ -106,5 +106,27 @@ class Form
         }
 
         return true;
+    }
+
+    public static function getField($name)
+    {
+        return htmlspecialchars($_POST[$name] ?? '', ENT_QUOTES);
+    }
+
+    public static function getNumericField($name): int|bool
+    {
+        $val = self::getField($name);
+        return is_numeric($val) ? (int)$val : false;
+    }
+
+    public static function getImageField($name)
+    {
+        $file = $_FILES[$name];
+        return $file['error'] === UPLOAD_ERR_NO_FILE ? null : $file;
+    }
+
+    public static function getBoolField($name)
+    {
+        return self::getField($name) === 'true' ? true : false;
     }
 }

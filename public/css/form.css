@@ -114,3 +114,17 @@ input[type='checkbox']:checked {
     font-size: 1rem;
     margin: 15px 0;
 }
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1200px) {
+    main{
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    main{
+        font-size: 12px;
+    }
+}
