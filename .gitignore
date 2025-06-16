@@ -4,3 +4,4 @@ vendor/
 !/public/uploads/.gitkeep
 !/public/uploads/**/
 !/public/uploads/**/.gitkeep
+/public/uploads/product_imgs/*
