@@ -23,6 +23,8 @@ require partial('admin/navbar');
 </script>
 
 <main>
+    <?php require partial('back-btn') ?>
+
     <div class="form-container">
         <form class="login-form" action="/admin/login" method="POST">
 

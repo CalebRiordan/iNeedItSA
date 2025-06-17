@@ -8,6 +8,28 @@ main {
     margin-top: var(--navbar-height);
     background-color: var(--background-colour);
     font-size: 20px;
+    position: relative;
+}
+
+.back-btn button {
+    position: absolute;
+    top: -1.5em;
+    left: 1em;
+    padding: 0.6em 1em;
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    border-radius: 0.8em;
+    font-size: 1.2em;
+}
+
+.back-btn button svg{
+    width: 1.2em;
+    fill: var(--text-colour-light);
 }
 
 .form-container {
@@ -17,7 +39,7 @@ main {
     margin-bottom: 10em;
 }
 
-.form-container form>h1 {
+.form-container form > h1 {
     margin: 1.5em 0;
     text-align: center;
 }
@@ -73,7 +95,7 @@ main {
     gap: 4px;
 }
 
-.checkbox input[type='checkbox'] {
+.checkbox input[type="checkbox"] {
     width: 1.4em;
     height: 1.4em;
     background: var(--background-colour);
@@ -82,7 +104,7 @@ main {
     transform: translateY(5%);
 }
 
-input[type='checkbox']:checked {
+input[type="checkbox"]:checked {
     accent-color: var(--primary-colour);
 }
 
@@ -118,13 +140,13 @@ input[type='checkbox']:checked {
 /* MEDIA QUERIES */
 
 @media (max-width: 1200px) {
-    main{
+    main {
         font-size: 16px;
     }
 }
 
 @media (max-width: 768px) {
-    main{
+    main {
         font-size: 12px;
     }
 }

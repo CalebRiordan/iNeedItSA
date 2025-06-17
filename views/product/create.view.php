@@ -12,28 +12,16 @@ require partial('navbar');
 // Recreate CreateProductDTO from old form data so user doesn't have to fill out everything again
 $seller = Session::get('user');
 if (!isset($product) || $product === null) {
-    // $product = new CreateProductDTO(
-    //     existingFormData('name'),
-    //     existingFormData('description'),
-    //     (float) existingFormData('price'),
-    //     $seller['id'],
-    //     (int) existingFormData('stock'),
-    //     existingFormData('condition'),
-    //     existingFormData('condition_details'),
-    //     (int) existingFormData('discount'),
-    //     existingFormData('category'),
-    // );
-
     $product = new CreateProductDTO(
-        'Weber Braai Master 3000 Outdoor Grill with Accessories',
-        'Brand new Weber Braai Master 3000. Perfect for outdoor grilling and entertaining. Includes all original accessories and packaging.',
-        24000,
+        existingFormData('name'),
+        existingFormData('description'),
+        (float) existingFormData('price'),
         $seller['id'],
-        5,
-        'New',
-        'Brand new, unused, in original packaging.',
-        0,
-        '2',
+        (int) existingFormData('stock'),
+        existingFormData('condition'),
+        existingFormData('condition_details'),
+        (int) existingFormData('discount'),
+        existingFormData('category'),
     );
 }
 
@@ -41,6 +29,8 @@ if (!isset($product) || $product === null) {
 ?>
 
 <main>
+    <?php require partial('back-btn') ?>
+
     <div class="form-container">
         <form action="/products" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="previousPage" value="<?= previousPage() ?>">

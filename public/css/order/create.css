@@ -67,6 +67,29 @@
     margin-bottom: 0;
 }
 
+.costs {
+    margin: 1.5em 0;
+    font-family: inherit
+}
+
+.cost-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6em 0;
+    border-bottom: 1px solid var(--dark-bg-colour);
+}
+
+.cost-label {
+    flex: 1;
+    text-align: left;
+}
+
+.cost-amount {
+    flex: 0 0 3em;
+    margin-right: 0.5em;
+    text-align: right;
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width: 1200px) {

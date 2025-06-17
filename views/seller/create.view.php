@@ -8,6 +8,8 @@ require partial('navbar');
 ?>
 
 <main>
+    <?php require partial('back-btn') ?>
+    
     <div class="form-container">
         <form class="seller-reg-form" action="/seller/register" method="POST" enctype="multipart/form-data">
             <h1>Seller Registration</h1>

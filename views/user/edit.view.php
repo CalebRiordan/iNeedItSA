@@ -8,6 +8,8 @@ require partial('navbar');
 ?>
 
 <main>
+    <?php require partial('back-btn') ?>
+
     <div class="form-container">
         <form action="/profile/<?= $user->id ?>" method="POST" enctype="multipart/form-data">
             <!-- Hidden attributes -->

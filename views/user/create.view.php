@@ -25,6 +25,8 @@ if (!isset($user) || !$user) {
 ?>
 
 <main>
+    <?php require partial('back-btn') ?>
+
     <div class="form-container">
         <form action="/register" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="previousPage" value="<?= previousPage() ?>">

@@ -29,6 +29,7 @@ $user = Session::get('user');
 $userId = $user['id'];
 $location = $user['location'];
 
+// Get order data from cart
 $total = 0;
 $itemsCount = 0;
 $items = [];
@@ -40,6 +41,7 @@ foreach ($cart as $item) {
     // Create order item DTOs
     $items[] = new CreateOrderItemDTO($item['product_id'], $qty, $item['price']);
 }
+$total += $total > 1000 ? 40 : 75; 
 
 $newOrder = new CreateOrderDTO($userId, $address, $location, $total, $items);
 

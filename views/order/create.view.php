@@ -36,7 +36,22 @@ require partial('navbar');
             <h2 class="section-heading heading-3">Order Summary</h2>
             <p class="date-expected"><strong>Expected Arrival:</strong> <?= htmlspecialchars(date("j F Y", strtotime("+5 days"))) ?></p>
             <p><strong>Items:</strong> <?= $itemsCount ?></p>
-            <p><strong>Total:</strong> R<?= number_format($total, 2) ?></p>
+
+            <div class="costs">
+                <?php $shippingCost = $total > 1000 ? 40 : 75 ?>
+                <div class="cost-row">
+                    <span class="cost-label"><strong>Subtotal:</strong></span>
+                    <span class="cost-amount">R<?= number_format($total, 2) ?></span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label"><strong>Shipping:</strong></span>
+                    <span class="cost-amount">R<?= $shippingCost ?></span>
+                </div>
+                <div class="cost-row">
+                    <span class="cost-label"><strong>Total:</strong></span>
+                    <span class="cost-amount">R<?= number_format($total + $shippingCost, 2) ?></span>
+                </div>
+            </div>
         </section>
 
         <button type="submit">

@@ -14,6 +14,8 @@ if (!isset($product) || $product === null) abort();
 ?>
 
 <main>
+    <?php require partial('back-btn') ?>
+
     <div class="form-container">
         <form action="/products/<?= $product->id ?>" method="POST" enctype="multipart/form-data">
             <!-- Hidden attributes -->
