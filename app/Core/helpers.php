@@ -86,6 +86,12 @@ function saveImage($file, $filePrefix, $destinationDir)
         $filename = uniqid("{$filePrefix}_", true) . '.' . $extension;
 
         $targetPath = "{$destinationDir}/{$filename}";
+        $fullDirPath = base_path('public/' . $destinationDir);
+
+        // Ensure the directory exists
+        if (!is_dir($fullDirPath)) {
+            mkdir($fullDirPath, 0755, true);
+        }
 
         if (move_uploaded_file($file['tmp_name'], base_path('public/' . $targetPath))) {
             return $targetPath;

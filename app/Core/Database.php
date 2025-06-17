@@ -7,11 +7,13 @@ class Database
     public $connection;
     public \mysqli_stmt $statement;
 
-    public function __construct($config, $username = 'root', $password = '')
+    public function __construct($config)
     {
         $host = $config['host'];
         $dbname = $config['dbname'];
         $charset = $config['charset'];
+        $username = $config['username'];
+        $password = $config['password'];
 
         $this->connection = new \mysqli($host, $username, $password, $dbname);
         $this->connection->set_charset($charset);

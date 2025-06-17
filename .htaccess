@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /iNeedItSA/
+
+# Temporarily force ALL requests to public/index.php
+RewriteRule (.*) public/index.php [L]
