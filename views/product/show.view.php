@@ -104,11 +104,24 @@ require partial('category-bar');
 
         <!-- Reviews -->
         <?php if (Session::has('user')): ?>
-            <div class="create-comment"></div>
+            <div class="create-review">
+
+            </div>
         <?php endif; ?>
 
-        <div class="comments-list">
-
+        <div class="reviews-list">
+            <?php foreach ($reviews as $review): ?>
+                <div class="review">
+                    <div class="review-header">
+                        <strong><?php echo htmlspecialchars($review->userFirstName . ' ' . $review->userLastName); ?></strong>
+                        <span><?php echo htmlspecialchars($review->date); ?></span>
+                        <span><?php echo str_repeat('★', (int)$review->rating) . str_repeat('☆', 5 - (int)$review->rating); ?></span>
+                    </div>
+                    <div class="review-comment">
+                        <?php echo htmlspecialchars($review->comment); ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </main>

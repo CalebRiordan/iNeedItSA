@@ -142,33 +142,6 @@ class ProductRepository extends BaseRepository
         return $products;
     }
 
-    public function getFeaturedProducts(): array
-    {
-        $fields = ProductPreviewDTO::toFields("p");
-        $sql = <<<SQL
-            SELECT {$fields}, pi.img_url FROM product p
-            LEFT JOIN product_image_url pi
-            ON p.product_id = pi.product_id
-            ORDER BY views DESC, avg_rating DESC 
-            LIMIT 16;
-        SQL;
-
-        $rows = $this->db->query($sql)->findAll();
-        $products = [];
-        foreach ($rows as $row) {
-            $product = ProductPreviewDTO::fromRow($row);
-            $product->displayImageUrl = $row['img_url'] ?? "";
-            $products[] = $product;
-        }
-
-        return $products;
-    }
-
-    public function getImagesFor(string $id): ?array
-    {
-        return $this->db->query("SELECT * FROM product_image_url WHERE product_id = ?", [$id])->findAll();
-    }
-
     public function create(CreateProductDTO $product): ?ProductPreviewDTO
     {
         $alreadyExists = $this->findByName($product->name);
@@ -243,12 +216,55 @@ class ProductRepository extends BaseRepository
         return !empty($result);
     }
 
+    public function getFeaturedProducts(): array
+    {
+        $fields = ProductPreviewDTO::toFields("p");
+        $sql = <<<SQL
+            SELECT {$fields}, pi.img_url FROM product p
+            LEFT JOIN product_image_url pi
+            ON p.product_id = pi.product_id
+            ORDER BY views DESC, avg_rating DESC 
+            LIMIT 16;
+        SQL;
+
+        $rows = $this->db->query($sql)->findAll();
+        $products = [];
+        foreach ($rows as $row) {
+            $product = ProductPreviewDTO::fromRow($row);
+            $product->displayImageUrl = $row['img_url'] ?? "";
+            $products[] = $product;
+        }
+
+        return $products;
+    }
+
+    public function getImagesFor(string $id): ?array
+    {
+        return $this->db->query("SELECT * FROM product_image_url WHERE product_id = ?", [$id])->findAll();
+    }
+
     public function findByName(string $productName): ?ProductPreviewDTO
     {
         $fields = ProductPreviewDTO::toFields();
         $row = $this->db->query("SELECT {$fields} FROM product WHERE name = ?", [$productName])->find();
 
         return $this->previewFromRow($row);
+    }
+
+    public function hasBeenBoughtBy(string $productId, string $userId){
+        $sql = <<<SQL
+            SELECT 1 FROM order_item oi 
+            LEFT JOIN `order` o
+            ON oi.order_id = o.order_id
+            LEFT JOIN buyer b
+            ON o.user_id = b.user_id
+            WHERE oi.product_id = ?
+            AND b.user_id = ?
+        SQL;
+
+        $result = $this->db->query($sql, [$productId, $userId])->find();
+
+        return !empty($result);
     }
 
     private function executeIfExists($id, string $query, array $params = [])

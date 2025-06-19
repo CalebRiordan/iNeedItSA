@@ -11,13 +11,13 @@ use Exception;
 class OrderRepository extends BaseRepository
 {
 
-    public function findByUser(string $user_id): array
+    public function findByUser(string $userId): array
     {
         $sql = <<<SQL
             SELECT * FROM `order` WHERE user_id = ? ORDER BY date DESC
         SQL;
 
-        $rows = $this->db->query($sql, [$user_id])->findAll();
+        $rows = $this->db->query($sql, [$userId])->findAll();
 
         return $rows ? OrderDTO::fromRows($rows) : [];
     }
@@ -62,11 +62,6 @@ class OrderRepository extends BaseRepository
         $this->db->query($sql, $order->itemsValues($orderId));
 
         return $orderId;
-    }
-
-    public function toProducts(): array
-    {
-        return [];
     }
 
     public function volume(string $period): array
