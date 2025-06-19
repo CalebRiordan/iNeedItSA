@@ -162,6 +162,12 @@ class ProductFilter extends BaseFilter
             $validParams['rating'] = (int)$val;
         }
 
+        $val = $params['seller'] ?? null;
+        $val = htmlspecialchars($val, ENT_QUOTES);
+        if (!empty($val)) {
+            $validParams['seller'] = $val;
+        }
+
         $val = $params['page'] ?? 1;
         $validParams['page'] = (ctype_digit((string)$val) && (int)$val >= 1) ? (int)$val : 1;
 

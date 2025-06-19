@@ -50,7 +50,7 @@ class Middleware
 
         // If all middleware checks denied access, redirect to the first failed middleware's redirect
         if (!$access) {
-            $paths = $deny ? self::$redirectsDeny : self::$redirectsDeny;
+            $paths = $deny ? self::$redirectsDeny : self::$redirects;
             redirect($paths[$firstCulprit] ?? "/");
         }
     }

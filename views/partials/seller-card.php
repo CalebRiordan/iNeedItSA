@@ -70,7 +70,7 @@ use Core\Session; ?>
         </div>
 
         <div class="seller-products-link">
-            <a href="#">View Seller’s Products</a>
+            <a href="/products?seller=<?= $product->seller->id ?>">View Seller’s Products</a>
         </div>
     </div>
 </div>

@@ -15,7 +15,7 @@ try {
   ini_set('display_errors', '0');
   
   // Services
-  require base_path('app/core/services.php');
+  require base_path('app/Core/services.php');
 
   // Automatic login
   $auth = new Authenticator();

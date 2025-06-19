@@ -4,6 +4,8 @@ const addToCartBtns = document.querySelectorAll("a.add-cart-btn");
 const loading = document.querySelector(".loading");
 const productId = document.getElementById("product-id");
 const price = document.getElementById("product-price");
+const shareButton = document.getElementById("share-btn");
+const copiedPopup = document.getElementById("copied-popup");
 
 updateProduct(Cart.itemExists(productId.value) ? "add" : "");
 
@@ -21,6 +23,14 @@ addToCartBtns.forEach((btn) => {
             Cart.updateNavLinkCount();
         }
     });
+});
+
+shareButton.addEventListener("click", async () => {
+    await navigator.clipboard.writeText(window.location.href);
+    copiedPopup.classList.add("show");
+    setTimeout(() => {
+        copiedPopup.classList.remove("show");
+    }, 2000); // Popup visible for 2 seconds (2000 milliseconds)
 });
 
 // Functions

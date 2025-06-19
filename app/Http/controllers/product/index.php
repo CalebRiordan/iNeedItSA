@@ -9,7 +9,11 @@ $params = ProductFilter::validParams($_GET);
 if (!$params) redirect('/');
 
 // Get HTML for product catalogue grid and page selector
-$sections = PartialController::renderProductDisplay($params);
+try {
+    $sections = PartialController::renderProductDisplay($params);
+} catch (\Throwable) {
+    abort();
+}
 
 view('product/index', [
     'productsDisplay' => $sections['products-display'],

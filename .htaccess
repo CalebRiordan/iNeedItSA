@@ -1,5 +1,6 @@
 RewriteEngine On
-RewriteBase /iNeedItSA/
 
-# Temporarily force ALL requests to public/index.php
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$ public/$1 [L]
+
 RewriteRule (.*) public/index.php [L]

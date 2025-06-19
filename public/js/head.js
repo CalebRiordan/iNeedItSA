@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
 const hamburger = document.getElementById("hamburger");
 const navMenu = document.querySelector(".navbar .right");
 
-hamburger.addEventListener("click", () => {
-    navMenu.classList.toggle("active");
-});
+if (hamburger) {
+    hamburger.addEventListener("click", () => {
+        navMenu.classList.toggle("active");
+    });
+}

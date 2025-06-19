@@ -112,7 +112,7 @@ class Router
                     Middleware::resolve($route['middleware'], $route['middleware_deny']);
 
                     // Require PartialController.php and call method on class
-                    require_once base_path('app/http/controllers/' . $route['controller']);
+                    require_once base_path('app/http/Controllers/' . $route['controller']);
 
                     $controllerName = str_replace('.php', '', $route['controller']);
                     $partialController = 'Http\\Controllers\\' . $controllerName;

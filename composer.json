@@ -18,7 +18,7 @@
       "Http\\Forms\\": "app/Http/Forms/"
     },
     "files": [
-      "app/core/helpers.php"
+      "app/Core/helpers.php"
     ]
   },
   "authors": [
