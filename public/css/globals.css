@@ -5,9 +5,8 @@
     /* Hex format */
     --primary-colour: #27671c;
     --highlight-colour: #ebb435;
-    --background-colour: white;
-    --text-colour: white;
-    --text-colour-light: white;
+    --background-colour: rgb(248, 248, 248);
+    --text-colour-light: rgb(248, 248, 248);
     --text-colour-dark: #333;
     --salient-colour: #1f990a;
     --off-bg-colour: #f4f4f4;

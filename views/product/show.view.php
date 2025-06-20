@@ -4,6 +4,7 @@ use Core\Session;
 
 $stylesheets = ['category-bar.css', 'product/show.css', 'products-search-bar.css'];
 $scripts = ['product/show.js', 'products-search-bar.js'];
+$user = Session::get('user');
 
 require partial('header');
 require partial('navbar');
@@ -103,25 +104,39 @@ require partial('category-bar');
         </div>
 
         <!-- Reviews -->
-        <?php if (Session::has('user')): ?>
-            <div class="create-review">
+        <br>
+        <h1>Reviews</h1>
 
+        <!-- Create review -->
+        <!-- Simply do not show review box if user has not bought product yet -->
+        <?php if (!$userHasBoughProduct): ?>
+            <div class="create-review-section">
+                <?php require partial('create-review') ?>
+
+                <?php if (!$user): ?>
+                    <div class="review-locked">
+                        <p><a href="/login">Log in</a> to review products</p>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php endif; ?>
 
+        <!-- List of reviews -->
         <div class="reviews-list">
-            <?php foreach ($reviews as $review): ?>
-                <div class="review">
-                    <div class="review-header">
-                        <strong><?php echo htmlspecialchars($review->userFirstName . ' ' . $review->userLastName); ?></strong>
-                        <span><?php echo htmlspecialchars($review->date); ?></span>
-                        <span><?php echo str_repeat('★', (int)$review->rating) . str_repeat('☆', 5 - (int)$review->rating); ?></span>
-                    </div>
-                    <div class="review-comment">
-                        <?php echo htmlspecialchars($review->comment); ?>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+            <?php
+            // User's own review shows first
+            if ($userReview) {
+                $review = $userReview;
+                require partial('review');
+            }
+            ?>
+
+            <!-- Reviews from other users -->
+            <?php
+            foreach ($reviews as $review) {
+                require partial('review');
+            }
+            ?>
         </div>
     </div>
 </main>

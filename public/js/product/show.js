@@ -1,4 +1,5 @@
 import { Cart } from "/js/utils/cart.js";
+import { sanitise } from "/js/utils/sanitisation.js";
 
 const addToCartBtns = document.querySelectorAll("a.add-cart-btn");
 const loading = document.querySelector(".loading");
@@ -6,17 +7,40 @@ const productId = document.getElementById("product-id");
 const price = document.getElementById("product-price");
 const shareButton = document.getElementById("share-btn");
 const copiedPopup = document.getElementById("copied-popup");
+const stars = document.querySelectorAll(".create-review .star");
+const submitReviewbtn = document.querySelector(".create-review button");
 
 updateProduct(Cart.itemExists(productId.value) ? "add" : "");
+
+// Functions
+function updateProduct(state) {
+    // Updates the Add To Cart button(s) depending on whether the user has added the product to their cart of not
+    const notAdded = document.querySelectorAll(".item-not-added");
+    const added = document.querySelectorAll(".item-added");
+    const isAdded = state === "add";
+    const isPending = state === "pending";
+
+    loading.hidden = !isPending;
+    addToCartBtns.forEach((btn) => (btn.disabled = isPending));
+
+    added.forEach((el) => (el.hidden = !isAdded));
+    notAdded.forEach((el) => (el.hidden = isAdded || isPending));
+
+    addToCartBtns.forEach((btn) => {
+        btn.classList.toggle("product-added", isAdded);
+    });
+}
 
 // Event Listeners
 addToCartBtns.forEach((btn) => {
     btn.addEventListener("click", async (e) => {
         e.preventDefault();
 
+        // Prevent interaction if not logged in
         if (btn.dataset.restricted) {
             window.location.href = "/login?previous=/products/show";
         } else if (!Cart.itemExists(productId.value)) {
+            // Update Add To Cart buttons and add product to static Cart object
             updateProduct("pending");
             await Cart.add(productId.value, 1, price.value);
             updateProduct("add");
@@ -33,20 +57,33 @@ shareButton.addEventListener("click", async () => {
     }, 2000); // Popup visible for 2 seconds (2000 milliseconds)
 });
 
-// Functions
-function updateProduct(state) {
-    const notAdded = document.querySelectorAll(".item-not-added");
-    const added = document.querySelectorAll(".item-added");
-    const isAdded = state === "add";
-    const isPending = state === "pending";
+if (submitReviewbtn) {
+    // Star/rating selector for review creation
+    stars.forEach((star) =>
+        star.addEventListener("click", () => {
+            rating = star.dataset.value;
 
-    loading.hidden = !isPending;
-    addToCartBtns.forEach((btn) => (btn.disabled = isPending));
+            stars.forEach((star, i) => {
+                star.textContent = i < rating ? "★" : "☆";
+            });
 
-    added.forEach((el) => (el.hidden = !isAdded));
-    notAdded.forEach((el) => (el.hidden = isAdded || isPending));
+            document.getElementById("rating").value = rating;
+            submitReviewbtn.classList.remove("disabled");
+        })
+    );
 
-    addToCartBtns.forEach((btn) => {
-        btn.classList.toggle("product-added", isAdded);
+    // On review submit
+    submitReviewbtn.addEventListener("click", (e) => {
+        const rating = document.getElementById("rating");
+
+        // rating is required
+        if (rating <= 0) {
+            e.preventDefault();
+            document.querySelector(".error-rating").textContent =
+                "Please rate the product out of 5";
+        }
+
+        let comment = document.getElementById("comment");
+        comment.value = sanitise(comment.value);
     });
 }

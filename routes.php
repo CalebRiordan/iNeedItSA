@@ -12,6 +12,7 @@ $router->get("/products/edit/{id}", "product/edit.php")->only('seller');
 $router->get("/products/{id}", "product/show.php");
 $router->delete("/products/{id}", "product/destroy.php")->only('seller');
 $router->put("/products/{id}", "product/update.php")->only('seller');
+$router->post("/products/{id}/review", "review/store.php")->only('auth');
 
 // User
 $router->get("/login", "session/create.php")->only('guest');

@@ -2,7 +2,7 @@
 
 namespace Core\Repositories;
 
-use Core\DTOs\CreateOrderDTO;
+use Core\DTOs\CreateReviewDTO;
 use Core\DTOs\ReviewDTO;
 
 class ReviewRepository extends BaseRepository
@@ -36,9 +36,11 @@ class ReviewRepository extends BaseRepository
         return $rows ? ReviewDTO::fromRows($rows) : [];
     }
 
-    public function create(CreateOrderDTO $order)
+    public function create(CreateReviewDTO $review)
     {
-        // Insert review
+        $fields = CreateReviewDTO::toFields();
+        $placeholders = CreateReviewDTO::placeholders();
+        $values = $review->getMappedValues();
+        return $this->db->query("INSERT INTO review ({$fields}) VALUES ({$placeholders})", $values)->wasSuccessful();
     }
-
 }

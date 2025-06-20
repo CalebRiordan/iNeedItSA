@@ -335,6 +335,147 @@ main {
     padding: 0.5em;
 }
 
+/* ====================== REVIEWS ==================== */
+
+/* Create Review  */
+
+.create-review-section {
+    width: 100%;
+    position: relative;
+    padding: 1em 4em;
+    box-sizing: border-box;
+    font-size: inherit;
+}
+
+.create-review {
+    width: 100%;
+    position: relative;
+}
+
+.create-review.blur {
+    filter: blur(4px);
+}
+
+.create-review form{
+    pointer-events: none;
+}
+
+.create-review .star-rating {
+    width: 100%;
+}
+
+.create-review .star-rating .star {
+    color: gold;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+.review-box {
+    box-sizing: border-box;
+}
+
+.review-box textarea {
+    resize: none;
+    border: 1px solid var(--text-colour-dark);
+    border-radius: 0.5em;
+    width: 100%;
+    font-size: 1.2em;
+    padding: 0.5em;
+    line-height: 1.2em;
+    height: 3.6em;
+}
+
+.create-review .error-rating {
+    min-height: 1.2em;
+    max-height: 2.4em;
+    width: 100%;
+    font-size: 0.8em;
+    color: var(--error-colour);
+    margin: 3px 0 10px 0;
+}
+
+.create-review button {
+    border: none;
+    background-color: var(--primary-colour);
+    color: var(--text-colour-light);
+    border-radius: 0.5em;
+    padding: 0.5em 1.2em;
+    font-size: 1.2em;
+}
+
+.create-review button.disabled {
+    user-select: none;
+    pointer-events: none;
+    background-color: var(--disabled-colour);
+}
+
+.create-review button:hover {
+    filter: brightness(90%);
+}
+
+/* Blurred Review Overlay */
+
+.review-locked {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.review-locked p {
+    margin: 0;
+}
+
+.review-locked a {
+    text-decoration: none;
+}
+
+/* Reviews List */
+
+.reviews-list {
+    margin: 2em 4em;
+}
+
+.review {
+    width: 100%;
+    padding: 2em 0;
+    font-size: inherit;
+    border-top: 1px solid var(--disabled-colour);
+    box-sizing: border-box;
+}
+
+.review-header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    column-gap: 1em;
+    font-size: 1em;
+    margin-bottom: 0.5em;
+}
+
+.review-header .review-date {
+    color: var(--disabled-colour);
+}
+
+.review-header .review-rating {
+    width: 100%;
+    text-align: end;
+    color: gold;
+    font-size: 1.6em;
+}
+
+/* Select Rating */
+
+.star-rating {
+    display: flex;
+    gap: 2px;
+    cursor: pointer;
+    user-select: none;
+    color: gold;
+    font-size: 1.2em;
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width: 1200px) {

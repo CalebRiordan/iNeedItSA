@@ -23,6 +23,6 @@ class ReviewDTO extends BaseDTO
         public string $productId,
         public string $date,
         public ?string $comment = null,
-        public float $rating,
+        public int $rating,
     ) {}
 }
