@@ -27,20 +27,20 @@
     align-items: center;
     justify-content: center;
     z-index: 2;
-    background-color: var(--background-colour);
-    opacity: 0.9;
+    background-color: var(--primary-colour);
     border: none;
-    padding: 0.7em;
+    opacity: 0.9;
+    padding: 0.8em;
     cursor: pointer;
     aspect-ratio: 1/1;
     border-radius: 50%;
 }
 
 .scroll-btn svg {
-    font-size: 36px;
-    fill: var(--text-colour-dark);
+    font-size: 3em;
+    fill: var(--primary-colour);
+    fill: var(--highlight-colour);
     width: 28px;
-    opacity: 0.7;
 }
 
 .scroll-btn.left {

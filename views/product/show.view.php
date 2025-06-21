@@ -111,20 +111,22 @@ require partial('category-bar');
 
         <!-- Create review -->
         <!-- Simply do not show review box if user has not bought product yet -->
-        <?php if ($userHasBoughProduct && !$userReview): ?>
-            <div class="create-review-section">
-                <?php require partial('create-review') ?>
+        <?php if (!$userReview): ?>
+            <?php if ($userHasBoughProduct): ?>
+                <div class="create-review-section">
+                    <?php require partial('create-review') ?>
 
-                <?php if (!$user): ?>
-                    <div class="review-locked">
-                        <p class="review-locked-text"><a href="/login">Log in</a> to review products</p>
-                    </div>
-                <?php endif; ?>
-            </div>
-        <?php else: ?>
-            <div class="centre-content">
-                <p style="margin-bottom: 0;">🔒<em>Purchase this item to review it</em></p>
-            </div>
+                    <?php if (!$user): ?>
+                        <div class="review-locked">
+                            <p class="review-locked-text"><a href="/login">Log in</a> to review products</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php else: ?>
+                <div class="centre-content">
+                    <p style="margin-bottom: 0;">🔒<em>Purchase this item to review it</em></p>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
 
         <!-- List of reviews -->

@@ -14,8 +14,6 @@ productCards.forEach((card) => {
     // Redirect to appropriate product information page
     const id = card.dataset.id;
     card.addEventListener("click", function () {
-        console.log("redirect");
-
         window.location.href = "/products/" + id;
     });
 
@@ -25,8 +23,6 @@ productCards.forEach((card) => {
     }
 
     $deleteBtn.addEventListener("click", async (e) => {
-        console.log("delete");
-
         e.stopPropagation();
         e.preventDefault();
         const loading = card.querySelector(".overlay");
@@ -56,7 +52,6 @@ productCards.forEach((card) => {
 
                         // Remove product card
                         const data = await res.text();
-                        console.log(data);
                         card.remove();
                         showToast("Product listing removed", "success");
                     } catch (err) {

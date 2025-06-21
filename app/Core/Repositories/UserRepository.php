@@ -279,9 +279,7 @@ class UserRepository extends BaseRepository
         WHERE sdu.approved = FALSE AND sdu.rejected = FALSE
         SQL;
 
-        $rows = $this->db->query($sql)->findAll();
-
-        return PendingSellerDTO::fromRows($rows);
+        return $this->db->query($sql)->findAll();
     }
 
     public function approveSeller(string $userId, bool $approve = true)

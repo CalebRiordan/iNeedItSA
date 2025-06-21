@@ -74,8 +74,9 @@ switch ($type) {
         response($usersBuckets);
 
     case 'pending-sellers':
-        $userPreviews = $users->pendingSellers();
-        response($userPreviews);
+        $rows = $users->pendingSellers();
+        $psBuckets = bucket($period, $rows, 'date_submitted');
+        response($psBuckets);
         break;
 
     default:

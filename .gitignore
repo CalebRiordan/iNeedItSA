@@ -1,5 +1,6 @@
 data_gen_file.sql
 vendor/
+storage/*
 /public/uploads/*
 /config/env.prod.php
 !/public/uploads/.gitkeep

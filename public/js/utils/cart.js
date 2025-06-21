@@ -1,8 +1,14 @@
 export class Cart {
     static get items() {
         const items = JSON.parse(localStorage.getItem("cart"));
-        // Make sure it's an array
-        return Array.isArray(items) ? items : [];
+        // Make sure 'items' is an array and ensure correct types
+        if (!Array.isArray(items)) return [];
+        return items.map((item) => ({
+            product_id: String(item.product_id),
+            user_id: String(item.user_id),
+            quantity: item.quantity,
+            price: parseFloat(item.price),
+        }));        
     }
 
     static set(items) {
@@ -12,6 +18,8 @@ export class Cart {
 
     static async add(id, quantity, price) {
         const cart = this.items;
+        id = String(id);
+
         cart.push({ product_id: id, quantity: quantity, price: price });
         localStorage.setItem("cart", JSON.stringify(cart));
         await this.persist();
@@ -19,13 +27,15 @@ export class Cart {
 
     static async remove(id) {
         let cart = this.items;
-        id = Number(id);
+        id = String(id);
+
         cart = cart.filter((item) => item.product_id !== id);
         localStorage.setItem("cart", JSON.stringify(cart));
         await this.persist();
     }
 
     static itemExists(id) {
+        id = String(id);
         return !!this.items.find((item) => item.product_id === id);
     }
 
@@ -46,6 +56,8 @@ export class Cart {
 
     static async updateQuantity(id, qty) {
         const cart = this.items;
+        id = String(id);
+
         cart.forEach((item) => {
             if (item.product_id === id) {
                 item.quantity = qty;

@@ -64,9 +64,6 @@ function clearErrorOnInput(field, errorElement) {
 
 function showError(field, message, errorElement = null) {
     formValid = false;
-
-    console.log(field);
-    console.log(message);
     
     const error = errorElement
         ? errorElement

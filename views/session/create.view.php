@@ -8,7 +8,7 @@ require partial('navbar');
 
 <main>
     <?php require partial('back-btn') ?>
-    
+
     <div class="form-container">
         <form class="login-form" action="/login" method="POST">
             <input type="hidden" name="previousPage" value="<?= previousPage(); ?>">
@@ -59,12 +59,13 @@ require partial('navbar');
 </main>
 
 <script>
-    function clearErrors() {
-        document.querySelectorAll('.error').forEach(el => {
-            el.textContent = "";
-        });
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        window.clearErrors = function() {
+            document.querySelectorAll('.error').forEach(el => {
+                el.textContent = "";
+            });
+        };
+    });
 </script>
-
 
 <?php require partial('footer') ?>

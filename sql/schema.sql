@@ -83,7 +83,7 @@ CREATE TABLE review (
     comment VARCHAR(300),
     rating INT NOT NULL,
     date DATE NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES product(product_id) ON DELETE CASCADE
 );
 

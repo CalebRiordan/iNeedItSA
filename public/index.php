@@ -42,8 +42,9 @@ try {
 
   // set cart sync data
   if (<?= Session::has('sync_cart') ? 'true' : 'false' ?>) {
-    window.cartData = <?= json_encode(Session::get('cart')) ?>;
+    window.cartData = <?= json_encode(Session::get('cart', [])) ?>;
   }
 </script>
 
 <?php Session::unflash(); ?>
+<?php Session::clearOnLogout(); ?>

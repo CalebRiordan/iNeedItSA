@@ -38,7 +38,6 @@ class Session
     public static function clear()
     {
         $_SESSION = [];
-        session_destroy();
     }
 
     public static function empty(): bool
@@ -49,5 +48,13 @@ class Session
     public static function toast(string $message, string $type = "success", int $duration = 5000)
     {
         static::flash('toast', ['message' => $message, 'type' => $type, 'duration' => $duration]);
+    }
+
+    public static function clearOnLogout()
+    {
+        if (static::has('logout')) {
+            Authenticator::expireCookie('PHPSESSID');
+            session_destroy();
+        }
     }
 }

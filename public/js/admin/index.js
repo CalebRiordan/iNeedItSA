@@ -110,8 +110,6 @@ async function loadData(type, period, targetEl) {
     }
 }
 
-async function getStat(type, period, targetEl) {}
-
 // Setup switches for changing periods on each card
 document.querySelectorAll(".dashboard-grid .card").forEach((card) => {
     let loading = false;

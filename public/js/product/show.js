@@ -108,8 +108,6 @@ if (deleteReviewBtn) {
             window.location.reload();
             showToast("Review deleted");
         } else {
-            const data = await res.text();
-            console.log(res);
             showToast(
                 "An error occurred while trying to delete your review. Sorry for the inconvenience. We're working on fixing this!",
                 "error"

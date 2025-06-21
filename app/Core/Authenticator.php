@@ -78,19 +78,14 @@ class Authenticator
             Session::toast("Error occurred while trying to save cart. Unable to log out", "error");
         }
 
-
-        // Clear user session data 
-        Session::remove('user');
-        Session::remove('cart');
-
-        // Destroy session if compeltely empty
-        if (Session::empty()) {
-            Session::clear();
-            static::expireCookie('PHPSESSID');
-        }
+        // Clear session and prepare for logout (to destroy session)
+        static::expireCookie('remember_login');
+        Session::clear();
+        Session::flash('sync_cart', true); //ensure cart is synced/emptied on client
+        Session::put('logout', true);
     }
 
-    private static function expireCookie($name)
+    public static function expireCookie($name)
     {
         $params = session_get_cookie_params();
         setcookie($name, '', time() - 3600, $params['path'], $params['domain']);
@@ -142,6 +137,9 @@ class Authenticator
 
     public function checkSellerState()
     {
+        //Workaround for undesirable setup where admin and regular user are logged in on same device 
+        if (str_starts_with(parse_url($_SERVER["REQUEST_URI"])['path'], '/admin')) return;
+
         // Get user in session
         $user = Session::get('user');
         $id = $user['id'];

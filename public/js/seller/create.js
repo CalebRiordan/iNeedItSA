@@ -3,8 +3,6 @@ const addressInput = document.getElementById("poa");
 const submitBtn = document.querySelector(".seller-reg-form button");
 
 function toggleButton() {
-    console.log("toggle");
-    
     if (idInput.files.length > 0 && addressInput.files.length > 0) {
         submitBtn.classList.remove("disabled");
     } else {

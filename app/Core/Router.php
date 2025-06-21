@@ -147,9 +147,10 @@ class Router
         }
     }
 
-    public static function redirectToPrevious()
+    public static function redirectToPrevious($queryString = "")
     {
-        redirect($_SERVER['HTTP_REFERER']);
+        $queryString = $queryString ? "?$queryString" : '';
+        redirect("{$_SERVER['HTTP_REFERER']}{$queryString}");
     }
 
     public function getUri()

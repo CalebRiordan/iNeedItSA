@@ -2,9 +2,14 @@ import { Cart } from "/js/utils/cart.js";
 
 // Sync cart from server
 document.addEventListener("DOMContentLoaded", () => {
-    const cart = window.cartData ?? null;
-    if (cart) {
-        Cart.set(cart);
+    // Only run if window.cartData is defined (from PHP)
+    if ("cartData" in window) {
+        let cart = window.cartData;
+        if (cart && Object.keys(cart).length > 0) {
+            Cart.set(cart);
+        } else {
+            Cart.set({});
+        }
     }
 
     Cart.updateNavLinkCount();
@@ -22,7 +27,7 @@ if (hamburger) {
 
 // Close the side bar if cart or order navlink is clicked when already on Orders page
 document.querySelectorAll(".orders-link").forEach((link) => {
-    link.addEventListener("click", () => {        
+    link.addEventListener("click", () => {
         if (window.location.pathname === "/order") {
             // Close desktop sidebar
             const sidebar = document.querySelector(".sidebar");

@@ -38,8 +38,7 @@ async function fetchCartPartial() {
 async function fetchOrder(id) {
     try {
         const res = await fetch(`partial/order/${id}`);
-        const data = await res.json();
-        console.log(data);        
+        const data = await res.json();     
         return data;
     } catch (err) {
         return null;
