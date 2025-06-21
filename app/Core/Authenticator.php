@@ -24,7 +24,7 @@ class Authenticator
     {
         $user = $this->users->findByEmail($email);
 
-        
+
         if ($user && password_verify($password, $user->password)) {
             // LoginDTO -> UserDTO
             $user = $this->users->findById($user->id);
@@ -144,22 +144,26 @@ class Authenticator
     {
         // Get user in session
         $user = Session::get('user');
-        if ($user['sellerProfile'] !== null) return;
-
         $id = $user['id'];
+
+        // Do not continue if user is already a seller
+        if ($user['sellerProfile'] !== null) return;
 
         // Fetch seller registration data
         $db = Container::resolve(Database::class);
         $seller = $db->query("SELECT approved, rejected, has_seen_response FROM seller_reg_docs WHERE user_id = ?", [$id])->find();
 
-        if ($seller['has_seen_response']) return;
+        // Do not continue if user has not registered as seller or has already logged in since response
+        if (!empty($seller) && $seller['has_seen_response']) return;
 
         if ($seller['approved']) {
             // Seller is approved
             // Send Success toast message
             Session::toast(
                 "Congratulations! You have been approved as a seller. You can access your Seller Dashboard from the options menu, 
-                just click your profile icon!"
+                just click your profile icon!",
+                "success",
+                8000
             );
 
             // Add seller profile to user's session
@@ -170,8 +174,13 @@ class Authenticator
             // Seller is rejected: Send Info toast message
             Session::toast(
                 "Unfortunately your registration to become a seller has been declined. Please review your documents before resubmitting. 
-                If you have queries, please contact ineeditsa@support.com"
+                If you have queries, please contact ineeditsa@support.com",
+                "info",
+                8000
             );
-        }
+        } else return;
+
+        // Set has_seen_response to true
+        $db->query("UPDATE seller_reg_docs SET has_seen_response=1 WHERE user_id = ?", [$id]);
     }
 }

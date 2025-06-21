@@ -5,15 +5,15 @@ use Core\Router;
 use Core\Session;
 
 try {
-  session_start();
-
   // Autoloader
   require __DIR__ . '/../vendor/autoload.php';
+
+  session_start();
 
   // Set Error Logging
   error_reporting(E_ALL);
   ini_set('display_errors', '0');
-  
+
   // Services
   require base_path('app/Core/services.php');
 
@@ -28,7 +28,6 @@ try {
   $uri = $router->getUri();
   $method = $router->getMethod();
   $router->route($uri, $method);
-
 } catch (Exception $ex) {
   dd($ex);
   // abort(500);
@@ -42,9 +41,9 @@ try {
   };
 
   // set cart sync data
-  if (<?= Session::has('sync_cart') ? 'true' : 'false' ?>){
+  if (<?= Session::has('sync_cart') ? 'true' : 'false' ?>) {
     window.cartData = <?= json_encode(Session::get('cart')) ?>;
-  } 
+  }
 </script>
 
 <?php Session::unflash(); ?>

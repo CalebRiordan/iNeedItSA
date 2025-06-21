@@ -23,8 +23,13 @@ main {
     align-items: center;
     justify-content: center;
     gap: 0.5em;
+    border: none;
     border-radius: 0.8em;
     font-size: 1.2em;
+}
+
+.back-btn button:hover {
+    filter: brightness(90%);
 }
 
 .back-btn button svg{
@@ -72,6 +77,11 @@ main {
     box-sizing: border-box;
 }
 
+.input-group input:focus {
+    background-image: linear-gradient(to right, var(--dark-bg-colour), rgba(var(--primary-colour-rgb), 0.2));
+    filter: brightness(107%)
+}
+
 .section {
     margin-bottom: 0.2em;
 }
@@ -79,7 +89,7 @@ main {
 .input-group select {
     padding: 12px;
     background-color: var(--dark-bg-colour);
-    border-radius: 5px;
+    border-radius: 10px;
     border: none;
     outline: none;
     font-size: 1em;
@@ -147,6 +157,6 @@ input[type="checkbox"]:checked {
 
 @media (max-width: 768px) {
     main {
-        font-size: 12px;
+        font-size: 14px;
     }
 }

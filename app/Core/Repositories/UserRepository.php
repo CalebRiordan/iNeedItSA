@@ -96,17 +96,16 @@ class UserRepository extends BaseRepository
                 saveImage($user->profilePicFile, 'pfp', '/uploads/profile_pics') : null
         );
 
-        $fields = $user->toFields();
-        $placeholders = $user->placeholders();
-
+        $fields = $user->toFieldsInstance();
+        $placeholders = $user->placeholdersInstance();
         // Insert new User record
         $sql = <<<SQL
             INSERT INTO user 
-            ({$fields}, date_joined)
-            VALUES ({$placeholders}, ?)
+            ({$fields})
+            VALUES ({$placeholders})
         SQL;
 
-        $newId = $this->db->query($sql, ...$user->getMappedValues())->newId();
+        $newId = $this->db->query($sql, $user->getMappedValues())->newId();
 
         // Insert corresponding Buyer record
         $buyerRole = new BuyerProfileDTO($user->shipAddress, 0);
@@ -232,14 +231,20 @@ class UserRepository extends BaseRepository
          ON DUPLICATE KEY UPDATE
             copy_id_url = VALUES(copy_id_url),
             poa_url = VALUES(poa_url),
-            date_submitted = VALUES(date_submitted)",
+            date_submitted = VALUES(date_submitted),
+            approved = 0,
+            rejected = 0,
+            has_seen_response = 0",
             [$userId, $copyIdFilename, $poaFilename, date('Y-m-d')]
         )->wasSuccessful();
     }
 
     public function isPendingSeller(string $userId): bool
     {
-        $result = $this->db->query("SELECT user_id FROM seller_reg_docs WHERE user_id = ?", [$userId])->find();
+        $result = $this->db->query(
+            "SELECT user_id FROM seller_reg_docs WHERE user_id = ? AND approved = 0 AND rejected = 0",
+            [$userId]
+        )->find();
         return !empty($result);
     }
 

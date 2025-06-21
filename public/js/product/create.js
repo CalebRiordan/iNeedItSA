@@ -65,6 +65,9 @@ function clearErrorOnInput(field, errorElement) {
 function showError(field, message, errorElement = null) {
     formValid = false;
 
+    console.log(field);
+    console.log(message);
+    
     const error = errorElement
         ? errorElement
         : field.closest(".input-group").querySelector(".error");
@@ -140,13 +143,13 @@ discount.addEventListener("input", function () {
     validateNumber(this, 2);
 });
 
-submit.addEventListener("click", () => {
+submit.addEventListener("click", (e) => {
     formValid = true;
+    e.preventDefault();
 
     document.querySelectorAll("[required]").forEach((field) => {
         if (!formValid) return;
 
-        console.log(field.name);
         const val = field.value.trim();
         if (val === "") {
             // Product image error
@@ -171,7 +174,7 @@ submit.addEventListener("click", () => {
                 field.id === "description" ||
                 field.id === "category"
             ) &&
-            anySpecialChars(val)
+            anySpecialChars(val, "'&^%|.,")
         ) {
             // Reject special chars in all other fields
             showError(field, "Please avoid using special characters.");

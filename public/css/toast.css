@@ -29,7 +29,10 @@
     background-color: var(--error-colour);
 }
 #toast.info {
-    background-color: var(--primary-colour);
+    background-color: #17a2b8;
+}
+#toast.warning {
+    background-color: #ffc107;
 }
 
 /* @MEDIA QUERIES */

@@ -41,6 +41,17 @@ abstract class BaseDTO implements JsonSerializable
     public static function toFields(?string $prefix = null): string
     {
         $mapping = static::getSqlMapping();
+        return static::fieldsString($mapping, $prefix);
+    }
+
+    public function toFieldsInstance(?string $prefix = null): string
+    {
+        $mapping = static::getInstanceSqlMapping();
+        return static::fieldsString($mapping, $prefix);
+    }
+
+    private static function fieldsString(array $mapping, ?string $prefix = null): string
+    {
         if (empty($mapping))
             return '';
 
@@ -52,6 +63,10 @@ abstract class BaseDTO implements JsonSerializable
         return implode(', ', $fields);
     }
 
+    /**
+     * Make a comma-separated list of '?' for prepared SQL statements
+     * Uses the static SQL mapping property in the class definition
+     */
     public static function placeholders(?int $count = null): string
     {
         $mapping = static::getSqlMapping();
@@ -64,14 +79,13 @@ abstract class BaseDTO implements JsonSerializable
         return implode(', ', array_fill(0, $count, '?'));
     }
 
+    /**
+     * Make a comma-separated list of '?' for prepared SQL statements
+     * Uses the SQL mapping property on the class instance
+     */
     public function placeholdersInstance(): string
     {
-        $mapping = $this->getInstanceSqlMapping();
-        if (!empty($mapping)) {
-            return '';
-        }
-
-        return implode(', ', array_fill(0, count($mapping), '?'));
+        return implode(', ', array_fill(0, count($this->getInstanceSqlMapping()), '?'));
     }
 
     public static function fromRow(?array $row): ?static

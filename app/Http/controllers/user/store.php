@@ -23,7 +23,7 @@ if ($user) {
         "location" => Form::getField('location'),
         "province" => Form::getField('province'),
         "address" => Form::getField('address'),
-        "profilePic" => Form::getImageField('profile_pic') ? null : $_FILES["profile_pic"],
+        "profilePic" => Form::getImageField('profile_pic') ? $_FILES["profile_pic"] : null,
         "shipAddress" => Form::getField('ship_address'),
     ];
 

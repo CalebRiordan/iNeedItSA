@@ -5,6 +5,7 @@
     display: grid;
     grid-template-columns: 20% 1fr 50px 18%;
     font-size: 18px;
+    border-image: linear-gradient(90deg, var(--primary-colour), var(--highlight-colour), var(--primary-colour)) 1;
 }
 
 .search-bar > div {

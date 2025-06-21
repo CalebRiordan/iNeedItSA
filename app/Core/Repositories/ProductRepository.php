@@ -277,7 +277,7 @@ class ProductRepository extends BaseRepository
         $this->executeIfExists($id, "UPDATE product SET quant_in_stock = quant_in_stock + ? WHERE product_id = ?", [$id, $stock]);
     }
 
-    public function increaseViews(string $id)
+    public function addView(string $id)
     {
         $this->executeIfExists($id, "UPDATE product SET views = views + 1 WHERE product_id = ?", [$id]);
     }

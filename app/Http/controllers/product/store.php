@@ -1,5 +1,6 @@
 <?php
 
+use Core\Authorizor;
 use Core\DTOs\CreateProductDTO;
 use Core\Repositories\ProductRepository;
 use Core\Session;
@@ -48,5 +49,5 @@ $newProduct = $products->create($product);
 if (!$newProduct) abort(500);
 
 Session::toast("Your new product has been listed!");
-$path = $auth->pm() ? '/' : '/seller/dashboard';
+$path = (new Authorizor)->pm() ? '/' : '/seller/dashboard';
 redirect($path);

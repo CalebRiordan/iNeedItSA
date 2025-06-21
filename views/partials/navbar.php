@@ -39,7 +39,7 @@ $userSession = Session::get('user');?>
                 </li>
 
                 <li class="nav-link nav-link-mobile">
-                    <a class="nav-text" href="/order#history">Orders</a>
+                    <a class="nav-text orders-link" href="/order#history">Orders</a>
                 </li>
 
                 <li class="nav-link cart-nav-link">
@@ -49,7 +49,7 @@ $userSession = Session::get('user');?>
                         </svg>
                         <span class="cart-count" hidden></span>
                     </a><!--
-                    --><a class="nav-link nav-link-mobile" href="/order#cart"><span class="nav-text">Cart</span></a>
+                    --><a class="nav-link orders-link nav-link-mobile" href="/order#cart"><span class="nav-text">Cart</span></a>
                 </li>
 
                 <li class="nav-link">

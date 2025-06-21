@@ -11,7 +11,12 @@ export function sanitise(string) {
   return string.replace(reg, (match) => map[match]);
 }
 
-export function anySpecialChars(string) {
-    const reg = /[^a-zA-Z0-9\s\-_.@]/;
-    return reg.test(string);
+// Allows passing extra allowed characters as a string
+export function anySpecialChars(string, extraAllowed = "") {
+  // Escape regex special characters in extraAllowed
+  const escaped = extraAllowed.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&');
+  // Build regex pattern
+  const pattern = `[^a-zA-Z0-9\\s\\-_.@${escaped}]`;
+  const reg = new RegExp(pattern);
+  return reg.test(string);
 }

@@ -15,6 +15,9 @@ $product = $products->findById($id);
 $reviews = (new ReviewRepository())->findByProduct($id);
 $userId = Session::get('user')['id'] ?? '';
 
+// Increment product's view count
+$products->addView($id);
+
 // Find and remove user's review from the list
 $userReview = null;
 $filteredReviews = [];

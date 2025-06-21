@@ -41,13 +41,14 @@ require partial('category-bar');
             </div>
         </div>
 
-        <!-- Images & Seller Info -->
+        <!-- Images & Seller Card -->
         <div class="main-grid">
             <img
                 src="<?= $product->displayImageUrl ? htmlspecialchars($product->displayImageUrl) : '/assets/images/product-placeholder.png' ?>"
                 alt="<?= htmlspecialchars($product->name) ?>" />
 
             <div class="seller-card-wrapper">
+                <?php require partial('product-action-buttons') ?>
                 <?php require partial('seller-card') ?>
             </div>
 
@@ -100,6 +101,7 @@ require partial('category-bar');
         </div>
 
         <div class="seller-card-wrapper card-mobile">
+            <?php require partial('product-action-buttons') ?>
             <?php require partial('seller-card') ?>
         </div>
 
@@ -126,7 +128,7 @@ require partial('category-bar');
         <?php endif; ?>
 
         <!-- List of reviews -->
-        <div class="reviews">
+        <div id="reviews">
             <?php
             // User's own review shows first
             if ($userReview) {

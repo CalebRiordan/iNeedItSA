@@ -4,7 +4,7 @@
     <div class="user-info">
 
         <div class="user-profile">
-            <?php if ($userSession['profilePicUrl']): ?>
+            <?php if ($userSession['profilePicUrl'] ?? false): ?>
                 <div class="img-container">
                     <img src="<?= $userSession['profilePicUrl'] ?>" alt="Profile Picture">
                 </div>
@@ -32,11 +32,11 @@
     </div>
 
     <div class="sidebar-item">
-        <a href="/order#cart">Cart</a>
+        <a class="orders-link" href="/order#cart">Cart</a>
     </div>
 
     <div class="sidebar-item">
-        <a href="/order#history">Orders</a>
+        <a class="orders-link" href="/order#history">Orders</a>
     </div>
 
     <div class="sidebar-item">

@@ -3,19 +3,36 @@
 use Core\Repositories\UserRepository;
 use Core\Session;
 use Core\ValidationException;
+use Http\Forms\Form;
 
 $userId = Session::get('user')['id'];
 $users = new UserRepository();
 
-if ($users->isPendingSeller($userId)){
-    Session::toast("You have already registered to become a seller. Your application is being reviewed!");
+if ($users->isPendingSeller($userId)) {
+    Session::toast("You have already registered to become a seller. Your application is being reviewed!", "info");
     redirect('/');
 }
 
-$copyId = noImageUploaded($_FILES["id_copy"]) ? null : $_FILES["id_copy"];
-$proofOfAddress = noImageUploaded($_FILES["poa"]) ? null : $_FILES["poa"];
+function validDocument($file)
+{
+    if (
+        !$file
+        || !isset($file['tmp_name'])
+        || !is_uploaded_file($file['tmp_name'])
+        || $file['error'] !== UPLOAD_ERR_OK
+    ) {
+        return false;
+    }
 
-if (!validImage($copyId) || !validImage($proofOfAddress)) {
+    $allowed = ['pdf', 'jpg', 'jpeg', 'png'];
+    $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+    return in_array($ext, $allowed, true);
+}
+
+$copyId = Form::getImageField("id_copy");
+$proofOfAddress = Form::getImageField("poa");
+
+if (!validDocument($copyId) || !validDocument($proofOfAddress)) {
     // Reload form - include more rigourous checks in the future
     ValidationException::throw(['files' => 'Both documents are required. Accepted formats are PDF, JPG, PNG'], []);
 }
@@ -40,7 +57,7 @@ $copyIdName = uploadImage($copyId, 'id_');
 $poaName = uploadImage($proofOfAddress, 'poa_');
 
 // Upload URLs to database
-if (!$users->saveSellerDocs($userId, $copyIdName, $poaName)){
+if (!$users->saveSellerDocs($userId, $copyIdName, $poaName)) {
     Session::toast("An error occurred while trying to save the documents. Please try again later.", "error");
     redirect("/seller/register");
 }

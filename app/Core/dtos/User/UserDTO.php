@@ -43,8 +43,8 @@ class UserDTO extends BaseDTO
         public string $location,
         public string $province,
         public string $address,
-        public ?string $profilePicUrl,
         public string $dateJoined,
+        public ?string $profilePicUrl = null,
         public ?BuyerProfileDTO $buyerProfile = null,
         public ?SellerProfileDTO $sellerProfile = null
     ) {

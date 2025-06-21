@@ -94,7 +94,7 @@ class Form
         return $isNumeric && $lengthValid && $minValid && $maxValid;
     }
 
-    protected static function acceptableImage(array $image)
+    public static function acceptableImage(array $image)
     {
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         $fileName = $image['name'];
@@ -122,7 +122,7 @@ class Form
     public static function getImageField($name)
     {
         $file = $_FILES[$name];
-        return $file['error'] === UPLOAD_ERR_NO_FILE ? null : $file;
+        return ($file['error'] === UPLOAD_ERR_NO_FILE ? null : $file);
     }
 
     public static function getBoolField($name)

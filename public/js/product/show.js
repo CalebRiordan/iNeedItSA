@@ -104,7 +104,7 @@ if (deleteReviewBtn) {
         });
 
         if (res.ok) {
-            window.location.hash = '#reviews';
+            window.location.hash = 'reviews';
             window.location.reload();
             showToast("Review deleted");
         } else {

@@ -14,4 +14,5 @@ if (!in_array("utils/toast.js", $scripts ?? [])) {
 
 <input type="hidden" id="toast-data"
     value="<?= $toast['message'] ?? '' ?>"
-    data-type="<?= $toast['type'] ?? '' ?>">
+    data-type="<?= $toast['type'] ?? '' ?>"
+    data-duration="<?= $toast['duration'] ?? '' ?>">

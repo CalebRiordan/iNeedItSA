@@ -17,6 +17,10 @@
       "Http\\Controllers\\": "app/Http/Controllers/",
       "Http\\Forms\\": "app/Http/Forms/"
     },
+    "classmap": [
+      "app/Core/DTOs/User/SellerProfileDTO.php",
+      "app/Core/DTOs/User/BuyerProfileDTO.php"
+    ],
     "files": [
       "app/Core/helpers.php"
     ]

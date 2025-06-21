@@ -83,6 +83,7 @@ main {
     aspect-ratio: 4 / 3;
     object-fit: cover;
     border: 2px solid var(--text-colour-dark);
+    border-radius: 0.5em;
 }
 
 .seller-card-wrapper {
@@ -441,8 +442,8 @@ main {
 
 /* Reviews List */
 
-.reviews {
-    margin: 1em 4em;
+#reviews {
+    margin: 1.5em 4em 1em 4em;
 }
 
 .review {
@@ -477,7 +478,7 @@ main {
     grid-template-columns: auto auto auto 1fr;
 }
 
-.review-header .name{
+.review-header .name {
     color: var(--text-colour-dark);
 }
 
@@ -487,7 +488,7 @@ main {
 }
 
 .review-header #delete-review svg:hover {
-    fill: var(--error-colour);    
+    fill: var(--error-colour);
 }
 
 /* Select Rating */
@@ -515,11 +516,15 @@ main {
         column-gap: 3%;
         font-size: 14px;
     }
+
+    #reviews {
+        margin: 1.5em 2em 1em 2em;
+    }
 }
 
 @media (max-width: 768px) {
     main {
-        font-size: 10px;
+        font-size: 15px;
     }
 
     .search-bar-area {
@@ -530,6 +535,10 @@ main {
 
     .content-column {
         margin: 12px 5%;
+    }
+
+    .heading h1{
+        font-size: 1.6em;
     }
 
     .seller-card-wrapper {
@@ -550,7 +559,7 @@ main {
     }
 
     .seller-card-wrapper.card-mobile .seller-card {
-        width: 60%;
+        width: 80%;
     }
 
     .product-info-table {
@@ -561,5 +570,10 @@ main {
     .product-details {
         border-left: 2px solid var(--dark-bg-colour);
         border-top: none;
+    }
+
+    #reviews {
+        margin: 1em;
+        margin-top: 1.5em;
     }
 }

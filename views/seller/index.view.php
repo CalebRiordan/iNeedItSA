@@ -10,6 +10,25 @@ require partial('navbar');
 <main>
     <h1>Seller Dashboard</h1>
 
+    <section class="seller-info-cards">
+        <div class="info-card">
+            <h2>Products Sold</h2>
+            <p><?= $seller->productsSold; ?></p>
+        </div>
+        <div class="info-card">
+            <h2>Total Views</h2>
+            <p><?= $seller->views; ?></p>
+        </div>
+        <div class="info-card">
+            <h2>Seller Verified</h2>
+            <p><?= $seller->isVerified ? 'Yes' : 'No'; ?></p>
+        </div>
+        <div class="info-card">
+            <h2>Date Registered</h2>
+            <p><?= date('F j, Y', strtotime($seller->dateRegistered)); ?></p>
+        </div>
+    </section>
+
     <section class="seller-products-section">
         <h1 class="section-heading">Your Products</h1>
         <div class="product-row">

@@ -19,3 +19,21 @@ if (hamburger) {
         navMenu.classList.toggle("active");
     });
 }
+
+// Close the side bar if cart or order navlink is clicked when already on Orders page
+document.querySelectorAll(".orders-link").forEach((link) => {
+    link.addEventListener("click", () => {        
+        if (window.location.pathname === "/order") {
+            // Close desktop sidebar
+            const sidebar = document.querySelector(".sidebar");
+            const overlay = document.querySelector(".sidebar-overlay");
+            sidebar.classList.remove("show");
+            overlay.classList.remove("show");
+
+            // Close mobile sidebar
+            if (hamburger) {
+                navMenu.classList.remove("active");
+            }
+        }
+    });
+});

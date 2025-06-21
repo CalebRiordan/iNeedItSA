@@ -16,7 +16,7 @@ require partial('navbar');
             <h1>Shopping Cart</h1>
             <div class="cart-section">
                 <!-- Cart partial loads in here -->
-                <div class="cart">
+                <div id="cart">
 
                 </div>
 
@@ -44,7 +44,7 @@ require partial('navbar');
         <?php if (!empty($orders)): ?>
             <div class="orders-wrapper">
                 <h1>Order History</h1>
-                <div class="history">
+                <div id="history">
                     <?php foreach ($orders as $order): ?>
                         <div class="order" data-order-id="<?= $order->id ?>">
                             <div class="order-dropdown">

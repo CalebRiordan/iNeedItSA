@@ -48,10 +48,11 @@
     height: 2.2em;
     min-height: 2.2em;
     flex-shrink: 0;
-    border: 2px solid;
+    border: 2px solid var(--primary-colour);
     display: grid;
     grid-template-columns: 1fr 40px;
     margin-bottom: 1em;
+    border-image: linear-gradient(to left, var(--primary-colour) 60%, var(--highlight-colour)) 1;
 }
 
 .search-bar .search-field {
@@ -173,8 +174,11 @@
     width: 65%;
     padding: 0 5px;
     font-family: inherit;
-    border-radius: 5px;
     font-size: 0.9em;
+    outline: none;
+    border: 1px solid var(--primary-colour);
+    border-radius: 5px;
+    padding: 4px 8px;
 }
 
 /* ==================== SELECT CATEGORY ====================  */
@@ -197,6 +201,7 @@
 .category-list .option.active {
     background-color: var(--dark-bg-colour);
     font-weight: 600;
+    color: var(--primary-colour)
 }
 
 .category-list .option.active:hover {

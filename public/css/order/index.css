@@ -14,7 +14,7 @@
     box-sizing: border-box;
 }
 
-.cart-section .cart {
+.cart-section #cart {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -194,7 +194,7 @@
     margin-top: 1em;
 }
 
-.orders-wrapper .history {
+.orders-wrapper #history {
     display: flex;
     flex-direction: column;
     gap: 1em;

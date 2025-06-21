@@ -143,7 +143,7 @@ if (partial === "") {
         "<h1 class='centre-content'>Error Loading Cart</h1>";
 } else {
     cartDisplay.hidden = false;
-    document.querySelector(".cart").innerHTML = partial;
+    document.getElementById("cart").innerHTML = partial;
     updateCheckoutCard();
     setItemActions();
 }

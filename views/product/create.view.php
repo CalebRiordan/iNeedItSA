@@ -21,11 +21,9 @@ if (!isset($product) || $product === null) {
         existingFormData('condition'),
         existingFormData('condition_details'),
         (int) existingFormData('discount'),
-        existingFormData('category'),
+        (int) existingFormData('category'),
     );
 }
-
-
 ?>
 
 <main>
@@ -56,7 +54,7 @@ if (!isset($product) || $product === null) {
                 </div>
 
                 <!-- Product Image -->
-                <div class="image-input">
+                <div class="image-input input-group">
                     <div class="product-img-container">
                         <input type="file" name="product_img" id="product-img" accept="image/*" required>
                         <div id="img-container" onclick="document.getElementById('product-img').click();">
@@ -136,7 +134,7 @@ if (!isset($product) || $product === null) {
 
                 <!-- Condition Details -->
                 <div class="input-group">
-                    <label for="condition-details">Condition Details</label>
+                    <label for="condition-details">Condition Details (optional)</label>
                     <input id="condition-details" name="condition_details" value="<?= $product->conditionDetails ?? '' ?>">
                     <p class="error"><?= $errors['condition_details'] ?? "" ?></p>
                 </div>
