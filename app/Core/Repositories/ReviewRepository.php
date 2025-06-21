@@ -38,9 +38,33 @@ class ReviewRepository extends BaseRepository
 
     public function create(CreateReviewDTO $review)
     {
+        if ($this->redundant($review->productId, $review->userId)) {
+            return false;
+        }
+
+        
         $fields = CreateReviewDTO::toFields();
         $placeholders = CreateReviewDTO::placeholders();
         $values = $review->getMappedValues();
         return $this->db->query("INSERT INTO review ({$fields}) VALUES ({$placeholders})", $values)->wasSuccessful();
+    }
+
+    public function delete(string $reviewId): bool
+    {
+        response(["hadEffect?" => $this->db->query("DELETE FROM review WHERE review_id = ?", [$reviewId])->hadEffect()]);
+        return $this->db->query("DELETE FROM review WHERE review_id = ?", [$reviewId])->hadEffect();
+    }
+
+    public function redundant(string $productId, string $userId): bool
+    {
+        $sql = "SELECT 1 FROM review WHERE product_id = ? AND user_id = ?";
+        $result = $this->db->query($sql, [$productId, $userId])->find();
+        return !empty($result);
+    }
+
+    public function exists(string $reviewId): bool
+    {
+        $result = $this->db->query("SELECT 1 FROM review WHERE review_id = ?", [$reviewId])->find();
+        return !empty($result);
     }
 }

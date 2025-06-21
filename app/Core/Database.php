@@ -70,6 +70,13 @@ class Database
         return $this->statement !== false;
     }
 
+    public function hadEffect(): bool
+    {
+        $rowsAffected = $this->statement->affected_rows;
+        $this->close();
+        return $rowsAffected > 0;
+    }
+
     public function close()
     {
         $this->statement->close();

@@ -28,7 +28,7 @@ foreach ($reviews as $review) {
 $reviews = $filteredReviews;
 
 // User can only review product if they have bought it
-$userHasBoughProduct = $userId !== '' || $products->hasBeenBoughtBy($id, $userId);
+$userHasBoughProduct = $userId === '' || $products->hasBeenBoughtBy($id, $userId);
 
 view("product/show", [
     "product" => $product,

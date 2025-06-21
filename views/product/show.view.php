@@ -105,24 +105,28 @@ require partial('category-bar');
 
         <!-- Reviews -->
         <br>
-        <h1>Reviews</h1>
+        <h1 class="reviews-heading">Reviews</h1>
 
         <!-- Create review -->
         <!-- Simply do not show review box if user has not bought product yet -->
-        <?php if (!$userHasBoughProduct): ?>
+        <?php if ($userHasBoughProduct && !$userReview): ?>
             <div class="create-review-section">
                 <?php require partial('create-review') ?>
 
                 <?php if (!$user): ?>
                     <div class="review-locked">
-                        <p><a href="/login">Log in</a> to review products</p>
+                        <p class="review-locked-text"><a href="/login">Log in</a> to review products</p>
                     </div>
                 <?php endif; ?>
+            </div>
+        <?php else: ?>
+            <div class="centre-content">
+                <p style="margin-bottom: 0;">🔒<em>Purchase this item to review it</em></p>
             </div>
         <?php endif; ?>
 
         <!-- List of reviews -->
-        <div class="reviews-list">
+        <div class="reviews">
             <?php
             // User's own review shows first
             if ($userReview) {
@@ -137,8 +141,15 @@ require partial('category-bar');
                 require partial('review');
             }
             ?>
+
+            <?php if (empty($reviews) && !$userReview): ?>
+                <div class="centre-content">
+                    <h2 style="font-weight: normal">🦗 No one has reviewed this product yet</h2>
+                </div>
+            <?php endif ?>
         </div>
     </div>
 </main>
 
+<?php require partial('toast'); ?>
 <?php require partial('footer'); ?>

@@ -137,7 +137,6 @@ class ProductFilter extends BaseFilter
         $validParams = [];
 
         $val = $params['search'] ?? "";
-        $val = htmlspecialchars($val, ENT_QUOTES);
         if (!empty($val)) {
             $validParams['search'] = $val;
         }
@@ -163,7 +162,6 @@ class ProductFilter extends BaseFilter
         }
 
         $val = $params['seller'] ?? null;
-        $val = htmlspecialchars($val, ENT_QUOTES);
         if (!empty($val)) {
             $validParams['seller'] = $val;
         }

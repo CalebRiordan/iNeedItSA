@@ -1,5 +1,6 @@
 import { Cart } from "/js/utils/cart.js";
 import { sanitise } from "/js/utils/sanitisation.js";
+import { showToast } from "/js/utils/toast.js";
 
 const addToCartBtns = document.querySelectorAll("a.add-cart-btn");
 const loading = document.querySelector(".loading");
@@ -7,8 +8,11 @@ const productId = document.getElementById("product-id");
 const price = document.getElementById("product-price");
 const shareButton = document.getElementById("share-btn");
 const copiedPopup = document.getElementById("copied-popup");
+
+// Reviews
 const stars = document.querySelectorAll(".create-review .star");
 const submitReviewbtn = document.querySelector(".create-review button");
+const deleteReviewBtn = document.getElementById("delete-review");
 
 updateProduct(Cart.itemExists(productId.value) ? "add" : "");
 
@@ -85,5 +89,31 @@ if (submitReviewbtn) {
 
         let comment = document.getElementById("comment");
         comment.value = sanitise(comment.value);
+    });
+}
+
+if (deleteReviewBtn) {
+    deleteReviewBtn.addEventListener("click", async function () {
+        const url = `/review/${this.dataset.value}`;
+
+        const res = await fetch(url, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (res.ok) {
+            window.location.hash = '#reviews';
+            window.location.reload();
+            showToast("Review deleted");
+        } else {
+            const data = await res.text();
+            console.log(res);
+            showToast(
+                "An error occurred while trying to delete your review. Sorry for the inconvenience. We're working on fixing this!",
+                "error"
+            );
+        }
     });
 }

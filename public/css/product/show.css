@@ -280,7 +280,6 @@ main {
     position: absolute;
     bottom: 100%;
     right: 0;
-    /* transform: translate(-50%, -50%); */
     background-color: rgba(var(--text-colour-dark-rgb), 0.7);
     color: var(--text-colour-light);
     padding: 0.5em 1em;
@@ -339,6 +338,11 @@ main {
 
 /* Create Review  */
 
+.reviews-heading {
+    margin-top: 2em;
+    color: var(--text-colour-dark);
+}
+
 .create-review-section {
     width: 100%;
     position: relative;
@@ -354,9 +358,6 @@ main {
 
 .create-review.blur {
     filter: blur(4px);
-}
-
-.create-review form{
     pointer-events: none;
 }
 
@@ -423,18 +424,25 @@ main {
     z-index: 10;
 }
 
-.review-locked p {
+.review-locked .review-locked-text {
     margin: 0;
+    font-size: 1.2em;
 }
 
-.review-locked a {
+.review-locked .review-locked-text a {
     text-decoration: none;
+    color: var(--primary-colour);
+    font-weight: 800;
+}
+
+.review-locked .review-locked-text a:hover {
+    color: var(--highlight-colour);
 }
 
 /* Reviews List */
 
-.reviews-list {
-    margin: 2em 4em;
+.reviews {
+    margin: 1em 4em;
 }
 
 .review {
@@ -463,6 +471,23 @@ main {
     text-align: end;
     color: gold;
     font-size: 1.6em;
+}
+
+.review-header.review-owner {
+    grid-template-columns: auto auto auto 1fr;
+}
+
+.review-header .name{
+    color: var(--text-colour-dark);
+}
+
+.review-header .action-btn svg {
+    width: 1em;
+    fill: var(--text-colour-dark);
+}
+
+.review-header #delete-review svg:hover {
+    fill: var(--error-colour);    
 }
 
 /* Select Rating */

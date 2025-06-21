@@ -157,7 +157,7 @@ function setPage(page = 1) {
 function getQueryString() {
     // use params
     let queryParams = {
-        search: encodeURIComponent(searchField.value).trim(),
+        search: searchField.value.trim(),
         category: params["category"] ?? null,
         minPrice: params["minPrice"] ?? null,
         maxPrice: params["maxPrice"] ?? null,
@@ -195,7 +195,7 @@ function refreshPartials(queryString) {
 }
 
 function updateResultsLabel() {
-    let search = encodeURIComponent(searchField.value).trim();
+    let search = searchField.value.trim();
     let header = document.getElementById("results-header");
 
     if (search) {

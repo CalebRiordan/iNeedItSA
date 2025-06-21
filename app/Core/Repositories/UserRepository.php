@@ -214,11 +214,7 @@ class UserRepository extends BaseRepository
 
     public function delete(string $id): bool
     {
-        if ($this->exists($id)) {
-            return false;
-        }
-
-        return $this->db->query("DELETE * FROM user WHERE user_id = ?", [$id])->wasSuccessful();
+        return $this->db->query("DELETE * FROM user WHERE user_id = ?", [$id])->hadEffect();
     }
 
     public function exists(string $id): bool

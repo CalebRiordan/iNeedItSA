@@ -1,4 +1,4 @@
-<form class="create-review <?= !$user ? 'blur' : '' ?>" action="/products/<?= $product->id ?>/review" method="POST">
+<form class="create-review <?= !$user ? 'blur' : '' ?>" action="/review" method="POST">
     <div class="review-header">
         <!-- Rating selection -->
         <div class="star-rating">
@@ -6,7 +6,10 @@
                 <span class="star" data-value="<?= $i ?>">☆</span>
             <?php endfor; ?>
         </div>
+
+        <!-- Hidden inputs -->
         <input id="rating" name="rating" type="hidden" value="0">
+        <input name="product" type="hidden" value="<?= $product->id ?>">
     </div>
 
     <!-- Review box -->

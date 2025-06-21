@@ -203,11 +203,7 @@ class ProductRepository extends BaseRepository
 
     public function delete(string $id): bool
     {
-        if (!$this->exists($id)) {
-            return false;
-        }
-
-        return $this->db->query("DELETE FROM product WHERE product_id = ?", [$id])->wasSuccessful();
+        return $this->db->query("DELETE FROM product WHERE product_id = ?", [$id])->hadEffect();
     }
 
     public function exists(string $id)
