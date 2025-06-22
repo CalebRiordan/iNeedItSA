@@ -13,8 +13,9 @@ $cart = $input['items'];
 
 $userId = Session::get('user')['id'];
 
-// Save cart to database
-if (!(new CartRepository())->persist($userId, $cart)) {
+// Save cart to database - get updated cart with latest prices
+$cart = (new CartRepository())->persist($userId, $cart);
+if (!$cart) {
     response(['error' => 'Invalid cart data'], 400);
 }
 

@@ -8,7 +8,7 @@ export class Cart {
             user_id: String(item.user_id),
             quantity: item.quantity,
             price: parseFloat(item.price),
-        }));        
+        }));
     }
 
     static set(items) {
@@ -32,6 +32,7 @@ export class Cart {
         cart = cart.filter((item) => item.product_id !== id);
         localStorage.setItem("cart", JSON.stringify(cart));
         await this.persist();
+        console.log(this.items);        
     }
 
     static itemExists(id) {

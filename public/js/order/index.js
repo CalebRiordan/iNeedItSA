@@ -74,6 +74,7 @@ function setItemActions() {
             await Cart.remove(id); // Update on server
             document.getElementById(`item_${id}`).remove();
             Cart.updateNavLinkCount();
+            updateCheckoutCard();
             if (Cart.items.length === 0) {
                 cartEmpty();
             }
