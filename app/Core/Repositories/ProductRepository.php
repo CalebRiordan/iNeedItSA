@@ -156,7 +156,7 @@ class ProductRepository extends BaseRepository
         $placeholders = $product->placeholders();
         // Insert Product record
         $sql = <<<SQL
-            INSERT INTO Product 
+            INSERT INTO product 
             ({$fields})
             VALUES ({$placeholders})
         SQL;
@@ -279,7 +279,16 @@ class ProductRepository extends BaseRepository
 
     public function addView(string $id)
     {
+        // Increment product views
         $this->executeIfExists($id, "UPDATE product SET views = views + 1 WHERE product_id = ?", [$id]);
+
+        // Increment seller's total_views
+        $sql = <<<SQL
+            UPDATE seller 
+            SET total_views = total_views + 1 
+            WHERE user_id = (SELECT seller_id FROM product WHERE product_id = ?)
+        SQL;
+        $this->db->query($sql, [$id]);
     }
 
     public function applyDiscount(string $id, int $discountPct)

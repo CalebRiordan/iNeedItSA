@@ -76,15 +76,6 @@ INSERT INTO Seller (user_id, verified, products_sold, total_views, date_register
 (23, TRUE, 20, 965, '2020-05-19', '2020-06-01'),
 (27, TRUE, 12, 600, '2021-04-06', '2021-04-20');
 
--- A workaround to disable the update_product_date_created trigger for this mock data
-DELIMITER //
-CREATE TRIGGER temp_disable_trigger BEFORE INSERT ON product
-FOR EACH ROW
-BEGIN
-END;
-//
-DELIMITER ;
-
 INSERT INTO product (product_id, name, description, price, quant_in_stock, product_condition, condition_details, date_created, pct_discount, views, category, seller_id) VALUES
 (1, 'Vintage Leather Messenger Bag - Distressed Brown', 'A classic, genuine leather messenger bag with a rich, distressed brown finish. Features multiple compartments, adjustable shoulder strap, and secure buckle closures. Perfect for everyday use or travel. Shows minor signs of wear consistent with age, adding to its vintage charm.', 450.00, 5, 'Used', 'Minor scuffs and scratches on the leather surface.', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 730) DAY), 0, 125, 'Clothing', 2),
 (2, 'Ergonomic Office Chair with Lumbar Support', 'A high-back ergonomic office chair designed for maximum comfort and support during long hours of work. Features adjustable lumbar support, armrests, seat height, and tilt mechanism. Breathable mesh back promotes airflow. Brand new, unassembled in original packaging.', 1299.99, 20, 'New', NULL, DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 730) DAY), 0, 310, 'Home & Garden', 4),
@@ -189,9 +180,6 @@ INSERT INTO product (product_id, name, description, price, quant_in_stock, produ
 (101, 'Kids'' Tricycle - Sturdy Frame - Red', 'A durable and fun tricycle for young children, featuring a sturdy metal frame, comfortable seat, and easy-grip handlebars. Perfect for outdoor play. Lightly used, excellent condition.', 550.00, 4, 'Used', 'Minor scuffs on the wheels, otherwise very clean.', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 730) DAY), 0, 85, 'Toys', 17),
 (102, 'Aromatherapy Essential Oil Diffuser - Ultrasonic', 'An ultrasonic aromatherapy essential oil diffuser with color-changing LED lights. Creates a soothing mist and disperses your favorite essential oils. Auto shut-off feature. Brand new, in box.', 400.00, 12, 'New', NULL, DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 730) DAY), 0, 150, 'Beauty', 23),
 (103, 'Gardening Tool Set - 3 Pieces (Trowel, Cultivator, Pruner)', 'A essential three-piece gardening tool set including a hand trowel, cultivator, and pruning shears. Made with durable stainless steel and ergonomic handles. New, in blister pack.', 280.00, 15, 'New', NULL, DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 730) DAY), 0, 90, 'Home & Garden', 27);
-
-
-DROP TRIGGER temp_disable_trigger;
 
 INSERT INTO employee (emp_id, first_name, last_name, email, password, date_registered, address, phone_no, role, last_seen) VALUES
 (1,'Zola', 'Nkosi', 'zola.nkosi@example.com', 'password123', '2024-01-15', '12 Protea Road, Claremont, Cape Town', '+27 21 671 0001', 'admin', DATE_SUB(CURDATE(), INTERVAL FLOOR(RAND() * 4) DAY)),

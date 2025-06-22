@@ -138,10 +138,12 @@ function applyFilter() {
     history.replaceState(null, "", `/products${queryString}`);
 }
 
+// Pagination
 function setPageEventListeners() {
     document.querySelectorAll(".page-btn").forEach((button) => {
         button.addEventListener("click", function () {
-            const page = this.getAttribute("data-page");
+            const page = this.getAttribute("data-page"); // page number
+            // If not currently on clicked page
             if (page !== params["page"]) {
                 setPage(page);
                 refreshPartials(getQueryString());

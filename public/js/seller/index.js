@@ -36,7 +36,8 @@ productCards.forEach((card) => {
                 if (confirmed) {
                     try {
                         const res = await fetch(`/products/${id}`, {
-                            method: "DELETE",
+                            method: "POST", // Request spoofing
+                            body: JSON.stringify({ _method: "DELETE" }),
                         });
 
                         if (!res.ok) {

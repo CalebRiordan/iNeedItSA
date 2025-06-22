@@ -36,18 +36,37 @@ class ReviewRepository extends BaseRepository
         return $rows ? ReviewDTO::fromRows($rows) : [];
     }
 
-    public function create(CreateReviewDTO $review)
-    {
-        if ($this->redundant($review->productId, $review->userId)) {
+        public function create(CreateReviewDTO $review)
+        {
+            if ($this->redundant($review->productId, $review->userId)) {
+                return false;
+            }
+            
+            $fields = CreateReviewDTO::toFields();
+            $placeholders = CreateReviewDTO::placeholders();
+            $values = $review->getMappedValues();
+            $success = $this->db->query("INSERT INTO review ({$fields}) VALUES ({$placeholders})", $values)->wasSuccessful();
+            if ($success){
+                return $this->updateAverageRating($review->productId);
+            }
             return false;
         }
 
-        
-        $fields = CreateReviewDTO::toFields();
-        $placeholders = CreateReviewDTO::placeholders();
-        $values = $review->getMappedValues();
-        return $this->db->query("INSERT INTO review ({$fields}) VALUES ({$placeholders})", $values)->wasSuccessful();
-    }
+        /**
+         * Updates the product's avg_rating field with the current average from the review table.
+         * Returns true if the update was successful.
+         */
+        public function updateAverageRating(string $productId): bool
+        {
+            $sql = <<<SQL
+                UPDATE product
+                SET avg_rating = (
+                    SELECT AVG(rating) FROM review WHERE product_id = ?
+                )
+                WHERE product_id = ?
+            SQL;
+            return $this->db->query($sql, [$productId, $productId])->wasSuccessful();
+        }
 
     public function delete(string $reviewId): bool
     {

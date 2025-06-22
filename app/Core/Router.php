@@ -112,7 +112,7 @@ class Router
                     Middleware::resolve($route['middleware'], $route['middleware_deny']);
 
                     // Require PartialController.php and call method on class
-                    require_once base_path('app/http/Controllers/' . $route['controller']);
+                    require_once base_path('app/Http/Controllers/' . $route['controller']);
 
                     $controllerName = str_replace('.php', '', $route['controller']);
                     $partialController = 'Http\\Controllers\\' . $controllerName;
@@ -160,6 +160,13 @@ class Router
 
     public function getMethod()
     {
+        // Check if the request body is not empty
+        if (strlen(file_get_contents('php://input')) > 0) {
+            $ajaxInput = @json_decode(@file_get_contents('php://input'), true);
+            return $ajaxInput['_method'] ?? $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+        }
+
+        // Fallback to POST or server request method if no body is present
         return $_POST['_method'] ?? $_SERVER['REQUEST_METHOD'];
     }
 }

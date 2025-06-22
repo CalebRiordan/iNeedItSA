@@ -122,7 +122,7 @@ class Form
     public static function getImageField($name)
     {
         $file = $_FILES[$name];
-        return ($file['error'] === UPLOAD_ERR_NO_FILE ? null : $file);
+        return ($file['error'] === UPLOAD_ERR_NO_FILE ? [] : $file);
     }
 
     public static function getBoolField($name)

@@ -49,7 +49,7 @@ if (!isset($product) || $product === null) abort();
                         <!-- Hidden input to track if seller changes image -->
                         <input id="image-changed" type="hidden" name="image_changed" value='false'>
                         
-                        <input type="file" name="product_img" id="product-img" accept="image/*" required>
+                        <input type="file" name="product_img" id="product-img" accept="image/*">
                         <div id="img-container" onclick="document.getElementById('product-img').click();">
                             <img
                                 id="product-img-preview"
@@ -62,7 +62,7 @@ if (!isset($product) || $product === null) abort();
                     </div>
 
                     <button type="button" class="remove-btn" style="display:none;">&times;</button>
-                    <p class="error error-image"><?= $errors['product_img'] ?? "" ?></p>
+                    <p class="error error-image"><?= $errors['displayImageFile'] ?? "" ?></p>
                 </div>
             </div>
 
@@ -130,7 +130,7 @@ if (!isset($product) || $product === null) abort();
                 <div class="input-group">
                     <label for="condition-details">Condition Details</label>
                     <input id="condition-details" name="condition_details" value="<?= $product->conditionDetails ?? '' ?>">
-                    <p class="error"><?= $errors['condition_details'] ?? "" ?></p>
+                    <p class="error"><?= $errors['conditionDetails'] ?? "" ?></p>
                 </div>
             </div>
 

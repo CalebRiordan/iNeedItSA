@@ -8,7 +8,7 @@
     </svg>
 </div>
 
-<script>
+<script defer>
     const togglePassword = document.querySelector(".toggle-password");
     togglePassword.addEventListener('click', function() {
         const passwordInput = document.getElementById('password');

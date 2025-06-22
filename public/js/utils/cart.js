@@ -31,8 +31,7 @@ export class Cart {
 
         cart = cart.filter((item) => item.product_id !== id);
         localStorage.setItem("cart", JSON.stringify(cart));
-        await this.persist();
-        console.log(this.items);        
+        await this.persist();      
     }
 
     static itemExists(id) {

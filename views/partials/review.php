@@ -1,4 +1,4 @@
-<?php $userIsOwner = $review->userId === $userReview->userId ?? null ?>
+<?php $userIsOwner = $review->userId === ($userReview->userId ?? null) ?>
 
 <div class="review">
     <div class="review-header <?= $userIsOwner ? 'review-owner' : ''?>">

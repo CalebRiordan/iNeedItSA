@@ -11,8 +11,8 @@ class ReviewDTO extends BaseDTO
     "last_name" => "userLastName",
     "product_id" => "productId",
     "date" => "date",
-    "comment" => "comment",
     "rating" => "rating",
+    "comment" => "comment",
 ];
 
     public function __construct(
@@ -22,7 +22,7 @@ class ReviewDTO extends BaseDTO
         public string $userLastName,
         public string $productId,
         public string $date,
-        public ?string $comment = null,
         public int $rating,
+        public ?string $comment = null,
     ) {}
 }

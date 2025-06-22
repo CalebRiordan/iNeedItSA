@@ -97,12 +97,13 @@ if (deleteReviewBtn) {
         const url = `/review/${this.dataset.value}`;
 
         const res = await fetch(url, {
-            method: "DELETE",
+            method: 'POST', // Request spoofing
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({_method: 'DELETE'}),
         });
-
+        
         if (res.ok) {
             window.location.hash = 'reviews';
             window.location.reload();

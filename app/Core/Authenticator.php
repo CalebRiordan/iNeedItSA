@@ -152,9 +152,9 @@ class Authenticator
         $seller = $db->query("SELECT approved, rejected, has_seen_response FROM seller_reg_docs WHERE user_id = ?", [$id])->find();
 
         // Do not continue if user has not registered as seller or has already logged in since response
-        if (!empty($seller) && $seller['has_seen_response']) return;
+        if (empty($seller) || $seller['has_seen_response']) return;
 
-        if ($seller['approved']) {
+        if ($seller['approved'] ?? false) {
             // Seller is approved
             // Send Success toast message
             Session::toast(
@@ -168,7 +168,7 @@ class Authenticator
             $sellerData = $db->query("SELECT * FROM seller WHERE user_id = ?", [$id])->find();
             $user['sellerProfile'] = SellerProfileDTO::fromRow($sellerData);
             Session::put('user', $user);
-        } elseif ($seller['rejected']) {
+        } elseif ($seller['rejected'] ?? false) {
             // Seller is rejected: Send Info toast message
             Session::toast(
                 "Unfortunately your registration to become a seller has been declined. Please review your documents before resubmitting. 

@@ -61,7 +61,7 @@ class CartRepository extends BaseRepository
     {
         // Get product IDs from the cart
         $productIds = array_column($cart, 'product_id');
-        if (empty($productIds)) return null;
+        if (empty($productIds)) return [];
 
         // Fetch current prices and discounts
         $inPlaceholders = BaseDTO::placeholders(count($productIds));

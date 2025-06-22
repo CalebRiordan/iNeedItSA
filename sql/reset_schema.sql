@@ -19,12 +19,3 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 SOURCE schema.sql;
 SOURCE mock_data.sql;
-
-DELIMITER //
-CREATE TRIGGER update_product_date_created
-BEFORE INSERT ON product
-FOR EACH ROW
-BEGIN
-    SET NEW.date_created = CURDATE();
-END;
-//

@@ -14,11 +14,13 @@ class CreateProductDTO extends BaseDTO
         "condition_details" => "conditionDetails",
         "pct_discount" => "discount",
         "category" => "category",
+        "date_created" => "date",
     ];
 
     public ?string $displayImageUrl = null;
     public array $imageUrls = [];
     public string $category;
+    public string $date;
 
     public function __construct(
         public string $name,
@@ -34,6 +36,7 @@ class CreateProductDTO extends BaseDTO
         /** @var string[] */
         public array $imageFiles = [],
     ) {
+        // category index -> category name
         $categories = [
             'Clothing',
             'Electronics',
@@ -48,5 +51,8 @@ class CreateProductDTO extends BaseDTO
             throw new \InvalidArgumentException("Invalid category index: $categoryIndex");
         }
         $this->category = $categories[$categoryIndex];
+
+        // Set date created to current date
+        $this->date = date('Y-m-d');
     }
 }

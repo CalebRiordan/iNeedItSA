@@ -10,7 +10,7 @@ const form = document.querySelector(".form-container form");
 
 // Image
 const preview = document.getElementById("product-img-preview");
-const productImgInput = document.getElementById("product-img");
+const imageInput = document.getElementById("product-img");
 const image = document.getElementById("img-container");
 const removeImageBtn = document.querySelector(".image-input .remove-btn");
 const imageChangedEl = document.getElementById("image-changed");
@@ -43,7 +43,7 @@ function selectImage(src) {
 }
 
 function removeImage() {
-    productImgInput.value = "";
+    imageInput.value = "";
     preview.src = "";
     removeImageBtn.style.display = "none";
     preview.classList.add("placeholder");
@@ -64,13 +64,13 @@ function clearErrorOnInput(field, errorElement) {
 
 function showError(field, message, errorElement = null) {
     formValid = false;
-    
-    const error = errorElement
-        ? errorElement
-        : field.closest(".input-group").querySelector(".error");
-    error.textContent = message;
 
-    clearErrorOnInput(field, error);
+    if (!errorElement){
+        errorElement = field.closest(".input-group").querySelector(".error");
+    }
+    errorElement.textContent = message;
+
+    clearErrorOnInput(field, errorElement);
 }
 
 function validateNumber(element, maxLength) {
@@ -90,8 +90,8 @@ function validateNumber(element, maxLength) {
 
 // Event Listeners
 
-image.addEventListener("click", () => productImgInput.click());
-productImgInput.addEventListener("change", previewProductImg);
+image.addEventListener("click", () => imageInput.click());
+imageInput.addEventListener("change", previewProductImg);
 
 // Validate name
 name.addEventListener("blur", function () {
@@ -140,28 +140,29 @@ discount.addEventListener("input", function () {
     validateNumber(this, 2);
 });
 
-submit.addEventListener("click", (e) => {
+form.addEventListener("submit", (e) => {
     formValid = true;
     e.preventDefault();
 
+    // Validate product image
+    const errorEl = document.querySelector('.error-image')
+    if (imageChangedEl && imageChangedEl.value === true) {
+        showError(
+            imageInput,
+            "Please choose a product thumbnail image",
+            errorEl
+        );
+    } else if (imageInput.value === "") {
+        showError(imageInput, "Please supply a product image", errorEl);
+    }
+
+    // Validate remaining required fields
     document.querySelectorAll("[required]").forEach((field) => {
         if (!formValid) return;
 
         const val = field.value.trim();
         if (val === "") {
-            // Product image error
-            if (field.id === "product-img") {
-                if (imageChangedEl.value === true) {
-                    showError(
-                        field,
-                        "Please choose a product thumbnail image",
-                        document.querySelector(".error-image")
-                    );
-                }
-            } else {
-                // Not product image:
-                showError(field, "Please fill out this field.");
-            }
+            showError(field, "Please fill out this field.");
         } else if (field.id === "price" && parseInt(val) < 20) {
             // Price error
             showError(field, "Price must be at least R20");
@@ -169,7 +170,8 @@ submit.addEventListener("click", (e) => {
             !(
                 field.id === "name" ||
                 field.id === "description" ||
-                field.id === "category"
+                field.id === "category" ||
+                field.id === "product-img"
             ) &&
             anySpecialChars(val, "'&^%|.,")
         ) {
