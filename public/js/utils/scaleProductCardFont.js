@@ -10,7 +10,7 @@ export function resizeProductCardTitles() {
 
     // Only scale text if the element exists
     if (name) {
-      const nameFontSize = Math.max(Math.floor(cardWidth / 15), 16);
+      const nameFontSize = Math.max(Math.floor(cardWidth / 15), 13);
       name.style.fontSize = nameFontSize + "px";
       name.style.lineHeight = nameFontSize * 1.2 + "px";
       name.style.maxHeight = (nameFontSize * 2 * 1.25) + "px";
@@ -24,7 +24,7 @@ export function resizeProductCardTitles() {
     }
 
     if (price) {
-      const priceFontSize = Math.max(Math.floor(cardWidth / 14), 14);
+      const priceFontSize = Math.max(Math.floor(cardWidth / 14), 12);
       price.style.fontSize = priceFontSize + "px";
       if (originalPrice) {
         originalPrice.style.fontSize = (priceFontSize * 0.75) + "px";

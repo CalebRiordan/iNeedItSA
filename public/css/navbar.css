@@ -12,11 +12,9 @@
     z-index: 10;
     box-sizing: border-box;
 
-    background: linear-gradient(
-        to bottom right,
-        var(--primary-colour) 40%,
-        rgba(var(--highlight-colour-rgb), 0.3)
-    );
+    background: linear-gradient(to bottom right,
+            var(--primary-colour) 40%,
+            rgba(var(--highlight-colour-rgb), 0.3));
     background-color: var(--primary-colour);
 }
 
@@ -61,7 +59,9 @@
     text-align: center;
     text-decoration: none;
     font-size: 1.5rem;
+    text-wrap: nowrap;
 }
+
 .nav-link a {
     position: relative;
 }
@@ -174,6 +174,7 @@
     color: var(--off-bg-colour);
     margin-left: 1rem;
 }
+
 .navbar .staff-icon {
     fill: var(--off-bg-colour);
     width: 1.8rem;
@@ -182,13 +183,17 @@
 
 /* MEDIA QUERIES */
 
-@media (max-width: 1200px) {
-}
+@media (max-width: 1200px) {}
 
 @media (max-width: 768px) {
     .navbar {
         justify-content: space-between;
-        padding: 0 1rem;
+        padding: 0;
+    }
+
+    .navbar-logo {
+        margin: 5px 10px;
+        width: 90px;
     }
 
     #hamburger {
@@ -206,17 +211,22 @@
         transition: transform 0.3s ease-in-out;
         z-index: 10;
 
-        background: linear-gradient(
-            30deg,
-            var(--primary-colour) 70%,
-            rgba(var(--highlight-colour-rgb), 0.3)
-        );
+        background: linear-gradient(30deg,
+                var(--primary-colour) 70%,
+                rgba(var(--highlight-colour-rgb), 0.3));
         background-color: var(--primary-colour);
+    }
+
+    .navbar ul {
+        padding: 0;
+        gap: 0.6rem;
+        margin-right: 0.6rem;
     }
 
     .show-mobile-sidebar .navbar ul {
         gap: 1rem;
         margin-right: 0.8rem;
+        padding: 0;
     }
 
     .nav-link {
@@ -232,9 +242,11 @@
         text-decoration: none;
     }
 
-    .nav-link.nav-btn {
-        padding: 5px 10px;
+    .nav-link .nav-btn {
+        padding: 8px;
+        border-radius: 10px;
         font-size: 1rem;
+        line-height: 0.9rem;
     }
 
     .nav-link svg {

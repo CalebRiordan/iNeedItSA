@@ -13,7 +13,7 @@ main {
 
 .back-btn button {
     position: absolute;
-    top: -1.5em;
+    top: -2.8em;
     left: 1em;
     padding: 0.6em 1em;
     background-color: var(--primary-colour);
@@ -32,7 +32,7 @@ main {
     filter: brightness(90%);
 }
 
-.back-btn button svg{
+.back-btn button svg {
     width: 1.2em;
     fill: var(--text-colour-light);
 }
@@ -44,7 +44,7 @@ main {
     margin-bottom: 10em;
 }
 
-.form-container form > h1 {
+.form-container form>h1 {
     margin: 1.5em 0;
     text-align: center;
 }
@@ -158,5 +158,10 @@ input[type="checkbox"]:checked {
 @media (max-width: 768px) {
     main {
         font-size: 14px;
+    }
+
+    .form-container form>h1 {
+        margin: 3.2em 0 0.8em 0;
+        text-align: center;
     }
 }

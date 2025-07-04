@@ -67,5 +67,8 @@
 
     .product-row-inner {
         gap: 0.7rem;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        scrollbar-width: none;
     }
 }

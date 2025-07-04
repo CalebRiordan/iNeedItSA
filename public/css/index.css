@@ -13,8 +13,9 @@
 
 @media (max-width: 768px) {
     .search-bar-area {
-        transform: translateX(0);
+        width: 100%;
         margin: 20px 0;
+        transform: translateX(0);
     }
 
     .featured-products-area {

@@ -333,14 +333,20 @@
         box-sizing: border-box;
     }
 
+    .order {
+        padding: 0.5em;
+    }
+
     .order-summary {
         flex-direction: column;
         align-items: start;
-        gap: 0.5em;
+        gap: 1em;
     }
 
     .order-summary .left {
-        width: 90%;
+        width: 96%;
+        grid-template-columns: auto minmax(70px, 1fr) auto;
+        gap: 1em;
     }
 
     .order-summary .left span:nth-child(2) {
@@ -349,7 +355,7 @@
 
     .order-items {
         gap: 0.3em;
-        padding: 0.5em;
+        padding: 0.4em;
     }
 
     .order-item {
@@ -363,10 +369,19 @@
     }
 
     .order-item .item-info {
-        padding: 0.3em 0 0.4em 0;
+        padding: 0;
         display: flex;
         justify-content: space-between;
         width: 80%;
+    }
+
+    .order-item .item-info span {
+        font-size: 0.9em;
+    }
+     
+    .order-item .item-info p {
+        bottom: 0;
+        font-size: 0.9em;
     }
 
     .order-item .price {

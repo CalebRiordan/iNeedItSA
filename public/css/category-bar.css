@@ -16,6 +16,7 @@
 }
 
 .category-link {
+    display: block;
     text-decoration: none;
     color: var(--text-colour-dark);
     font-family: inherit;
@@ -44,25 +45,25 @@
 
 @media (max-width: 768px) {
     .category-bar ul {
+        gap: 5%;
+        margin: 0.4rem;
         margin-right: 4px;
-        gap: 4%;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        scrollbar-width: none;
+        box-sizing: border-box;
+        justify-content: start;
     }
 
     .category-item {
-        line-height: 0.8em;
-    }
-    .category-link {
-        font-size: 0.8rem;
-        line-height: 0.8em;
-    }
-}
-
-@media (max-width: 480px) {
-    .category-bar ul {
-        gap: 3%;
+        line-height: 1rem;
     }
 
     .category-link {
-        font-size: 0.6rem;
+        font-size: 1rem;
+        line-height: 1rem;
+        max-height: 2rem;
+        flex-shrink: 0;
+        width: auto;
     }
 }

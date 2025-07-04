@@ -34,7 +34,8 @@ main {
 
 .heading h1 {
     color: var(--text-colour-dark);
-    margin: 0.6em 0;
+    margin-top: 1.5em;
+    margin-bottom: 0.6em;
 }
 
 .heading .pricing {
@@ -520,6 +521,10 @@ main {
     #reviews {
         margin: 1.5em 2em 1em 2em;
     }
+
+    .create-review-section {
+        padding: 1em 2em;
+    }
 }
 
 @media (max-width: 768px) {
@@ -537,8 +542,8 @@ main {
         margin: 12px 5%;
     }
 
-    .heading h1{
-        font-size: 1.6em;
+    .heading h1 {
+        font-size: 1.5em;
     }
 
     .seller-card-wrapper {
@@ -555,11 +560,12 @@ main {
     }
 
     .seller-card-wrapper .add-cart-btn {
-        font-size: 1.8em;
+        font-size: 1.4em;
+        padding: 0.4em;
     }
 
     .seller-card-wrapper.card-mobile .seller-card {
-        width: 80%;
+        width: 90%;
     }
 
     .product-info-table {
@@ -570,6 +576,15 @@ main {
     .product-details {
         border-left: 2px solid var(--dark-bg-colour);
         border-top: none;
+    }
+
+    .create-review-section {
+        padding: 1em;
+    }
+
+    #comment {
+        box-sizing: border-box;
+        height: 5em;
     }
 
     #reviews {
